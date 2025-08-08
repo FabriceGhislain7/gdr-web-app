@@ -1,0 +1,13 @@
+{
+    "classe": "Ladro",
+    "id": "f0852bcb-a994-4728-b095-dc7673d8120e",
+    "nome": "Magicien",
+    "npc": false,
+    "salute_max": 120,
+    "salute": 120,
+    "attacco_min": 10,
+    "attacco_max": 85,
+    "livello": 1,
+    "destrezza": 15,
+    "storico_danni_subiti": []
+}

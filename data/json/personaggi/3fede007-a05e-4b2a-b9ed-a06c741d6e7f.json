@@ -1,0 +1,13 @@
+{
+    "classe": "Guerriero",
+    "id": "3fede007-a05e-4b2a-b9ed-a06c741d6e7f",
+    "nome": "Voleur",
+    "npc": false,
+    "salute_max": 130,
+    "salute": 130,
+    "attacco_min": 20,
+    "attacco_max": 100,
+    "livello": 1,
+    "destrezza": 15,
+    "storico_danni_subiti": []
+}

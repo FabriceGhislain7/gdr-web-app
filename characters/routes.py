@@ -33,7 +33,8 @@ from inventory.utils import (
 from inventory.routes import salva_inventario_su_json
 
 from gioco.schemas.personaggio import PersonaggioSchema
-from auth.models import User, db
+from auth.models import User
+from extensions import db
 from config import CreateDirs
 
 # Setup logging

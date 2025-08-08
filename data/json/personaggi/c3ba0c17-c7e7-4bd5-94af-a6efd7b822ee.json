@@ -1,0 +1,13 @@
+{
+    "classe": "Guerriero",
+    "id": "c3ba0c17-c7e7-4bd5-94af-a6efd7b822ee",
+    "nome": "Bertoldo",
+    "npc": false,
+    "salute_max": 130,
+    "salute": 130,
+    "attacco_min": 20,
+    "attacco_max": 100,
+    "livello": 1,
+    "destrezza": 15,
+    "storico_danni_subiti": []
+}

@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from flask_session import Session
+from extensions import db, migrate, login_manager, session
 from gioco.routes import gioco_bp
 from battle.routes import battle_bp
 from characters.routes import characters_bp
@@ -23,13 +23,12 @@ def create_app():
         'cambia_questa_chiave_per_una_più_sicura'
     )
     app.config['SESSION_TYPE'] = 'filesystem'
-    # Configurazione per il database.
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'      # Configurazione per il database.
 
     db.init_app(app)
-    migrate = Migrate(app, db)  # Assegnata non utilizzata
+    migrate.init_app(app, db)
     login_manager.init_app(app)
-    Session(app)
+    session.init_app(app)
 
     app.register_blueprint(gioco_bp)
     app.register_blueprint(battle_bp)
@@ -63,4 +62,4 @@ if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5001)
 
 # Questa riga di codice è necessaria per la parte deploiement
-app = create_app()
+# app = create_app()
