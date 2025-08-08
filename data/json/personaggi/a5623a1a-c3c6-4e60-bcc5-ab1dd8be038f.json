@@ -1,0 +1,13 @@
+{
+    "classe": "Ladro",
+    "id": "a5623a1a-c3c6-4e60-bcc5-ab1dd8be038f",
+    "nome": "Bertold",
+    "npc": false,
+    "salute_max": 120,
+    "salute": 120,
+    "attacco_min": 10,
+    "attacco_max": 85,
+    "livello": 1,
+    "destrezza": 15,
+    "storico_danni_subiti": []
+}
