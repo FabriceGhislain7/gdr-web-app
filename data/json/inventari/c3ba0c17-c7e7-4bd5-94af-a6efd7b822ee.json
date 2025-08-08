@@ -9,6 +9,14 @@
             "valore": 30,
             "tipo_oggetto": "Ristorativo",
             "classe": "PozioneCura"
+        },
+        {
+            "id": "167f9030-a67d-4357-bfe8-e90ff71c633c",
+            "nome": "Medaglione",
+            "usato": false,
+            "valore": 10,
+            "tipo_oggetto": "Buff",
+            "classe": "Medaglione"
         }
     ]
 }

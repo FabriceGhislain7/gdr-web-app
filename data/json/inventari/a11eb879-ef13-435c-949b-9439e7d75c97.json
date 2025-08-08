@@ -1,0 +1,14 @@
+{
+    "id": "a0820ce0-9bd6-4e12-a048-bff04b99d516",
+    "id_proprietario": "a11eb879-ef13-435c-949b-9439e7d75c97",
+    "oggetti": [
+        {
+            "id": "eb8d48dd-97dd-48da-8861-2fb416209fd2",
+            "nome": "Bomba Acida",
+            "usato": false,
+            "valore": 30,
+            "tipo_oggetto": "Offensivo",
+            "classe": "BombaAcida"
+        }
+    ]
+}

@@ -5,30 +5,16 @@ import logging
 from flask import render_template, request, redirect, url_for, session, abort, flash, jsonify
 from flask_login import login_required, current_user
 from . import characters_bp
+
+# Import delle classi refactorizzate per personaggi
 from .utils import (
-    # Mapping e validazione SOLO personaggi
-    get_character_classes, validate_character_name, validate_character_class,
-    validate_user_can_afford,
-
-    # Gestione JSON SOLO personaggi
-    SaveCharacterJson, LoadCharacterJson, DeleteCharacterJson,
-    LoadMultipleCharactersJson, get_user_character_files, filter_owned_characters,
-
-    # Creazione SOLO personaggi
-    create_character_instance,
-
-    # Statistiche SOLO personaggi
-    GetUserCharacterCount, GetUserCharacterStatsByClass, GetMostPlayedClass,
-
-    # Utilità SOLO personaggi
-    update_user_character_ids, find_character_by_id, calculate_character_cost,
-    calculate_character_refund, execute_combat_turn, determine_combat_winner,
-    log_character_operation
+    CharacterValidator, CharacterManager, CharacterStatsCalculator, 
+    CharacterCombat, CharacterLogger
 )
-# Import da inventory per funzioni inventario
+
+# Import delle classi refactorizzate per inventory
 from inventory.utils import (
-    get_object_classes, validate_object_class, create_object_instance, 
-    create_character_inventory, DeleteInventoryJson, SaveInventoryJson
+    InventoryValidator, InventoryManager, InventoryOperations
 )
 from inventory.routes import salva_inventario_su_json
 
@@ -53,10 +39,10 @@ def load_char():
     file JSON esistenti con character_ids nel database.
     """
     # Ottieni tutti i file JSON dei personaggi
-    all_char_files = get_user_character_files()
+    all_char_files = CharacterManager.get_user_character_files()
     
     # Filtra solo quelli posseduti dall'utente
-    owned_chars = filter_owned_characters(current_user.character_ids or [])
+    owned_chars = CharacterManager.filter_owned_characters(current_user.character_ids or [])
     
     # Gestione caso utente senza personaggi
     if not owned_chars:
@@ -78,8 +64,8 @@ def create_char():
     from app import db
     
     # Ottieni mapping classi e oggetti disponibili
-    classi = get_character_classes()  # da characters.utils
-    oggetti = get_object_classes()    # da inventory.utils
+    classi = CharacterValidator.get_character_classes()
+    oggetti = InventoryValidator.get_object_classes()
 
     if request.method == 'POST':
         # Raccolta dati dal form
@@ -87,31 +73,31 @@ def create_char():
         classe_sel = request.form['classe']
         oggetto_sel = request.form['oggetto']
 
-        # Validazione input con utils
-        valid_name, name_error = validate_character_name(nome)
+        # Validazione input con le classi refactorizzate
+        valid_name, name_error = CharacterValidator.validate_character_name(nome)
         if not valid_name:
             flash(name_error, "danger")
             return redirect(url_for('characters.create_char'))
 
-        valid_class, class_error = validate_character_class(classe_sel)
+        valid_class, class_error = CharacterValidator.validate_character_class(classe_sel)
         if not valid_class:
             flash(class_error, "danger")
             return redirect(url_for('characters.create_char'))
 
-        valid_object, object_error = validate_object_class(oggetto_sel)  # da inventory.utils
+        valid_object, object_error = InventoryValidator.validate_object_class(oggetto_sel)
         if not valid_object:
             flash(object_error, "danger")
             return redirect(url_for('characters.create_char'))
 
         try:
-            # Creazione personaggio e oggetto iniziale
-            pg = create_character_instance(nome, classe_sel)  # da characters.utils
-            ogg = create_object_instance(oggetto_sel)         # da inventory.utils
-            inv = create_character_inventory(str(pg.id), ogg) # da inventory.utils
+            # Creazione personaggio e oggetto iniziale con le classi refactorizzate
+            pg = CharacterManager.create_character_instance(nome, classe_sel)
+            ogg = InventoryManager.create_object_instance(oggetto_sel)
+            inv = InventoryManager.create_character_inventory(str(pg.id), ogg)
 
             # Controllo crediti disponibili
-            costo_pg = calculate_character_cost(pg)
-            can_afford, credit_error = validate_user_can_afford(current_user.crediti, costo_pg)
+            costo_pg = CharacterStatsCalculator.calculate_character_cost(pg)
+            can_afford, credit_error = CharacterValidator.validate_user_can_afford(current_user.crediti, costo_pg)
 
             if not can_afford:
                 flash(credit_error, "danger")
@@ -120,22 +106,22 @@ def create_char():
             # Deduzione crediti
             current_user.crediti -= costo_pg
 
-            # Serializzazione e salvataggio con utils
+            # Serializzazione e salvataggio con le classi refactorizzate
             pg_dict = schema.dump(pg)
-            if not SaveCharacterJson(pg_dict):
+            if not CharacterManager.save_character_json(pg_dict):
                 raise Exception("Errore salvataggio personaggio")
 
-            SaveInventoryJson(inv)  # da inventory.routes
+            InventoryManager.save_inventory_json(inv)
 
-            # Aggiornamento character_ids utente con utils
-            current_user.character_ids = update_user_character_ids(
+            # Aggiornamento character_ids utente con le classi refactorizzate
+            current_user.character_ids = CharacterManager.update_user_character_ids(
                 current_user.character_ids, str(pg.id), 'add'
             )
 
             db.session.commit()
 
-            # Logging con utils
-            log_character_operation(
+            # Logging con le classi refactorizzate
+            CharacterLogger.log_character_operation(
                 "created", pg_dict, current_user.email,
                 costo=costo_pg, oggetto_iniziale=oggetto_sel
             )
@@ -168,14 +154,14 @@ def edit_char(char_id):
         flash("Personaggio non trovato", "danger")
         return redirect(url_for("characters.show_chars"))
 
-    # Caricamento personaggio con utils
-    pg_dict = LoadCharacterJson(str(char_id))
+    # Caricamento personaggio con le classi refactorizzate
+    pg_dict = CharacterManager.load_character_json(str(char_id))
     if not pg_dict:
         flash("Errore caricamento personaggio", "danger")
         return redirect(url_for('characters.show_chars'))
 
     # Ottieni classi disponibili
-    classi = get_character_classes()
+    classi = CharacterValidator.get_character_classes()
 
     if request.method == 'POST':
         try:
@@ -184,29 +170,29 @@ def edit_char(char_id):
             nuovo_nome = request.form['nome'].strip()
             nuova_classe = request.form['classe']
 
-            # Validazione input con utils
-            valid_name, name_error = validate_character_name(nuovo_nome)
+            # Validazione input con le classi refactorizzate
+            valid_name, name_error = CharacterValidator.validate_character_name(nuovo_nome)
             if not valid_name:
                 flash(name_error, "danger")
                 return render_template('char_edit.html', pg=pg_dict, classi=list(classi.keys()))
 
-            valid_class, class_error = validate_character_class(nuova_classe)
+            valid_class, class_error = CharacterValidator.validate_character_class(nuova_classe)
             if not valid_class:
                 flash(class_error, "danger")
                 return render_template('char_edit.html', pg=pg_dict, classi=list(classi.keys()))
 
-            # Creazione nuovo oggetto personaggio con utils
-            pg_obj = create_character_instance(nuovo_nome, nuova_classe)
+            # Creazione nuovo oggetto personaggio con le classi refactorizzate
+            pg_obj = CharacterManager.create_character_instance(nuovo_nome, nuova_classe)
             # Mantieni ID originale
             pg_obj.id = pg_dict['id']
 
-            # Serializzazione e salvataggio con utils
+            # Serializzazione e salvataggio con le classi refactorizzate
             updated_dict = schema.dump(pg_obj)
-            if not SaveCharacterJson(updated_dict):
+            if not CharacterManager.save_character_json(updated_dict):
                 raise Exception("Errore salvataggio modifiche")
 
-            # Logging con utils
-            log_character_operation(
+            # Logging con le classi refactorizzate
+            CharacterLogger.log_character_operation(
                 "updated", updated_dict, current_user.email,
                 vecchio_nome=vecchio_nome, nuova_classe=nuova_classe
             )
@@ -229,10 +215,10 @@ def edit_char(char_id):
 def get_owned_chars(owned_chars):
     """
     Carica e deserializza personaggi posseduti dall'utente
-    usando utils per gestione JSON.
+    usando le classi refactorizzate per gestione JSON.
     """
-    # Usa utils per caricamento multiplo
-    personaggi_posseduti = LoadMultipleCharactersJson(owned_chars)
+    # Usa le classi refactorizzate per caricamento multiplo
+    personaggi_posseduti = CharacterManager.load_multiple_characters_json(owned_chars)
     return personaggi_posseduti
 
 # ------------------------MOSTRA LISTA PERSONAGGI--------------------------
@@ -262,16 +248,16 @@ def char_details(char_id):
     con validazione ownership e caricamento sicuro.
     """
     try:
-        # Caricamento personaggi posseduti con utils
+        # Caricamento personaggi posseduti con le classi refactorizzate
         owned_chars = load_char()
-        lista_pers = LoadMultipleCharactersJson(owned_chars)
+        lista_pers = CharacterManager.load_multiple_characters_json(owned_chars)
         
     except Exception as e:
         logger.error(f"Errore caricamento lista personaggi: {str(e)}")
         lista_pers = []
 
-    # Ricerca personaggio per ID con utils
-    pg_dict = find_character_by_id(lista_pers, str(char_id))
+    # Ricerca personaggio per ID con le classi refactorizzate
+    pg_dict = CharacterManager.find_character_by_id(lista_pers, str(char_id))
 
     if pg_dict is None:
         logger.warning(f"Accesso a personaggio inesistente - ID: {char_id}")
@@ -294,8 +280,8 @@ def char_delete(char_id):
     e rimborso crediti automatico.
     """
     try:
-        # Caricamento dati personaggio con utils
-        pg_dict = LoadCharacterJson(str(char_id))
+        # Caricamento dati personaggio con le classi refactorizzate
+        pg_dict = CharacterManager.load_character_json(str(char_id))
         if not pg_dict:
             flash("File personaggio non raggiungibile", "danger")
             return redirect(url_for('characters.show_chars'))
@@ -303,26 +289,26 @@ def char_delete(char_id):
         # Deserializzazione per rimborso crediti
         pg_obj = schema.load(pg_dict)
 
-        # Eliminazione file personaggio e inventario con utils
-        if not DeleteCharacterJson(str(char_id)):
+        # Eliminazione file personaggio e inventario con le classi refactorizzate
+        if not CharacterManager.delete_character_json(str(char_id)):
             logger.warning(f"Problemi eliminazione file personaggio {char_id}")
             
-        if not DeleteInventoryJson(str(char_id)):  # da inventory.utils
+        if not InventoryManager.delete_inventory_json(str(char_id)):
             logger.warning(f"Problemi eliminazione inventario {char_id}")
 
-        # Rimozione UUID dalla lista utente con utils
-        current_user.character_ids = update_user_character_ids(
+        # Rimozione UUID dalla lista utente con le classi refactorizzate
+        current_user.character_ids = CharacterManager.update_user_character_ids(
             current_user.character_ids, str(char_id), 'remove'
         )
 
-        # Rimborso crediti con utils
-        rimborso = calculate_character_refund(pg_obj)
+        # Rimborso crediti con le classi refactorizzate
+        rimborso = CharacterStatsCalculator.calculate_character_refund(pg_obj)
         current_user.crediti += rimborso
 
         db.session.commit()
         
-        # Logging con utils
-        log_character_operation(
+        # Logging con le classi refactorizzate
+        CharacterLogger.log_character_operation(
             "deleted", pg_dict, current_user.email,
             rimborso=rimborso
         )
@@ -354,9 +340,9 @@ def begin_combat():
             id_1 = request.form['pg1']
             id_2 = request.form['pg2']
 
-            # Ricerca personaggi con utils
-            pg1_dict = find_character_by_id(personaggi_utente, id_1)
-            pg2_dict = find_character_by_id(personaggi_utente, id_2)
+            # Ricerca personaggi con le classi refactorizzate
+            pg1_dict = CharacterManager.find_character_by_id(personaggi_utente, id_1)
+            pg2_dict = CharacterManager.find_character_by_id(personaggi_utente, id_2)
 
             if not pg1_dict or not pg2_dict:
                 abort(400, "Personaggio non trovato.")
@@ -369,25 +355,25 @@ def begin_combat():
             log_combattimento = []
             turno = 1
 
-            # Loop combattimento con meccaniche avanzate usando utils
+            # Loop combattimento con meccaniche avanzate usando le classi refactorizzate
             while pg1.salute > 0 and pg2.salute > 0:
                 log_combattimento.append(f"Turno {turno}:")
 
-                # Turno personaggio 1 con utils
-                successo, danno, messaggio = execute_combat_turn(pg1, pg2)
+                # Turno personaggio 1 con le classi refactorizzate
+                successo, danno, messaggio = CharacterCombat.execute_combat_turn(pg1, pg2)
                 log_combattimento.append(messaggio)
 
                 if pg2.salute <= 0:
                     break
 
-                # Turno personaggio 2 con utils
-                successo, danno, messaggio = execute_combat_turn(pg2, pg1)
+                # Turno personaggio 2 con le classi refactorizzate
+                successo, danno, messaggio = CharacterCombat.execute_combat_turn(pg2, pg1)
                 log_combattimento.append(messaggio)
 
                 turno += 1
 
-            # Determinazione vincitore con utils
-            risultato = determine_combat_winner(pg1, pg2)
+            # Determinazione vincitore con le classi refactorizzate
+            risultato = CharacterCombat.determine_combat_winner(pg1, pg2)
             log_combattimento.append(f"Risultato finale: {risultato}")
             
             logger.info(f"Combattimento completato - {risultato}")
@@ -414,10 +400,10 @@ def character_dashboard():
     Dashboard con statistiche dettagliate sui personaggi dell'utente.
     """
     try:
-        # Ottieni tutte le statistiche con utils
-        total_count = GetUserCharacterCount(current_user.character_ids or [])
-        stats_by_class = GetUserCharacterStatsByClass(current_user.character_ids or [])
-        most_played, most_count = GetMostPlayedClass(current_user.character_ids or [])
+        # Ottieni tutte le statistiche con le classi refactorizzate
+        total_count = CharacterStatsCalculator.get_user_character_count(current_user.character_ids or [])
+        stats_by_class = CharacterStatsCalculator.get_user_character_stats_by_class(current_user.character_ids or [])
+        most_played, most_count = CharacterStatsCalculator.get_most_played_class(current_user.character_ids or [])
         
         return render_template(
             'character_dashboard.html',
@@ -440,7 +426,7 @@ def character_stats_api():
     API endpoint per statistiche personaggi (per AJAX/dashboard dinamica).
     """
     try:
-        stats = GetUserCharacterStatsByClass(current_user.character_ids or [])
+        stats = CharacterStatsCalculator.get_user_character_stats_by_class(current_user.character_ids or [])
         return jsonify({
             'success': True,
             'stats': stats,
