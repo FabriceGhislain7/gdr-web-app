@@ -21,8 +21,8 @@ env/
 
 # Logs and databases
 *.log
-*.sqlite
-*.db
+# *.sqlite
+# *.db
 
 # Debug and test artifacts
 .pytest_cache/
