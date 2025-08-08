@@ -38,3 +38,9 @@ def menu():
 def clear():
     session.clear()
     return redirect(url_for('gioco.index'))
+
+# ----------------------- COMING-SOON PAGE ---------------------------
+@gioco_bp.route('/coming-soon')
+def coming_soon_session():
+    # Questo temlpate serve per non creare errori per le funzionalità ancora in svillupo.
+    return render_template('coming-soon.html')
