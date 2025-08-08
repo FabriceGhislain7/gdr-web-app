@@ -19,7 +19,8 @@ def show_inventory():
 #---------------------------BEGIN THE BATTLE------------------------------
 @battle_bp.route('/begin_battle', methods=['GET', 'POST'])
 def begin_battle():
-    pass
+    return redirect(url_for('gioco.coming_soon_session'))
+
 
 #---------------------------SELECT_CHAR-----------------------------------
 @battle_bp.route('/select_char', methods=['GET', 'POST'])

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Progetto in Arrivo{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg text-center" style="max-width: 600px; border-radius: 0.75rem;">
+        <div class="card-body p-5">
+            <h1 class="fw-bold mb-3 text-dark">Progetto in Arrivo</h1>
+            
+            <span class="badge mb-4" 
+                  style="background-color: #FFD700; color: #6c757d; border: 1px solid #dee2e6; font-weight: bold;">
+                Coming Soon
+            </span>
+
+            <p class="fs-5 text-secondary mb-4">
+                Stiamo perfezionando gli ultimi dettagli.
+            </p>
+
+            <p class="text-muted mb-5">
+                Il lancio è imminente. Esplora intanto il codice sorgente o dai un'occhiata agli altri progetti del portfolio.
+            </p>
+
+            <a href="{{ url_for('gioco.menu') }}" class="btn btn-dark px-4">
+                ← Torna al menu principale
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

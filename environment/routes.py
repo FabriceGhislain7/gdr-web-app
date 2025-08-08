@@ -6,14 +6,15 @@ from utils.log import Log
 
 @environment_bp.route('/select-environment', methods=['GET', 'POST'])
 def select_environment():
-    pass
+    return redirect(url_for('gioco.coming_soon_session'))
+
 
 
 @environment_bp.route('/show-environment')
 def show_environment():
-    pass 
+    return redirect(url_for('gioco.coming_soon_session'))
 
 
 @staticmethod
 def descrizione():
-  pass
+    return redirect(url_for('gioco.coming_soon_session'))

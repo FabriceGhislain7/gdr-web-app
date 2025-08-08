@@ -9,6 +9,30 @@
             "valore": 30,
             "tipo_oggetto": "Offensivo",
             "classe": "BombaAcida"
+        },
+        {
+            "id": "c1670bfd-6e54-4756-8cdd-63dc22dc9216",
+            "nome": "Bomba Acida",
+            "usato": false,
+            "valore": 30,
+            "tipo_oggetto": "Offensivo",
+            "classe": "BombaAcida"
+        },
+        {
+            "id": "d1e55d1c-5e51-483f-b23b-0043632aca26",
+            "nome": "Bomba Acida",
+            "usato": false,
+            "valore": 30,
+            "tipo_oggetto": "Offensivo",
+            "classe": "BombaAcida"
+        },
+        {
+            "id": "352e6321-40e7-46d6-bede-ba7ca6df7fc1",
+            "nome": "Bomba Acida",
+            "usato": false,
+            "valore": 30,
+            "tipo_oggetto": "Offensivo",
+            "classe": "BombaAcida"
         }
     ]
 }
