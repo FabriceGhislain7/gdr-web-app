@@ -1,27 +1,15 @@
 import os
 import json
 import logging
-
 from flask import render_template, request, redirect, url_for, session, abort, flash, jsonify
 from flask_login import login_required, current_user
-from . import characters_bp
-
-# Import delle classi refactorizzate per personaggi
-from .utils import (
-    CharacterValidator, CharacterManager, CharacterStatsCalculator, 
-    CharacterCombat, CharacterLogger
-)
-
-# Import delle classi refactorizzate per inventory
-from inventory.utils import (
-    InventoryValidator, InventoryManager, InventoryOperations
-)
-from inventory.routes import salva_inventario_su_json
-
+from inventory.utils import InventoryValidator, InventoryManager
 from gioco.schemas.personaggio import PersonaggioSchema
-from auth.models import User
-from extensions import db
+from auth.models import db
 from config import CreateDirs
+from . import characters_bp
+from .utils import (CharacterValidator, CharacterManager, CharacterStatsCalculator,
+                    CharacterCombat, CharacterLogger)
 
 # Setup logging
 logger = logging.getLogger(__name__)
@@ -292,7 +280,7 @@ def char_delete(char_id):
         # Eliminazione file personaggio e inventario con le classi refactorizzate
         if not CharacterManager.delete_character_json(str(char_id)):
             logger.warning(f"Problemi eliminazione file personaggio {char_id}")
-            
+
         if not InventoryManager.delete_inventory_json(str(char_id)):
             logger.warning(f"Problemi eliminazione inventario {char_id}")
 

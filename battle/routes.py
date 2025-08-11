@@ -14,7 +14,7 @@ import os
 #---------------------------SHOW_INVENTORY--------------------------------
 @battle_bp.route('/show_inventory', methods=['GET', 'POST'])
 def show_inventory():
-    pass
+    return redirect(url_for('gioco.coming_soon_session'))
 
 #---------------------------BEGIN THE BATTLE------------------------------
 @battle_bp.route('/begin_battle', methods=['GET', 'POST'])
@@ -25,9 +25,10 @@ def begin_battle():
 #---------------------------SELECT_CHAR-----------------------------------
 @battle_bp.route('/select_char', methods=['GET', 'POST'])
 def select_char():
-    pass
+    return redirect(url_for('gioco.coming_soon_session'))
 
 #---------------------------TEST BATTLE-----------------------------------
 @battle_bp.route('/test_battle', methods=['GET', 'POST'])
 def test_battle():
-    pass
+    return redirect(url_for('gioco.coming_soon_session'))
+

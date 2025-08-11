@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash  # [2]
 from flask_login import login_user, logout_user, login_required, current_user  # [3]
 from auth.models import User
 from . import auth_bp
-from extensions import db  # [4]
+from auth.models import db  # [4]
 from characters.routes import load_char
 from auth.utils import controllo_email, psw_proteggi_hash  # [5] - Import delle nostre utility
 import os

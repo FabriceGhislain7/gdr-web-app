@@ -4,7 +4,7 @@ from gioco.ambiente import AmbienteFactory, Ambiente
 from utils.log import Log
 
 
-@environment_bp.route('/select-environment', methods=['GET', 'POST'])
+@environment_bp.route('/select_environment', methods=['GET', 'POST'])
 def select_environment():
     return redirect(url_for('gioco.coming_soon_session'))
 
