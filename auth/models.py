@@ -14,6 +14,7 @@ class UserRole(enum.Enum):
     """
     PLAYER = "PLAYER"
     ADMIN = "ADMIN"
+    TEAM_MEMBER_DEVELOPER = "TEAM_MEMBER_DEVELOPER"
     TESTER = "TESTER"  # Ruolo esempio per il futuro
 
 class User(UserMixin, db.Model):
@@ -27,13 +28,14 @@ class User(UserMixin, db.Model):
         password_hash (str): Hash della password dell'utente.
         crediti (float): Crediti disponibili per l'utente.
         ruolo (UserRole): Ruolo dell'utente nel sistema
-            (PLAYER, ADMIN, TESTER).
+            (PLAYER, ADMIN, TESTER, TEAM_MEMBER_DEVELOPER).
         character_ids (list): Lista degli ID dei personaggi associati
             all'utente.
     
     Methods:
         is_admin: Verifica se l'utente è un amministratore.
         is_player: Verifica se l'utente è un giocatore.
+        is_team_member_developer: Verifica se l'utente è un membro della team di svillupo del gioco.
         has_role: Verifica se l'utente ha un ruolo specifico.
     """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -66,6 +68,15 @@ class User(UserMixin, db.Model):
             bool: True se l'utente è un giocatore, False altrimenti.
         """
         return self.ruolo == UserRole.PLAYER
+    
+    def is_team_member_developer(self):
+        """
+        Verifica se l'utente è un membro della team di svillupo del gioco.
+
+        Returns:
+            bool: True se l'utente è un membro della team di svillupo del gioco.
+        """
+        return self.ruolo == UserRole.TEAM_MEMBER_DEVELOPER
     
     def has_role(self, role: str):
         """

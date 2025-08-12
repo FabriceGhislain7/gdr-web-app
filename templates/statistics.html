@@ -1,84 +1,427 @@
 {% extends "layout.html" %}
-{% block title %}Menu iniziale{% endblock %}
-
+{% block title %}Classifica{% endblock %}
 {% block content %}
 
-<h2
-class="text-center mb-4"
-style="font-family: 'Cinzel Decorative', serif;">
-    Benvenuto in <span style="font-weight:bold">Saltatio Mortis<span>
-</h2>
-
-<div class="d-grid gap-2 col-6 mx-auto m-3">
-
-    {% if current_user.is_authenticated %}
-        <a href="{{ url_for('mission.select_mission') }}" class="btn btn-primary btn-lg">Seleziona Missione</a>
-        {% if has_missioni %}
-            <a href="{{ url_for('mission.show_mission') }}" class="btn btn-primary btn-lg">Mostra Missione</a>
-        {% else %}
-            <button class="btn btn-primary btn-lg" disabled>Mostra Missione (Missione non selezionata)</button>
-        {% endif %}
-
-        {% if can_select_char %}
-            <a href="{{ url_for('battle.select_char') }}" class="btn btn-dark btn-lg">Inizia Battaglia</a>
-        {% else %}
-            <button class="btn btn-primary btn-lg btn-lg" disabled>Inizia Battaglia</button>
-            <p class="text-muted text-center small">
-                ⚠️ Crea almeno un personaggio e seleziona una missione per procedere
-            </p>
-        {% endif %}
-
-    {% else %}
-        <a href="{{ url_for('auth.login') }}" class="btn btn-info btn-lg">Login</a>
-        <a href="{{ url_for('auth.sign_in') }}" class="btn btn-secondary btn-lg">Registrati</a>
-    {% endif %}
-
-<!-- Tabella classifica utenti -->
-    <div class="mt-5">
-        <h4 class="text-center mb-3">🏆 Classifica Generale</h4>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nome Utente</th>
-                        <th scope="col">Partite Giocate</th>
-                        <th scope="col">Partite Vinte</th>
-                        <th scope="col">Partite Perse</th>
-                        <th scope="col">Punteggio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user_id, user_data in users_stats_sorted %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>
-                            <i class="bi bi-person-circle"></i>
-                            {{ user_data.nome }}
-                        </td>
-                        <td>
-                            <span class="badge bg-secondary">{{ user_data.partite_giocate }}</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-success">{{ user_data.partite_vinte }}</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-danger">{{ user_data.partite_giocate - user_data.partite_vinte }}</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-primary">{{ user_data.punteggio }}</span>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% if not users_stats_sorted %}
-            <div class="alert alert-info text-center">
-                <i class="bi bi-info-circle"></i> Nessun utente registrato ancora!
-            </div>
-        {% endif %}
+<!-- SEZIONE HEADER CLASSIFICA -->
+<section class="py-4 text-center bg-secondary text-white rounded-4 shadow-sm mb-4 mt-4">
+  <div class="container py-3">
+    <!-- Titolo principale -->
+    <h1 class="display-6 fw-bold mb-3">
+      <i class="bi bi-trophy me-3"></i>
+      Classifica Generale
+    </h1>
+    <!-- Sottotitolo descrittivo -->
+    <p class="lead mb-4">
+      La Hall of Fame dei migliori guerrieri:<br>
+      scopri chi domina il regno!
+    </p>
+    <!-- Badge informativo -->
+    <div class="mt-4">
+      <span class="badge bg-light text-primary px-3 py-2 fs-6">
+        <i class="bi bi-star me-1"></i>
+        Ranking Ufficiale
+      </span>
     </div>
+  </div>
+</section>
+<!-- FINE SEZIONE HEADER -->
+
+<!-- SEZIONE CONTENUTO PRINCIPALE -->
+<div class="container pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+
+      <!-- CARD CLASSIFICA -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+
+          <!-- Tabella Classifica -->
+          <div class="table-responsive">
+            <table class="table leaderboard-table">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <i class="bi bi-hash me-1"></i>
+                    Posizione
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-person me-1"></i>
+                    Nome Utente
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-controller me-1"></i>
+                    Partite Giocate
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Partite Vinte
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-x-circle me-1"></i>
+                    Partite Perse
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-star me-1"></i>
+                    Punteggio
+                  </th>
+                  <th scope="col">
+                    <i class="bi bi-percent me-1"></i>
+                    Win Rate
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user_id, user_data in users_stats_sorted %}
+                <tr class="player-row {% if loop.index <= 3 %}top-player{% endif %}">
+                  <td class="position-col">
+                    {% if loop.index == 1 %}
+                      <span class="position-badge first">
+                        <i class="bi bi-trophy-fill"></i> 1°
+                      </span>
+                    {% elif loop.index == 2 %}
+                      <span class="position-badge second">
+                        <i class="bi bi-award-fill"></i> 2°
+                      </span>
+                    {% elif loop.index == 3 %}
+                      <span class="position-badge third">
+                        <i class="bi bi-award-fill"></i> 3°
+                      </span>
+                    {% else %}
+                      <span class="position-normal">{{ loop.index }}°</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="player-name">
+                      <i class="bi bi-person-circle me-2"></i>
+                      {{ user_data.nome }}
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge stat-badge games">{{ user_data.partite_giocate }}</span>
+                  </td>
+                  <td>
+                    <span class="badge stat-badge wins">{{ user_data.partite_vinte }}</span>
+                  </td>
+                  <td>
+                    <span class="badge stat-badge losses">{{ user_data.partite_giocate - user_data.partite_vinte }}</span>
+                  </td>
+                  <td>
+                    <span class="badge stat-badge score">{{ user_data.punteggio }}</span>
+                  </td>
+                  <td>
+                    {% set win_rate = (user_data.partite_vinte / user_data.partite_giocate * 100) if user_data.partite_giocate > 0 else 0 %}
+                    <span class="win-rate {% if win_rate >= 70 %}excellent{% elif win_rate >= 50 %}good{% else %}average{% endif %}">
+                      {{ "%.1f"|format(win_rate) }}%
+                    </span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Messaggio vuoto -->
+          {% if not users_stats_sorted %}
+            <div class="alert alert-primary border-0 bg-light text-center">
+              <div class="d-flex justify-content-center align-items-center">
+                <i class="bi bi-info-circle text-primary me-3 h5"></i>
+                <div>
+                  <p class="mb-0">
+                    <strong>Nessun guerriero registrato ancora!</strong>
+                  </p>
+                  <small class="text-muted">
+                    Sii il primo a entrare nella leggenda del regno.
+                  </small>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Statistiche di riepilogo -->
+          {% if users_stats_sorted %}
+          <div class="mt-4 pt-3 border-top">
+            <div class="row text-center g-3">
+              <div class="col-md-4">
+                <div class="d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people text-primary me-2 h5 mb-0"></i>
+                  <div>
+                    <div class="fw-semibold">{{ users_stats_sorted|length }}</div>
+                    <small class="text-muted">Guerrieri Totali</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="d-flex align-items-center justify-content-center">
+                  <i class="bi bi-controller text-success me-2 h5 mb-0"></i>
+                  <div>
+                    <div class="fw-semibold">{{ users_stats_sorted | sum(attribute='1.partite_giocate') }}</div>
+                    <small class="text-muted">Partite Totali</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="d-flex align-items-center justify-content-center">
+                  <i class="bi bi-star text-warning me-2 h5 mb-0"></i>
+                  <div>
+                    <div class="fw-semibold">{{ users_stats_sorted[0][1].punteggio if users_stats_sorted else 0 }}</div>
+                    <small class="text-muted">Record Punti</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <!-- FINE CARD CLASSIFICA -->
+
+      <!-- SEZIONE PULSANTI DI NAVIGAZIONE -->
+      <div class="text-center pt-4">
+        <h6 class="text-muted mb-4">Vuoi scalare la classifica?</h6>
+        <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+          <!-- Pulsante primario -->
+          <a href="{{ url_for('gioco.index') }}" 
+             class="btn btn-outline-primary d-flex align-items-center justify-content-center">
+            <i class="bi bi-house me-2"></i>
+            Torna alla Home
+          </a>
+          
+          <!-- Pulsante gioca -->
+          <a href="{{ url_for('gioco.menu') }}" 
+             class="btn btn-success d-flex align-items-center justify-content-center">
+            <i class="bi bi-play-circle me-2"></i>
+            Inizia a Giocare
+          </a>
+          
+          <!-- Pulsante guida -->
+          <a href="{{ url_for('gioco.guide_game') }}" 
+             class="btn btn-outline-info d-flex align-items-center justify-content-center">
+            <i class="bi bi-book me-2"></i>
+            Guida al Gioco
+          </a>
+        </div>
+      </div>
+      <!-- FINE SEZIONE PULSANTI -->
+
+    </div>
+  </div>
 </div>
+<!-- FINE SEZIONE CONTENUTO -->
+
+<style>
+/* Header Section */
+.bg-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+}
+
+/* Card principale */
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-body {
+  background: #ffffff;
+}
+
+/* Tabella */
+.leaderboard-table {
+  margin-bottom: 0;
+  background: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.leaderboard-table thead th {
+  background: #495057;
+  color: white;
+  border: none;
+  padding: 1rem 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.player-row {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.player-row:hover {
+  background-color: #f8f9fa;
+  transform: scale(1.005);
+}
+
+.top-player {
+  border-left: 4px solid #ffc107;
+  background-color: #fffbf0;
+}
+
+.top-player:hover {
+  background-color: #fff8e1;
+}
+
+/* Badge posizioni */
+.position-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.position-badge.first {
+  background: linear-gradient(135deg, #ffc107, #ffcd39);
+  color: #212529;
+}
+
+.position-badge.second {
+  background: linear-gradient(135deg, #6c757d, #adb5bd);
+  color: white;
+}
+
+.position-badge.third {
+  background: linear-gradient(135deg, #cd7f32, #daa520);
+  color: white;
+}
+
+.position-normal {
+  color: #6c757d;
+  font-weight: 500;
+  padding: 0.4rem 0.5rem;
+}
+
+/* Nome giocatore */
+.player-name {
+  display: flex;
+  align-items: center;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Badge statistiche */
+.stat-badge {
+  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.stat-badge.games {
+  background: #e9ecef;
+  color: #495057;
+  border-color: #dee2e6;
+}
+
+.stat-badge.wins {
+  background: #d1e7dd;
+  color: #0f5132;
+  border-color: #badbcc;
+}
+
+.stat-badge.losses {
+  background: #f8d7da;
+  color: #842029;
+  border-color: #f5c2c7;
+}
+
+.stat-badge.score {
+  background: #fff3cd;
+  color: #664d03;
+  border-color: #ffecb5;
+  font-weight: 600;
+}
+
+/* Win rate */
+.win-rate {
+  font-weight: 600;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+}
+
+.win-rate.excellent {
+  color: #0f5132;
+  background: #d1e7dd;
+  border-color: #badbcc;
+}
+
+.win-rate.good {
+  color: #664d03;
+  background: #fff3cd;
+  border-color: #ffecb5;
+}
+
+.win-rate.average {
+  color: #842029;
+  background: #f8d7da;
+  border-color: #f5c2c7;
+}
+
+/* Celle tabella */
+.leaderboard-table td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+/* Alert migliorato */
+.alert {
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+/* Statistiche riepilogo */
+.border-top {
+  border-color: #f8f9fa !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .display-6 {
+    font-size: 2rem;
+  }
+  
+  .leaderboard-table {
+    font-size: 0.9rem;
+  }
+  
+  .stat-badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .position-badge {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+/* Hover effects sui pulsanti */
+.btn {
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Badge nel header */
+.badge {
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+</style>
 
 {% endblock %}

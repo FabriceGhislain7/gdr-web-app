@@ -4,5 +4,17 @@
         "partite_giocate": 0,
         "partite_vinte": 0,
         "punteggio": 0
+    },
+    "2": {
+        "nome": "Player",
+        "partite_giocate": 0,
+        "partite_vinte": 0,
+        "punteggio": 0
+    },
+    "3": {
+        "nome": "Developer",
+        "partite_giocate": 0,
+        "partite_vinte": 0,
+        "punteggio": 0
     }
 }

@@ -70,3 +70,7 @@ def show_statistics():
 
     return render_template('statistics.html', users_stats_sorted=users_stats_sorted)
 
+
+@statistics_bp.route('/analytics_dashboard')
+def analytics_dashboard():
+    return redirect(url_for('gioco.coming_soon_session'))

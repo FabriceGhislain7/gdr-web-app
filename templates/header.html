@@ -38,60 +38,73 @@
             <i class="bi bi-controller me-1"></i>Menu Principale
           </a>
         </li>
-      </ul>
-    </div>
+        <li class="nav-item">
+          <a class="nav-link fantasy-nav-link {% if request.endpoint == 'statistics.show_statistics' %}active{% endif %}" href="{{ url_for('statistics.show_statistics') }}">
+            <i class="bi bi-trophy me-1"></i>Classification
+          </a>
+        </li>
 
-    <!-- LOGIN/LOGOUT A DESTRA -->
-    <div class="d-flex align-items-center ms-auto user-section">
-      {% if current_user.is_authenticated %}
-        <!-- Info utente -->
-        <div class="user-info me-3">
-          <span class="user-welcome">
-            <i class="bi bi-person-circle me-1"></i>
-            <span class="user-name">{{ current_user.nome }}</span>
-          </span>
-          <div class="credits-display">
-            <i class="bi bi-coin text-warning me-1"></i>
-            <span class="credits-amount">{{ current_user.crediti }}</span>
-            <span class="credits-label">crediti</span>
+        {% if current_user.is_authenticated and current_user.is_team_member_developer() %}
+        <li class="nav-item">
+          <a class="nav-link fantasy-nav-link {% if request.endpoint == 'statistics.analytics_dashboard' %}active{% endif %}" href="{{ url_for('statistics.analytics_dashboard') }}">
+            <i class="bi bi-graph-up-arrow me-1"></i>Analytics Dashboard
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+      
+      <!-- LOGIN/LOGOUT A DESTRA -->
+      <div class="d-flex align-items-center ms-auto user-section">
+        {% if current_user.is_authenticated %}
+          <!-- Info utente -->
+          <div class="user-info me-3">
+            <span class="user-welcome">
+              <i class="bi bi-person-circle me-1"></i>
+              <span class="user-name">{{ current_user.nome }}</span>
+            </span>
+            <div class="credits-display">
+              <i class="bi bi-coin text-warning me-1"></i>
+              <span class="credits-amount">{{ current_user.crediti }}</span>
+              <span class="credits-label">crediti</span>
+            </div>
           </div>
-        </div>
-        
-        <!-- Menu dropdown utente -->
-        <div class="dropdown">
-          <button class="btn fantasy-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-gear"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end fantasy-dropdown">
-            <li>
-              <a class="dropdown-item fantasy-dropdown-item" href="{{ url_for('auth.modified_user') }}">
-                <i class="bi bi-pencil-square me-2"></i>Modifica Profilo
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item fantasy-dropdown-item" href="{{ url_for('auth.credit_refill') }}">
-                <i class="bi bi-bank me-2"></i>Ricarica Crediti
-              </a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item fantasy-dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
-                <i class="bi bi-box-arrow-right me-2"></i>Logout
-              </a>
-            </li>
-          </ul>
-        </div>
-      {% else %}
-        <!-- Pulsanti per utenti non autenticati -->
-        <div class="auth-buttons">
-          <a href="{{ url_for('auth.login') }}" class="btn fantasy-btn-outline me-2">
-            <i class="bi bi-box-arrow-in-right me-1"></i>Login
-          </a>
-          <a href="{{ url_for('auth.register') }}" class="btn fantasy-btn-solid">
-            <i class="bi bi-person-plus me-1"></i>Sign up
-          </a>
-        </div>
-      {% endif %}
+          
+          <!-- Menu dropdown utente -->
+          <div class="dropdown">
+            <button class="btn fantasy-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-gear"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end fantasy-dropdown">
+              <li>
+                <a class="dropdown-item fantasy-dropdown-item" href="{{ url_for('auth.modified_user') }}">
+                  <i class="bi bi-pencil-square me-2"></i>Modifica Profilo
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item fantasy-dropdown-item" href="{{ url_for('auth.credit_refill') }}">
+                  <i class="bi bi-bank me-2"></i>Ricarica Crediti
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item fantasy-dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
+                  <i class="bi bi-box-arrow-right me-2"></i>Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        {% else %}
+          <!-- Pulsanti per utenti non autenticati -->
+          <div class="auth-buttons">
+            <a href="{{ url_for('auth.login') }}" class="btn fantasy-btn-outline me-2">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Login
+            </a>
+            <a href="{{ url_for('auth.register') }}" class="btn fantasy-btn-solid">
+              <i class="bi bi-person-plus me-1"></i>Sign up
+            </a>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </nav>

@@ -1,0 +1,14 @@
+{
+    "id": "c41df42f-e62f-4f80-aa9c-d0b44c1977fe",
+    "id_proprietario": "014e6e41-e162-4337-ba9d-61613d3cbc59",
+    "oggetti": [
+        {
+            "id": "694d23ed-0c7d-48c4-805c-b972bb74b495",
+            "nome": "Medaglione",
+            "usato": false,
+            "valore": 10,
+            "tipo_oggetto": "Buff",
+            "classe": "Medaglione"
+        }
+    ]
+}

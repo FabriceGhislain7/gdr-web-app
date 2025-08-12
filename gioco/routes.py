@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 from gioco.personaggio import Personaggio
 from gioco.classi import Mago, Guerriero, Ladro
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin 
+from characters.utils import CharacterStatsCalculator
 import os
 
 template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
@@ -31,7 +32,17 @@ def credits():
 @gioco_bp.route('/menu')
 @login_required
 def menu():
-    return render_template('menu.html')
+    owner_char = current_user.character_ids
+    stat_char = CharacterStatsCalculator.get_user_character_stats_by_class(owner_char)
+    print(f"STAT_CHARS =================================>   {stat_char}")
+    num_guerrieri = stat_char["Guerriero"]
+    num_maghi = stat_char["Mago"]
+    num_ladri = stat_char["Ladro"]
+
+    return render_template('menu.html',
+                           num_guerrieri=num_guerrieri,
+                           num_ladri=num_ladri,
+                           num_maghi=num_maghi)
 
 # -----------------------CLEAR THE SESION ---------------------------
 @gioco_bp.route('/clear')

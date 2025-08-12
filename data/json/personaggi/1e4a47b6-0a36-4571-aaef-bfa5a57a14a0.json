@@ -1,0 +1,13 @@
+{
+    "classe": "Guerriero",
+    "id": "1e4a47b6-0a36-4571-aaef-bfa5a57a14a0",
+    "nome": "Lucky luck",
+    "npc": false,
+    "salute_max": 130,
+    "salute": 130,
+    "attacco_min": 20,
+    "attacco_max": 100,
+    "livello": 1,
+    "destrezza": 15,
+    "storico_danni_subiti": []
+}
