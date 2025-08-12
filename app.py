@@ -20,16 +20,16 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
 def create_app():
-    CreateDirs()  # crea directory necessarie per i file JSON
+    CreateDirs()
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'cambia_questa_chiave_per_una_più_sicura')
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'      # Configurazione per il database.
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
     db.init_app(app)
-    migrate = Migrate(app, db)  # Assegnata non utilizzata
+    Migrate(app, db)
     login_manager.init_app(app)
     Session(app)
-    app.permanent_session_lifetime = timedelta(minutes=30)     # imposta la durata della sessione a 30 minuti
+    app.permanent_session_lifetime = timedelta(minutes=30)
 
     app.register_blueprint(gioco_bp)
     app.register_blueprint(battle_bp)
@@ -40,37 +40,33 @@ def create_app():
     app.register_blueprint(statistics_bp)
     app.register_blueprint(environment_bp)
 
+    # Creazione DB e utenti di default all'avvio
+    with app.app_context():
+        db.create_all()
+        create_leaderboard()
+
+        if not User.query.filter_by(email="admin@admin.it").first():
+            db.session.add(create_administrator())
+            db.session.commit()
+
+        if not User.query.filter_by(email="player@player.com").first():
+            db.session.add(create_player())
+            db.session.commit()
+
+        if not User.query.filter_by(email="developer@developer.com").first():
+            db.session.add(create_developer())
+            db.session.commit()
+
     return app
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-if __name__ == '__main__':
-    app = create_app()
-    with app.app_context():
-        db.create_all()
-        create_leaderboard()  # aggiorna classifica all'avvio
 
-        # Aggiungo un utente Admin al DB se già non esiste
-        if not User.query.filter_by(email="admin@admin.it").first():
-            admin = create_administrator()
-            db.session.add(admin)
-            db.session.commit()
-
-        #  Aggiunta di un utente Player per visualizzare
-        if not User.query.filter_by(email="player@player.com").first():
-            player = create_player()
-            db.session.add(player)
-            db.session.commit()
-
-        #  Aggiunta di un utente Player per visualizzare
-        if not User.query.filter_by(email="developer@developer.com").first():
-            player = create_developer()
-            db.session.add(player)
-            db.session.commit()
-
-    app.run(debug=True, host="0.0.0.0", port=5001)
-
-# Questa riga di codice è necessaria per la parte deploiement
+# Questa riga serve per Render
 app = create_app()
+
+if __name__ == '__main__':
+    app.run(debug=True, host="0.0.0.0", port=5001)
