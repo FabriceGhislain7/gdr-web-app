@@ -34,7 +34,6 @@ def credits():
 def menu():
     owner_char = current_user.character_ids
     stat_char = CharacterStatsCalculator.get_user_character_stats_by_class(owner_char)
-    print(f"STAT_CHARS =================================>   {stat_char}")
     num_guerrieri = stat_char["Guerriero"]
     num_maghi = stat_char["Mago"]
     num_ladri = stat_char["Ladro"]

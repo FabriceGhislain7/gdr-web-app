@@ -71,3 +71,6 @@ if __name__ == '__main__':
             db.session.commit()
 
     app.run(debug=True, host="0.0.0.0", port=5001)
+
+# Questa riga di codice è necessaria per la parte deploiement
+app = create_app()
