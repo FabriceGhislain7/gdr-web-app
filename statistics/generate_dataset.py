@@ -157,5 +157,6 @@ for col in missing_categorical:
 # -----------------------
 # Salvataggio CSV
 # -----------------------
-df.to_csv('big_dataset_gioco.csv', index=False)
+path_dataset = 'data/big_dataset_gioco.csv'
+df.to_csv(path_dataset, index=False)
 print(f"Dataset generato e salvato come 'big_dataset_gioco.csv' con {N} righe e valori mancanti simulati.")
