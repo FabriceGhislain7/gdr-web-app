@@ -75,6 +75,11 @@ coverage.xml
 # Flask specific
 instance/
 .webassets-cache
+flask_session/
+
+# Runtime game data (keep only folder structure with .gitkeep)
+data/json/**/*.json
+!data/json/**/.gitkeep
 
 # macOS
 .DS_Store

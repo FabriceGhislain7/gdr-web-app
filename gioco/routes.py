@@ -1,7 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from gioco.personaggio import Personaggio
-from gioco.classi import Mago, Guerriero, Ladro
-from flask_login import login_user, logout_user, login_required, current_user, UserMixin 
+from flask_login import login_required, current_user
 from characters.utils import CharacterStatsCalculator
 import os
 from utils.i18n import get_current_language, set_current_language, translate

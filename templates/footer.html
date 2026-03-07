@@ -103,42 +103,6 @@
       </div>
     </div>
 
-    <!-- Sezione sviluppatore (mobile-friendly) -->
-    <div class="row mt-3 d-md-none">
-      <div class="col-12 text-center">
-        <div class="developer-card p-3 rounded bg-dark border border-secondary">
-          <h6 class="text-warning mb-2">
-            <i class="bi bi-person-badge me-1"></i>{{ t('footer.developer') }}
-          </h6>
-          <p class="text-light-gray small mb-2">
-            <strong>Fabrice Ghislain Tebou</strong><br>
-            Full Stack Developer specializzato in Python/Flask<br>
-            <i class="bi bi-envelope me-1"></i>ghislaintebou@gmail.com<br>
-              <i class="bi bi-telephone me-1"></i>+39 351 995 7025
-            </p>
-          <div class="contact-links">
-            <a href="https://www.linkedin.com/in/fabrice-ghislain-tebou-72000b211" 
-               target="_blank" 
-               class="btn btn-outline-warning btn-sm me-2 mb-2">
-              <i class="bi bi-linkedin me-1"></i>LinkedIn
-            </a>
-            <a href="mailto:ghislaintebou@gmail.com" 
-               class="btn btn-outline-warning btn-sm me-2 mb-2">
-              <i class="bi bi-envelope me-1"></i>Email
-            </a>
-            <a href="https://github.com/FabriceGhislain7" 
-               target="_blank" 
-               class="btn btn-outline-warning btn-sm me-2 mb-2">
-              <i class="bi bi-github me-1"></i>GitHub
-            </a>
-            <a href="tel:+393519957025" 
-               class="btn btn-outline-warning btn-sm mb-2">
-              <i class="bi bi-telephone me-1"></i>{{ t('footer.phone') }}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </footer>
 
@@ -206,22 +170,6 @@
     color: #28a745 !important;
   }
 
-  /* Card sviluppatore per mobile */
-  .developer-card {
-    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%) !important;
-    border: 1px solid #ffc107 !important;
-    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.1);
-  }
-
-  .contact-links .btn {
-    transition: all 0.3s ease;
-  }
-
-  .contact-links .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
-  }
-
   /* Effetto pulsazione per l'ora */
   #current-time {
     animation: pulse 2s infinite;
@@ -267,12 +215,6 @@
     .social-links a {
       font-size: 1.4rem;
       margin: 0 8px;
-    }
-  }
-
-  @media (min-width: 769px) {
-    .developer-card {
-      display: none;
     }
   }
 </style>

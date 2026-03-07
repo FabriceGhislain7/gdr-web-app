@@ -1,4 +1,4 @@
-﻿from flask import Blueprint, render_template, session, redirect, url_for, request, flash, jsonify
+﻿from flask import render_template, redirect, url_for, request, flash, jsonify
 from flask_login import current_user, login_required
 from . import statistics_bp
 import os
@@ -6,11 +6,6 @@ import json
 import csv
 from functools import lru_cache
 from config import DATA_DIR_SAVE, DATA_DIR_PGS, load_leaderboard
-
-template_dir = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', 'templates')
-    )
-gioco = Blueprint('gioco', __name__, template_folder=template_dir)
 
 
 # Home / menu principale
@@ -374,4 +369,5 @@ def analytics_data_analyst_api():
     payload = _build_analytics_payload_from_rows(filtered)
     payload["meta"] = {"filtered_count": len(filtered), "total_count": len(rows)}
     return jsonify(payload)
+
 

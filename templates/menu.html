@@ -161,7 +161,7 @@
           
           <div class="d-grid gap-2">
             <a href="{{ url_for('characters.create_char') }}" class="btn btn-fantasy-emerald">
-              <i class="bi bi-person-plus me-2"></i>Crea Personaggio
+              <i class="bi bi-person-plus me-2"></i>Create Character
             </a>
             <a href="{{ url_for('characters.show_chars') }}" class="btn btn-outline-fantasy-blue">
               <i class="bi bi-people-fill me-2"></i>Manage Party
@@ -174,14 +174,14 @@
 </div>
 <!-- FINE Personal Area -->
 
-<!-- SEZIONE: MODALITÃ€ DI GIOCO -->
+<!-- SECTION: GAME MODE -->
 <div class="container mt-5 section-block" id="modalita-gioco" style="display: none;">
   <div class="text-center mb-5">
     <h2 class="text-fantasy-crimson section-title mb-3">
       <i class="bi bi-dice-6 me-2"></i>
       Game Mode
     </h2>
-    <p class="text-muted">Esplora mondi fantastici, affronta missioni epiche e combatti nemici leggendari</p>
+    <p class="text-muted">Explore fantasy worlds, face epic missions, and fight legendary enemies</p>
   </div>
   
   <div class="row g-4">
@@ -192,7 +192,7 @@
           <i class="bi bi-map h2 mb-0"></i>
         </div>
         <div class="card-body p-4">
-          <h5 class="card-title text-dark-blue mb-3">Esplorazione</h5>
+          <h5 class="card-title text-dark-blue mb-3">Exploration</h5>
           <p class="card-text text-muted small mb-4">
             Choose your missions and explore environments full of danger and treasure
           </p>
@@ -202,22 +202,22 @@
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-tree text-success"></i>
-                <div class="small fw-semibold">Foresta</div>
-                <div class="small text-muted">Equilibrato</div>
+                <div class="small fw-semibold">Forest</div>
+                <div class="small text-muted">Balanced</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-fire text-danger"></i>
-                <div class="small fw-semibold">Vulcano</div>
-                <div class="small text-muted">Estremo</div>
+                <div class="small fw-semibold">Volcano</div>
+                <div class="small text-muted">Extreme</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-droplet text-secondary"></i>
-                <div class="small fw-semibold">Palude</div>
-                <div class="small text-muted">Ostile</div>
+                <div class="small fw-semibold">Swamp</div>
+                <div class="small text-muted">Hostile</div>
               </div>
             </div>
           </div>
@@ -254,21 +254,21 @@
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-heart-pulse text-success"></i>
-                <div class="small fw-semibold">Pozioni</div>
-                <div class="small text-muted">Cura</div>
+                <div class="small fw-semibold">Potions</div>
+                <div class="small text-muted">Healing</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-fire text-danger"></i>
-                <div class="small fw-semibold">Bombe</div>
-                <div class="small text-muted">Attacco</div>
+                <div class="small fw-semibold">Bombs</div>
+                <div class="small text-muted">Attack</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-gem text-warning"></i>
-                <div class="small fw-semibold">Artefatti</div>
+                <div class="small fw-semibold">Artifacts</div>
                 <div class="small text-muted">Buff</div>
               </div>
             </div>
@@ -287,7 +287,7 @@
     </div>
   </div>
 </div>
-<!-- FINE MODALITÃ€ GIOCO -->
+<!-- END GAME MODE -->
 
 <!-- MODAL DI CONFERMA ELIMINAZIONE -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -316,7 +316,7 @@
             </div>
           </div>
         </div>
-        <p class="text-muted small mb-0">Questa operazione <strong>non puÃ² essere Cancelta</strong>.</p>
+        <p class="text-muted small mb-0">This action <strong>cannot be undone</strong>.</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
         <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
@@ -721,18 +721,15 @@
 // ============================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('ðŸŽ® Menu inizializzato'); 
     initMenuEffects();
-    console.log('âœ… Menu pronto per l\'interazione utente');
-});
+    });
 
 /**
  * Mostra una sezione specifica e nasconde le altre
  * @param {string} sectionId - ID della sezione da mostrare
  */
 function showSection(sectionId) {
-    console.log(`ðŸŽ¯ Mostrando sezione: ${sectionId}`);
-    
+        
     const sections = ['area-personale', 'modalita-gioco'];
     const buttons = {
         'area-personale': document.getElementById('btn-area'),
@@ -832,15 +829,13 @@ function showSection(sectionId) {
         });
     }
 
-    console.log(`âœ… Sezione ${sectionId} mostrata con successo`);
-}
+    }
 
 /**
  * Inizializza gli effetti e interazioni del menu
  */
 function initMenuEffects() {
-    console.log('ðŸŽ¨ Inizializzando effetti menu...');
-
+    
     // Effetti hover sulle game cards
     const gameCards = document.querySelectorAll('.game-card');
     gameCards.forEach((card, index) => {
@@ -913,8 +908,7 @@ function initMenuEffects() {
     // Animazione contatori
     animateCounters();
 
-    console.log('âœ… Effetti menu inizializzati');
-}
+    }
 
 /**
  * Anima i contatori numerici nelle card
@@ -993,13 +987,14 @@ function showNotification(message, type = 'info') {
 window.showSection = showSection;
 window.showNotification = showNotification;
 
-console.log('ðŸš€ Menu JavaScript caricato completamente');
 
 // ============================================================================
 // FINE JAVASCRIPT
 // ============================================================================
 </script>
 {% endblock %}
+
+
 
 
 
