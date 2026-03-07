@@ -7,19 +7,19 @@
           <i class="bi bi-shield-fill me-2"></i>GDR Web
         </h5>
         <p class="small text-muted mb-0">
-          Il tuo portale per avventure fantasy epiche online.
+          {{ t('footer.portal_desc') }}
         </p>
       </div>
 
       <!-- Link rapidi -->
       <div class="col-md-4 mb-3 mb-md-0">
-        <h6 class="text-light fw-semibold mb-2">Link Rapidi</h6>
+        <h6 class="text-light fw-semibold mb-2">{{ t('footer.quick_links') }}</h6>
         <div class="d-flex flex-wrap gap-3">
           <a href="{{ url_for('gioco.about') }}" class="text-light-gray text-decoration-none small hover-link">
             <i class="bi bi-info-circle me-1"></i>About
           </a>
           <a href="{{ url_for('gioco.guide_game') }}" class="text-light-gray text-decoration-none small hover-link">
-            <i class="bi bi-book me-1"></i>Guida
+            <i class="bi bi-book me-1"></i>{{ t('nav.game_guide') }}
           </a>
           <a href="{{ url_for('gioco.credits') }}" class="text-light-gray text-decoration-none small hover-link">
             <i class="bi bi-heart me-1"></i>Credits
@@ -45,7 +45,7 @@
         </div>
         <div class="mb-2">
           <span class="text-light-gray small">
-            <i class="bi bi-code-slash me-1"></i>Sviluppato da 
+            <i class="bi bi-code-slash me-1"></i>{{ t('footer.developed_by') }}
             <span class="text-warning fw-semibold">Fabrice Ghislain Tebou</span>
           </span>
         </div>
@@ -89,15 +89,15 @@
       <div class="col-md-6">
         <span class="text-light-gray small">
           <i class="bi bi-shield-check me-1"></i>
-          Tutti i diritti riservati. 
-          <a href="#" class="text-light-gray text-decoration-none hover-link">Privacy Policy</a> | 
-          <a href="#" class="text-light-gray text-decoration-none hover-link">Termini di Servizio</a>
+          {{ t('footer.all_rights') }} 
+          <a href="#" class="text-light-gray text-decoration-none hover-link">{{ t('footer.privacy') }}</a> | 
+          <a href="#" class="text-light-gray text-decoration-none hover-link">{{ t('footer.terms') }}</a>
         </span>
       </div>
       <div class="col-md-6 text-md-end">
         <span class="text-light-gray small">
           <i class="bi bi-cpu me-1"></i>
-          Versione 1.0.0 | 
+          {{ t('footer.version') }} 1.0.0 | 
           <span id="current-time" class="text-warning"></span>
         </span>
       </div>
@@ -108,14 +108,14 @@
       <div class="col-12 text-center">
         <div class="developer-card p-3 rounded bg-dark border border-secondary">
           <h6 class="text-warning mb-2">
-            <i class="bi bi-person-badge me-1"></i>Sviluppatore
+            <i class="bi bi-person-badge me-1"></i>{{ t('footer.developer') }}
           </h6>
           <p class="text-light-gray small mb-2">
             <strong>Fabrice Ghislain Tebou</strong><br>
             Full Stack Developer specializzato in Python/Flask<br>
             <i class="bi bi-envelope me-1"></i>ghislaintebou@gmail.com<br>
-            <i class="bi bi-telephone me-1"></i>+39 351 995 7025
-          </p>
+              <i class="bi bi-telephone me-1"></i>+39 351 995 7025
+            </p>
           <div class="contact-links">
             <a href="https://www.linkedin.com/in/fabrice-ghislain-tebou-72000b211" 
                target="_blank" 
@@ -133,7 +133,7 @@
             </a>
             <a href="tel:+393519957025" 
                class="btn btn-outline-warning btn-sm mb-2">
-              <i class="bi bi-telephone me-1"></i>Telefono
+              <i class="bi bi-telephone me-1"></i>{{ t('footer.phone') }}
             </a>
           </div>
         </div>
@@ -281,7 +281,7 @@
   // Aggiorna l'ora in tempo reale
   function updateTime() {
     const now = new Date();
-    const timeString = now.toLocaleTimeString('it-IT', { 
+    const timeString = now.toLocaleTimeString('{{ "it-IT" if current_language == "it" else "en-US" }}', { 
       hour: '2-digit', 
       minute: '2-digit' 
     });

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
-{% block title %}Chi siamo - GDR Web App{% endblock %}
+{% block title %}About Us - GDR Web App{% endblock %}
 
 <!-- BLOCCO CONTENUTO PRINCIPALE -->
 {% block content %}
@@ -10,17 +10,17 @@
 <section class="py-5 text-center bg-secondary border-bottom rounded-5 mb-4 mt-4 about-hero">
   <div class="container py-3">
     <!-- Titolo principale -->
-    <h1 class="display-5 fw-bold text-white mb-3">Chi siamo</h1>
+    <h1 class="display-5 fw-bold text-white mb-3">About Us</h1>
     <!-- Sottotitolo descrittivo -->
     <p class="lead text-white mb-4">
-      Un progetto nato durante il corso di formazione<br>
-      <span class="fw-semibold">"Programmatore e Sviluppatore Python"</span>
+      A project born during the training course<br>
+      <span class="fw-semibold">"Python Programmer and Developer"</span>
     </p>
     <!-- Badge corso -->
     <div class="mt-4">
       <span class="badge bg-light text-secondary px-3 py-2 fs-6">
         <i class="bi bi-mortarboard me-1"></i>
-        Progetto Formativo
+        Training Project
       </span>
     </div>
   </div>
@@ -43,7 +43,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-info-circle text-white"></i>
               </div>
-              <h3 class="h5 fw-semibold mb-0">Descrizione del progetto</h3>
+            <h3 class="h5 fw-semibold mb-0">Project Description</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -81,7 +81,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-target text-white"></i>
               </div>
-              <h3 class="h5 fw-semibold mb-0">Obiettivi formativi</h3>
+            <h3 class="h5 fw-semibold mb-0">Learning Goals</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -135,7 +135,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-people text-white"></i>
               </div>
-              <h3 class="h5 fw-semibold mb-0">Collaborazione e sviluppo</h3>
+            <h3 class="h5 fw-semibold mb-0">Collaboration and Development</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -170,7 +170,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-tools text-white"></i>
               </div>
-              <h3 class="h5 fw-semibold mb-0">Tecnologie e strumenti</h3>
+            <h3 class="h5 fw-semibold mb-0">Technologies and Tools</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -235,7 +235,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-heart text-white"></i>
               </div>
-              <h3 class="h5 fw-semibold mb-0">Note personali</h3>
+            <h3 class="h5 fw-semibold mb-0">Personal Notes</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -277,27 +277,27 @@
 
           <!-- SEZIONE PULSANTI DI NAVIGAZIONE -->
           <div class="text-center pt-4 border-top">
-            <h6 class="text-muted mb-3">Esplora il progetto</h6>
+            <h6 class="text-muted mb-3">Explore the project</h6>
             <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
               <!-- Pulsante primario -->
               <a href="{{ url_for('gioco.index') }}" 
                  class="btn btn-primary d-flex align-items-center justify-content-center">
                 <i class="bi bi-house me-2"></i>
-                Torna alla Home
+                Back to Home
               </a>
               
               <!-- Pulsante secondario -->
               <a href="{{ url_for('gioco.menu') }}" 
                  class="btn btn-outline-secondary d-flex align-items-center justify-content-center">
                 <i class="bi bi-joystick me-2"></i>
-                Vai al Menu Principale
+                Go to Main Menu
               </a>
               
               <!-- Pulsante guida (se esiste) -->
               <a href="{{ url_for('gioco.guide_game') }}" 
                  class="btn btn-outline-info d-flex align-items-center justify-content-center">
                 <i class="bi bi-book me-2"></i>
-                Guida al Gioco
+                Game Guide
               </a>
             </div>
             

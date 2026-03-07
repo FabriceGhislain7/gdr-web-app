@@ -1,7 +1,7 @@
-{% extends "layout.html" %}
+﻿{% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
-{% block title %}Menu iniziale{% endblock %}
+{% block title %}Main Menu{% endblock %}
 
 <!-- BLOCCO CONTENUTO PRINCIPALE -->
 {% block content %}
@@ -11,16 +11,16 @@
   <div class="container py-3">
     <h1 class="display-4 fw-bold mb-3 fade-in hero-title">
       <i class="bi bi-joystick me-3"></i>
-      Menu Principale
+      Main Menu
     </h1>
     <p class="lead fade-in-delay hero-subtitle mb-4">
-      Benvenuto nel mondo del GDR! Scegli una sezione per iniziare la tua avventura.
+      Welcome to the world of GDR! Choose a section to begin your adventure.
     </p>
     <!-- Badge informativo -->
     <div class="mt-4">
       <span class="badge bg-white text-primary px-4 py-3 fs-5 border border-warning">
         <i class="bi bi-person-circle me-2"></i>
-        Benvenuto, {{ current_user.nome }}!
+        Welcome, {{ current_user.nome }}!
       </span>
     </div>
   </div>
@@ -30,7 +30,7 @@
 <!-- PULSANTI PRINCIPALI DI NAVIGAZIONE -->
 <div class="container mb-5">
   <div class="row g-4">
-    <!-- Pulsante Area Personale -->
+    <!-- Pulsante Personal Area -->
     <div class="col-12 col-md-6">
       <button 
         id="btn-area" 
@@ -39,14 +39,14 @@
       >
         <i class="bi bi-person-circle me-2 h4 mb-0"></i>
         <div class="d-flex flex-column">
-          <span class="fw-bold h5 mb-1">Area Personale</span>
-          <small class="opacity-75">Gestisci profilo e personaggi</small>
+          <span class="fw-bold h5 mb-1">Personal Area</span>
+          <small class="opacity-75">Manage profile and characters</small>
         </div>
         <div class="button-shine"></div>
       </button>
     </div>
 
-    <!-- Pulsante Modalità di Gioco -->
+    <!-- Pulsante Game Mode -->
     <div class="col-12 col-md-6">
       <button 
         id="btn-gioco" 
@@ -55,8 +55,8 @@
       >
         <i class="bi bi-controller me-2 h4 mb-0"></i>
         <div class="d-flex flex-column">
-          <span class="fw-bold h5 mb-1">Modalità di Gioco</span>
-          <small class="opacity-75">Missioni, battaglie e avventure</small>
+          <span class="fw-bold h5 mb-1">Game Mode</span>
+          <small class="opacity-75">Missions, battles and adventures</small>
         </div>
         <div class="button-shine"></div>
       </button>
@@ -65,14 +65,14 @@
 </div>
 <!-- FINE PULSANTI PRINCIPALI -->
 
-<!-- SEZIONE: AREA PERSONALE -->
+<!-- SEZIONE: Personal Area -->
 <div class="container mt-5 section-block" id="area-personale" style="display: none;">
   <div class="text-center mb-5">
     <h2 class="text-fantasy-blue section-title mb-3">
       <i class="bi bi-person-badge me-2"></i>
-      Area Personale
+      Personal Area
     </h2>
-    <p class="text-muted">Gestisci il tuo account, i crediti e i personaggi</p>
+    <p class="text-muted">Manage your account, credits and characters</p>
   </div>
   
   <div class="row g-4">
@@ -115,7 +115,7 @@
               data-bs-toggle="modal" 
               data-bs-target="#deleteModal"
             >
-              <i class="bi bi-trash3 me-2"></i>Elimina Account
+              <i class="bi bi-trash3 me-2"></i>Delete Account
             </button>
           </div>
         </div>
@@ -164,7 +164,7 @@
               <i class="bi bi-person-plus me-2"></i>Crea Personaggio
             </a>
             <a href="{{ url_for('characters.show_chars') }}" class="btn btn-outline-fantasy-blue">
-              <i class="bi bi-people-fill me-2"></i>Gestisci Party
+              <i class="bi bi-people-fill me-2"></i>Manage Party
             </a>
           </div>
         </div>
@@ -172,14 +172,14 @@
     </div>
   </div>
 </div>
-<!-- FINE AREA PERSONALE -->
+<!-- FINE Personal Area -->
 
-<!-- SEZIONE: MODALITÀ DI GIOCO -->
+<!-- SEZIONE: MODALITÃ€ DI GIOCO -->
 <div class="container mt-5 section-block" id="modalita-gioco" style="display: none;">
   <div class="text-center mb-5">
     <h2 class="text-fantasy-crimson section-title mb-3">
       <i class="bi bi-dice-6 me-2"></i>
-      Modalità di Gioco
+      Game Mode
     </h2>
     <p class="text-muted">Esplora mondi fantastici, affronta missioni epiche e combatti nemici leggendari</p>
   </div>
@@ -194,7 +194,7 @@
         <div class="card-body p-4">
           <h5 class="card-title text-dark-blue mb-3">Esplorazione</h5>
           <p class="card-text text-muted small mb-4">
-            Scegli le tue missioni e esplora ambienti pieni di pericoli e tesori
+            Choose your missions and explore environments full of danger and treasure
           </p>
           
           <!-- Ambienti disponibili -->
@@ -224,13 +224,13 @@
           
           <div class="d-grid gap-2">
             <a href="{{ url_for('mission.select_mission') }}" class="btn btn-fantasy-purple">
-              <i class="bi bi-flag me-2"></i>Inizia Missione
+              <i class="bi bi-flag me-2"></i>Start Mission
             </a>
             <a href="{{ url_for('environment.select_environment') }}" class="btn btn-fantasy-emerald">
-              <i class="bi bi-globe me-2"></i>Scegli Ambiente
+              <i class="bi bi-globe me-2"></i>Choose Environment
             </a>
             <a href="{{ url_for('environment.show_environment') }}" class="btn btn-outline-fantasy-emerald">
-              <i class="bi bi-eye me-2"></i>Esplora Ambiente
+              <i class="bi bi-eye me-2"></i>Explore Environment
             </a>
           </div>
         </div>
@@ -246,7 +246,7 @@
         <div class="card-body p-4">
           <h5 class="card-title text-dark-blue mb-3">Combattimento</h5>
           <p class="card-text text-muted small mb-4">
-            Gestisci il tuo inventario e preparati per battaglie epiche
+            Manage your inventory and prepare for epic battles
           </p>
           
           <!-- Oggetti disponibili -->
@@ -276,10 +276,10 @@
           
           <div class="d-grid gap-2">
             <a href="{{ url_for('inventory.inventory') }}" class="btn btn-fantasy-emerald">
-              <i class="bi bi-backpack me-2"></i>Gestisci Inventario
+              <i class="bi bi-backpack me-2"></i>Manage Inventory
             </a>
             <a href="{{ url_for('battle.begin_battle') }}" class="btn btn-fantasy-dark">
-              <i class="bi bi-sword me-2"></i>Inizia Battaglia
+              <i class="bi bi-sword me-2"></i>Start Battle
             </a>
           </div>
         </div>
@@ -287,7 +287,7 @@
     </div>
   </div>
 </div>
-<!-- FINE MODALITÀ GIOCO -->
+<!-- FINE MODALITÃ€ GIOCO -->
 
 <!-- MODAL DI CONFERMA ELIMINAZIONE -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -296,34 +296,34 @@
       <div class="modal-header border-0 d-block position-relative bg-fantasy-crimson text-white">
         <h5 class="modal-title">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Conferma Eliminazione Account
+          Confirm Account Deletion
         </h5>
         <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Chiudi"></button>
       </div>
       <div class="modal-body py-4">
         <i class="bi bi-person-x display-1 text-fantasy-crimson mb-3"></i>
-        <h6 class="fw-bold mb-3">Sei sicuro di voler eliminare il tuo account?</h6>
+        <h6 class="fw-bold mb-3">Are you sure you want to delete your account?</h6>
         <div class="alert alert-warning border-0">
           <div class="d-flex align-items-start">
             <i class="bi bi-exclamation-triangle text-warning me-2 mt-1"></i>
             <div class="text-start">
-              <strong>Attenzione:</strong> Questa operazione eliminerà:
+              <strong>Warning:</strong> This action will remove:
               <ul class="mb-0 mt-2">
-                <li>Il tuo profilo utente</li>
-                <li>Tutti i tuoi personaggi</li>
-                <li>I progressi e i crediti</li>
+                <li>Your user profile</li>
+                <li>All your characters</li>
+                <li>Progress and credits</li>
               </ul>
             </div>
           </div>
         </div>
-        <p class="text-muted small mb-0">Questa operazione <strong>non può essere annullata</strong>.</p>
+        <p class="text-muted small mb-0">Questa operazione <strong>non puÃ² essere Cancelta</strong>.</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
         <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
-          <i class="bi bi-x-circle me-2"></i>Annulla
+          <i class="bi bi-x-circle me-2"></i>Cancel
         </button>
         <a href="{{ url_for('auth.delete_user', id=current_user.id) }}" class="btn btn-fantasy-crimson">
-          <i class="bi bi-trash3 me-2"></i>Elimina Definitivamente
+          <i class="bi bi-trash3 me-2"></i>Delete Permanently
         </a>
       </div>
     </div>
@@ -721,9 +721,9 @@
 // ============================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎮 Menu inizializzato'); 
+    console.log('ðŸŽ® Menu inizializzato'); 
     initMenuEffects();
-    console.log('✅ Menu pronto per l\'interazione utente');
+    console.log('âœ… Menu pronto per l\'interazione utente');
 });
 
 /**
@@ -731,7 +731,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * @param {string} sectionId - ID della sezione da mostrare
  */
 function showSection(sectionId) {
-    console.log(`🎯 Mostrando sezione: ${sectionId}`);
+    console.log(`ðŸŽ¯ Mostrando sezione: ${sectionId}`);
     
     const sections = ['area-personale', 'modalita-gioco'];
     const buttons = {
@@ -832,14 +832,14 @@ function showSection(sectionId) {
         });
     }
 
-    console.log(`✅ Sezione ${sectionId} mostrata con successo`);
+    console.log(`âœ… Sezione ${sectionId} mostrata con successo`);
 }
 
 /**
  * Inizializza gli effetti e interazioni del menu
  */
 function initMenuEffects() {
-    console.log('🎨 Inizializzando effetti menu...');
+    console.log('ðŸŽ¨ Inizializzando effetti menu...');
 
     // Effetti hover sulle game cards
     const gameCards = document.querySelectorAll('.game-card');
@@ -913,7 +913,7 @@ function initMenuEffects() {
     // Animazione contatori
     animateCounters();
 
-    console.log('✅ Effetti menu inizializzati');
+    console.log('âœ… Effetti menu inizializzati');
 }
 
 /**
@@ -993,10 +993,13 @@ function showNotification(message, type = 'info') {
 window.showSection = showSection;
 window.showNotification = showNotification;
 
-console.log('🚀 Menu JavaScript caricato completamente');
+console.log('ðŸš€ Menu JavaScript caricato completamente');
 
 // ============================================================================
 // FINE JAVASCRIPT
 // ============================================================================
 </script>
 {% endblock %}
+
+
+

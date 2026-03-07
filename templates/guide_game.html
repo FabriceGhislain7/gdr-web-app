@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
-{% block title %}Guida al Gioco - GDR Web App{% endblock %}
+{% block title %}Game Guide - GDR Web App{% endblock %}
 
 <!-- BLOCCO CONTENUTO PRINCIPALE -->
 {% block content %}
@@ -12,18 +12,18 @@
     <!-- Titolo principale -->
     <h1 class="display-5 fw-bold mb-3">
       <i class="bi bi-book me-3"></i>
-      Guida al Gioco
+      Game Guide
     </h1>
     <!-- Sottotitolo descrittivo -->
     <p class="lead mb-4">
-      Scopri come giocare al GDR Web App:<br>
-      dalla creazione del personaggio alla vittoria finale!
+      Discover how to play GDR Web App:<br>
+      from character creation to final victory!
     </p>
     <!-- Badge informativo -->
     <div class="mt-4">
       <span class="badge bg-light text-primary px-3 py-2 fs-6">
         <i class="bi bi-controller me-1"></i>
-        Guida Completa
+        Complete Guide
       </span>
     </div>
   </div>
@@ -43,7 +43,7 @@
                  style="width: 40px; height: 40px;">
               <i class="bi bi-list-ul text-white"></i>
             </div>
-            <h3 class="h5 fw-semibold mb-0">Indice della Guida</h3>
+            <h3 class="h5 fw-semibold mb-0">Guide Index</h3>
           </div>
           
           <div class="row g-2">
@@ -51,7 +51,7 @@
               <a href="#introduzione" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-info-circle text-primary me-2"></i>
-                  <span>Introduzione</span>
+                  <span>Introduction</span>
                 </div>
               </a>
             </div>
@@ -59,7 +59,7 @@
               <a href="#personaggio" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-person-plus text-primary me-2"></i>
-                  <span>Creazione Personaggio</span>
+                  <span>Character Creation</span>
                 </div>
               </a>
             </div>
@@ -67,7 +67,7 @@
               <a href="#inventario" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-bag text-primary me-2"></i>
-                  <span>Inventario e Oggetti</span>
+                  <span>Inventory and Items</span>
                 </div>
               </a>
             </div>
@@ -75,7 +75,7 @@
               <a href="#ambienti" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-globe text-primary me-2"></i>
-                  <span>Ambienti</span>
+                  <span>Environments</span>
                 </div>
               </a>
             </div>
@@ -83,7 +83,7 @@
               <a href="#missioni" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-flag text-primary me-2"></i>
-                  <span>Missioni e Combattimenti</span>
+                  <span>Missions and Battles</span>
                 </div>
               </a>
             </div>
@@ -91,7 +91,7 @@
               <a href="#strategia" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-lightbulb text-primary me-2"></i>
-                  <span>Strategia di Gioco</span>
+                  <span>Game Strategy</span>
                 </div>
               </a>
             </div>
@@ -789,14 +789,14 @@
           <a href="{{ url_for('gioco.index') }}" 
              class="btn btn-primary d-flex align-items-center justify-content-center">
             <i class="bi bi-house me-2"></i>
-            Torna alla Home
+            Back to Home
           </a>
           
           <!-- Pulsante gioca -->
           <a href="{{ url_for('gioco.menu') }}" 
              class="btn btn-success d-flex align-items-center justify-content-center">
             <i class="bi bi-play-circle me-2"></i>
-            Inizia a Giocare
+            Start Playing
           </a>
           
           <!-- Pulsante about -->

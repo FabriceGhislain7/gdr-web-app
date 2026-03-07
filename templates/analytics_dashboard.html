@@ -9,17 +9,17 @@
         <i class="bi bi-graph-up-arrow me-2"></i>Data Analyst Dashboard
       </h1>
       <p class="text-light mb-0">
-        Insight su comportamento giocatori, engagement, business e qualita tecnica.
+        Insights on player behavior, engagement, business and technical quality.
       </p>
     </div>
     <div class="action-panel">
       <a href="{{ url_for('statistics.analytics_data_analyst', refresh=1) }}" class="btn btn-analyst-refresh">
         <i class="bi bi-arrow-repeat me-1"></i>Refresh
       </a>
-      <a href="#satisfaction-section" class="btn btn-analyst-chip"><i class="bi bi-emoji-smile me-1"></i>Soddisfazione</a>
+      <a href="#satisfaction-section" class="btn btn-analyst-chip"><i class="bi bi-emoji-smile me-1"></i>Satisfaction</a>
       <a href="#engagement-section" class="btn btn-analyst-chip"><i class="bi bi-lightning-charge me-1"></i>Engagement</a>
       <a href="#business-section" class="btn btn-analyst-chip"><i class="bi bi-cash-coin me-1"></i>Business</a>
-      <a href="#tech-section" class="btn btn-analyst-chip"><i class="bi bi-cpu me-1"></i>Stabilita</a>
+      <a href="#tech-section" class="btn btn-analyst-chip"><i class="bi bi-cpu me-1"></i>Stability</a>
     </div>
   </div>
 </section>
@@ -27,65 +27,65 @@
 <div class="card border-0 shadow-sm mb-4">
   <div class="card-body">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-      <h6 class="mb-0"><i class="bi bi-funnel me-1"></i>Filtri Live</h6>
+      <h6 class="mb-0"><i class="bi bi-funnel me-1"></i>Live Filters</h6>
       <small id="filterMeta" class="text-muted"></small>
     </div>
     <div class="row g-2">
       <div class="col-md-3">
         <select id="filterClasse" class="form-select form-select-sm">
-          <option value="">Classe (tutte)</option>
+          <option value="">Class (all)</option>
           {% for v in filter_options.classe_personaggio %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
         </select>
       </div>
       <div class="col-md-2">
         <select id="filterGenere" class="form-select form-select-sm">
-          <option value="">Genere (tutti)</option>
+          <option value="">Gender (all)</option>
           {% for v in filter_options.genere %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
         </select>
       </div>
       <div class="col-md-3">
         <select id="filterPaese" class="form-select form-select-sm">
-          <option value="">Paese (tutti)</option>
+          <option value="">Country (all)</option>
           {% for v in filter_options.paese %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
         </select>
       </div>
       <div class="col-md-2">
         <select id="filterDevice" class="form-select form-select-sm">
-          <option value="">Device (tutti)</option>
+          <option value="">Device (all)</option>
           {% for v in filter_options.tipo_dispositivo %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
         </select>
       </div>
       <div class="col-md-2">
         <select id="filterCluster" class="form-select form-select-sm">
-          <option value="">Cluster (tutti)</option>
+          <option value="">Cluster (all)</option>
           {% for v in filter_options.cluster_comportamentale %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
         </select>
       </div>
     </div>
     <div class="mt-2 d-flex gap-2">
-      <button id="applyFilters" class="btn btn-sm btn-dark">Applica</button>
+      <button id="applyFilters" class="btn btn-sm btn-dark">Apply</button>
       <button id="resetFilters" class="btn btn-sm btn-outline-secondary">Reset</button>
     </div>
   </div>
 </div>
 
 <div class="row g-3 mb-4">
-  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Giocatori Totali</div><div class="kpi-value" id="kpiPlayers">{{ analytics.kpis.total_players }}</div></div></div>
-  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Ore Totali Giocate</div><div class="kpi-value" id="kpiHours">{{ analytics.kpis.total_playtime_hours }}</div></div></div>
-  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Win Rate Globale</div><div class="kpi-value" id="kpiWinrate">{{ analytics.kpis.win_rate }}%</div></div></div>
-  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Revenue Mensile</div><div class="kpi-value" id="kpiRevenue">EUR {{ analytics.kpis.monthly_revenue }}</div></div></div>
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Total Players</div><div class="kpi-value" id="kpiPlayers">{{ analytics.kpis.total_players }}</div></div></div>
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Total Playtime Hours</div><div class="kpi-value" id="kpiHours">{{ analytics.kpis.total_playtime_hours }}</div></div></div>
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Global Win Rate</div><div class="kpi-value" id="kpiWinrate">{{ analytics.kpis.win_rate }}%</div></div></div>
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Monthly Revenue</div><div class="kpi-value" id="kpiRevenue">EUR {{ analytics.kpis.monthly_revenue }}</div></div></div>
 </div>
 
 <div class="row g-3 mb-4">
   <div class="col-md-6 col-xl-3"><div class="mini-card"><span>ARPU</span><strong id="kpiArpu">EUR {{ analytics.kpis.arpu }}</strong></div></div>
   <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Subscriber Rate</span><strong id="kpiSubs">{{ analytics.kpis.subscriber_rate }}%</strong></div></div>
-  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Sessione Media</span><strong id="kpiSession">{{ analytics.kpis.avg_session_minutes }} min</strong></div></div>
-  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Soddisfazione Media</span><strong id="kpiSat">{{ analytics.kpis.avg_satisfaction }}/10</strong></div></div>
+  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Average Session</span><strong id="kpiSession">{{ analytics.kpis.avg_session_minutes }} min</strong></div></div>
+  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Average Satisfaction</span><strong id="kpiSat">{{ analytics.kpis.avg_satisfaction }}/10</strong></div></div>
 </div>
 
 <div id="alertsWrap" class="card border-0 shadow-sm mb-4 {% if not analytics.alerts %}d-none{% endif %}">
   <div class="card-body">
-    <h5 class="mb-3"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Alert Strategici</h5>
+    <h5 class="mb-3"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Strategic Alerts</h5>
     <ul id="alertsList" class="mb-0">
       {% for alert in analytics.alerts %}<li>{{ alert }}</li>{% endfor %}
     </ul>
@@ -93,48 +93,48 @@
 </div>
 
 <div id="engagement-section" class="row g-3 mb-4">
-  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Distribuzione Classi</h6><canvas id="classChart"></canvas></div></div></div>
-  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Cluster Comportamentali</h6><canvas id="clusterChart"></canvas></div></div></div>
-  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Dispositivi Usati</h6><canvas id="deviceChart"></canvas></div></div></div>
-  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Canali di Acquisizione</h6><canvas id="acqChart"></canvas></div></div></div>
-  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Giorno Piu Attivo</h6><canvas id="dayChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Class Distribution</h6><canvas id="classChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Behavioral Clusters</h6><canvas id="clusterChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Device Distribution</h6><canvas id="deviceChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Acquisition Channels</h6><canvas id="acqChart"></canvas></div></div></div>
+  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Most Active Day</h6><canvas id="dayChart"></canvas></div></div></div>
 </div>
 
 <div id="satisfaction-section" class="row g-3 mb-4">
-  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Soddisfazione: Distribuzione Fasce</h6><canvas id="satBandChart"></canvas></div></div></div>
-  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Soddisfazione Media per Classe</h6><canvas id="satClassChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Satisfaction Distribution</h6><canvas id="satBandChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Average Satisfaction by Class</h6><canvas id="satClassChart"></canvas></div></div></div>
 </div>
 
 <div id="business-section" class="row g-3 mb-4">
-  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Spesa Media Mensile per Cluster</h6><canvas id="spendClusterChart"></canvas></div></div></div>
+  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Average Monthly Spend by Cluster</h6><canvas id="spendClusterChart"></canvas></div></div></div>
 </div>
 
 <div id="tech-section" class="row g-3 mb-4">
-  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Crash Medi per Dispositivo</h6><canvas id="crashDeviceChart"></canvas></div></div></div>
+  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Average Crashes by Device</h6><canvas id="crashDeviceChart"></canvas></div></div></div>
 </div>
 
 <div class="row g-3 mb-5">
   <div class="col-xl-4">
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body">
-        <h6>Top 10 per Ore di Gioco</h6>
-        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Nome</th><th>Classe</th><th>Ore</th></tr></thead><tbody id="tablePlaytime">{% for p in analytics.tables.top_playtime %}<tr><td>{{ p.nome }}</td><td>{{ p.classe }}</td><td>{{ p.ore }}</td></tr>{% endfor %}</tbody></table></div>
+        <h6>Top 10 by Playtime</h6>
+        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Name</th><th>Class</th><th>Hours</th></tr></thead><tbody id="tablePlaytime">{% for p in analytics.tables.top_playtime %}<tr><td>{{ p.nome }}</td><td>{{ p.classe }}</td><td>{{ p.ore }}</td></tr>{% endfor %}</tbody></table></div>
       </div>
     </div>
   </div>
   <div class="col-xl-4">
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body">
-        <h6>Top 10 Spender</h6>
-        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Nome</th><th>Spesa</th><th>Abbonato</th></tr></thead><tbody id="tableSpenders">{% for p in analytics.tables.top_spenders %}<tr><td>{{ p.nome }}</td><td>EUR {{ p.spesa_mensile }}</td><td>{{ p.abbonato }}</td></tr>{% endfor %}</tbody></table></div>
+        <h6>Top 10 Spenders</h6>
+        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Name</th><th>Spend</th><th>Subscriber</th></tr></thead><tbody id="tableSpenders">{% for p in analytics.tables.top_spenders %}<tr><td>{{ p.nome }}</td><td>EUR {{ p.spesa_mensile }}</td><td>{{ p.abbonato }}</td></tr>{% endfor %}</tbody></table></div>
       </div>
     </div>
   </div>
   <div class="col-xl-4">
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body">
-        <h6>Utenti a Rischio Churn</h6>
-        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Nome</th><th>Sodd.</th><th>Crash</th></tr></thead><tbody id="tableRisk">{% for p in analytics.tables.high_risk_users %}<tr><td>{{ p.nome }}</td><td>{{ p.soddisfazione }}</td><td>{{ p.crash }}</td></tr>{% else %}<tr><td colspan="3" class="text-muted">Nessun rischio elevato rilevato.</td></tr>{% endfor %}</tbody></table></div>
+        <h6>Users at Churn Risk</h6>
+        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Name</th><th>Sat.</th><th>Crash</th></tr></thead><tbody id="tableRisk">{% for p in analytics.tables.high_risk_users %}<tr><td>{{ p.nome }}</td><td>{{ p.soddisfazione }}</td><td>{{ p.crash }}</td></tr>{% else %}<tr><td colspan="3" class="text-muted">No high-risk users detected.</td></tr>{% endfor %}</tbody></table></div>
       </div>
     </div>
   </div>
@@ -219,7 +219,7 @@
     const risk = payload.tables.high_risk_users || [];
     document.getElementById('tablePlaytime').innerHTML = playtime.map(p => `<tr><td>${p.nome}</td><td>${p.classe}</td><td>${p.ore}</td></tr>`).join('');
     document.getElementById('tableSpenders').innerHTML = spenders.map(p => `<tr><td>${p.nome}</td><td>EUR ${p.spesa_mensile}</td><td>${p.abbonato}</td></tr>`).join('');
-    document.getElementById('tableRisk').innerHTML = risk.length ? risk.map(p => `<tr><td>${p.nome}</td><td>${p.soddisfazione}</td><td>${p.crash}</td></tr>`).join('') : `<tr><td colspan="3" class="text-muted">Nessun rischio elevato rilevato.</td></tr>`;
+    document.getElementById('tableRisk').innerHTML = risk.length ? risk.map(p => `<tr><td>${p.nome}</td><td>${p.soddisfazione}</td><td>${p.crash}</td></tr>`).join('') : `<tr><td colspan="3" class="text-muted">No high-risk users detected.</td></tr>`;
   }
   function renderAlerts(payload) {
     const wrap = document.getElementById('alertsWrap');
@@ -255,7 +255,7 @@
   function renderAll(payload) {
     renderKpis(payload); renderAlerts(payload); renderTables(payload); renderCharts(payload);
     const metaEl = document.getElementById('filterMeta');
-    if (payload.meta) metaEl.textContent = `Mostrati ${payload.meta.filtered_count} su ${payload.meta.total_count} giocatori`;
+    if (payload.meta) metaEl.textContent = `Showing ${payload.meta.filtered_count} of ${payload.meta.total_count} players`;
     else metaEl.textContent = '';
   }
 
