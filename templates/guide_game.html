@@ -7,7 +7,7 @@
 {% block content %}
 
 <!-- SEZIONE HERO/INTESTAZIONE -->
-<section class="py-5 text-center bg-primary text-white rounded-4 shadow-sm mb-4 mt-4">
+<section class="py-5 text-center bg-primary text-white rounded-4 shadow-sm mb-4 mt-4 guide-hero">
   <div class="container py-3">
     <!-- Titolo principale -->
     <h1 class="display-5 fw-bold mb-3">
@@ -33,7 +33,7 @@
 <!-- SEZIONE CONTENUTO PRINCIPALE -->
 <div class="container pb-5">
   <div class="row justify-content-center">
-    <div class="col-lg-10">
+    <div class="col-lg-10 col-xl-9">
 
       <!-- INDICE NAVIGABILE -->
       <div class="card border-0 shadow-sm mb-5">
@@ -823,6 +823,67 @@
 </div>
 <!-- FINE SEZIONE CONTENUTO -->
 
+{% endblock %}
+
+{% block head %}
+<style>
+  .guide-hero {
+    background: linear-gradient(130deg, #1f2937 0%, #334155 45%, #0f766e 100%) !important;
+    border: 1px solid rgba(255, 193, 7, 0.22);
+  }
+
+  .guide-hero h1,
+  .guide-hero p {
+    color: #ffffff !important;
+  }
+
+  #introduzione,
+  #personaggio,
+  #inventario,
+  #ambienti,
+  #missioni,
+  #strategia,
+  #conclusione {
+    scroll-margin-top: 110px;
+    margin-bottom: 4rem !important;
+  }
+
+  .guide-game .card,
+  .container .card {
+    border-radius: 0.95rem;
+  }
+
+  .guide-game .card-body,
+  .container .card-body {
+    padding: 1.25rem;
+  }
+
+  .container .h4 {
+    line-height: 1.25;
+  }
+
+  .container p,
+  .container li,
+  .container small {
+    line-height: 1.6;
+  }
+
+  @media (min-width: 1200px) {
+    .guide-hero .display-5 {
+      font-size: 2.6rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .guide-hero .display-5 {
+      font-size: 2rem;
+    }
+
+    .guide-hero .lead {
+      font-size: 1rem;
+    }
+  }
+</style>
 {% endblock %}
 
 <!-- BLOCCO SCRIPTS PERSONALIZZATI -->

@@ -1,0 +1,66 @@
+{
+    "id": "292c816f-3e3f-4c79-9f4a-4ea4dbe0e2d1",
+    "nome": "Imboscata",
+    "ambiente": {
+        "classe": "Foresta",
+        "nome": "Foresta",
+        "mod_attacco": 5,
+        "mod_cura": 5.5
+    },
+    "nemici": [
+        {
+            "classe": "Guerriero",
+            "id": "8c1dfb36-6eae-4c7d-a6f9-2f0b9e8edc96",
+            "nome": "Robin Hood",
+            "npc": true,
+            "salute_max": 130,
+            "salute": 130,
+            "attacco_min": 20,
+            "attacco_max": 100,
+            "livello": 1,
+            "destrezza": 15,
+            "storico_danni_subiti": []
+        },
+        {
+            "classe": "Guerriero",
+            "id": "5d9db649-b9a7-43f2-aec4-b65a372645fc",
+            "nome": "Little John",
+            "npc": true,
+            "salute_max": 130,
+            "salute": 130,
+            "attacco_min": 20,
+            "attacco_max": 100,
+            "livello": 1,
+            "destrezza": 15,
+            "storico_danni_subiti": []
+        }
+    ],
+    "premi": [
+        {
+            "id": "7e2b1c8a-2e3d-4b7a-9e2a-1c3f4b5d6e7f",
+            "nome": "Pozione Rossa",
+            "valore": 30,
+            "classe": "PozioneCura",
+            "tipo_oggetto": "Ristorativo"
+        },
+        {
+            "id": "2a4c5e6f-7b8d-4c9e-8f1a-2b3c4d5e6f7a",
+            "nome": "Pozione Rossa",
+            "valore": 30,
+            "classe": "PozioneCura",
+            "tipo_oggetto": "Ristorativo"
+        },
+        {
+            "id": "9f8e7d6c-5b4a-3c2d-1e0f-9a8b7c6d5e4f",
+            "nome": "Bomba Acida",
+            "valore": 30,
+            "classe": "BombaAcida",
+            "tipo_oggetto": "Offensivo"
+        }
+    ],
+    "strategia_nemici": {
+        "nome": "equilibrata"
+    },
+    "completata": false,
+    "attiva": false
+}

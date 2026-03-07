@@ -46,8 +46,8 @@
 
         {% if current_user.is_authenticated and current_user.is_team_member_developer() %}
         <li class="nav-item">
-          <a class="nav-link fantasy-nav-link {% if request.endpoint == 'statistics.analytics_dashboard' %}active{% endif %}" href="{{ url_for('statistics.analytics_dashboard') }}">
-            <i class="bi bi-graph-up-arrow me-1"></i>Analytics Dashboard
+          <a class="nav-link fantasy-nav-link {% if request.endpoint in ['statistics.analytics_dashboard', 'statistics.analytics_data_analyst'] %}active{% endif %}" href="{{ url_for('statistics.analytics_data_analyst') }}">
+            <i class="bi bi-graph-up-arrow me-1"></i>Data Analyst
           </a>
         </li>
         {% endif %}

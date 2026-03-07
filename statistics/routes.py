@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, session, redirect, url_for
-from flask_login import current_user
+from flask import Blueprint, render_template, session, redirect, url_for, request, flash, jsonify
+from flask_login import current_user, login_required
 from . import statistics_bp
 import os
 import json
+import csv
+from functools import lru_cache
 from config import DATA_DIR_SAVE, DATA_DIR_PGS, load_leaderboard
 
 template_dir = os.path.abspath(
@@ -29,6 +31,11 @@ def show_statistics():
         key=lambda x: x[1]['punteggio'],
         reverse=True
         )
+    # Mostra in classifica solo utenti che hanno realmente giocato almeno una partita
+    users_stats_sorted = [
+        item for item in users_stats_sorted
+        if int(item[1].get('partite_giocate', 0)) > 0
+    ]
     if current_user.is_authenticated:
         has_personaggi = False
         has_missioni = False
@@ -73,4 +80,297 @@ def show_statistics():
 
 @statistics_bp.route('/analytics_dashboard')
 def analytics_dashboard():
-    return redirect(url_for('gioco.coming_soon_session'))
+    return redirect(url_for('statistics.analytics_data_analyst'))
+
+
+def _to_float(value, default=0.0):
+    try:
+        if value is None or value == "":
+            return default
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _to_int(value, default=0):
+    try:
+        if value is None or value == "":
+            return default
+        return int(float(value))
+    except (TypeError, ValueError):
+        return default
+
+
+def _percentage(numerator, denominator):
+    if denominator <= 0:
+        return 0.0
+    return round((numerator / denominator) * 100, 2)
+
+
+@lru_cache(maxsize=1)
+def _load_dataset_rows(dataset_path):
+    with open(dataset_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return list(reader)
+
+
+def _filter_rows(rows, filters):
+    filtered = []
+    for row in rows:
+        keep = True
+        for key, value in filters.items():
+            if not value:
+                continue
+            if str(row.get(key, "")).strip().lower() != str(value).strip().lower():
+                keep = False
+                break
+        if keep:
+            filtered.append(row)
+    return filtered
+
+
+def _build_filter_options(rows):
+    def uniq(field):
+        return sorted({(r.get(field) or "").strip() for r in rows if (r.get(field) or "").strip()})
+    return {
+        "classe_personaggio": uniq("classe_personaggio"),
+        "genere": uniq("genere"),
+        "paese": uniq("paese"),
+        "tipo_dispositivo": uniq("tipo_dispositivo"),
+        "cluster_comportamentale": uniq("cluster_comportamentale")
+    }
+
+
+def _build_analytics_payload_from_rows(rows):
+    total_players = len(rows)
+    if total_players == 0:
+        return {
+            "kpis": {},
+            "charts": {},
+            "tables": {},
+            "alerts": []
+        }
+
+    total_playtime_minutes = sum(_to_float(r.get("tempo_totale_giocato")) for r in rows)
+    total_playtime_hours = round(total_playtime_minutes / 60, 1)
+    avg_playtime_hours = round((total_playtime_minutes / total_players) / 60, 2)
+
+    total_battles = sum(_to_int(r.get("numero_battaglie")) for r in rows)
+    total_wins = sum(_to_int(r.get("numero_vittorie")) for r in rows)
+    total_losses = sum(_to_int(r.get("numero_sconfitte")) for r in rows)
+    win_rate = _percentage(total_wins, max(total_wins + total_losses, 1))
+
+    avg_session_minutes = round(
+        sum(_to_float(r.get("durata_media_sessione")) for r in rows) / total_players, 2
+    )
+    avg_daily_sessions = round(
+        sum(_to_float(r.get("sessioni_giornaliere_medie")) for r in rows) / total_players, 2
+    )
+
+    total_monthly_revenue = round(sum(_to_float(r.get("spesa_mensile")) for r in rows), 2)
+    arpu = round(total_monthly_revenue / total_players, 2)
+    subscribers = sum(1 for r in rows if _to_int(r.get("abbonamento_attivo")) == 1)
+    subscriber_rate = _percentage(subscribers, total_players)
+
+    avg_crash = round(sum(_to_float(r.get("numero_crash")) for r in rows) / total_players, 2)
+    avg_bug = round(sum(_to_float(r.get("bug_rilevati")) for r in rows) / total_players, 2)
+    avg_latency = round(sum(_to_float(r.get("latency_media")) for r in rows) / total_players, 2)
+    avg_satisfaction = round(sum(_to_float(r.get("soddisfazione")) for r in rows) / total_players, 2)
+
+    def _group_count(field_name, top_n=8):
+        counts = {}
+        for row in rows:
+            key = row.get(field_name) or "Sconosciuto"
+            counts[key] = counts.get(key, 0) + 1
+        ordered = sorted(counts.items(), key=lambda x: x[1], reverse=True)[:top_n]
+        return {
+            "labels": [k for k, _ in ordered],
+            "values": [v for _, v in ordered]
+        }
+
+    def _group_avg(group_field, value_field, top_n=8):
+        sums = {}
+        counts = {}
+        for row in rows:
+            key = row.get(group_field) or "Sconosciuto"
+            sums[key] = sums.get(key, 0.0) + _to_float(row.get(value_field))
+            counts[key] = counts.get(key, 0) + 1
+        avg_items = []
+        for key in sums:
+            avg_items.append((key, round(sums[key] / max(counts[key], 1), 2)))
+        ordered = sorted(avg_items, key=lambda x: x[1], reverse=True)[:top_n]
+        return {
+            "labels": [k for k, _ in ordered],
+            "values": [v for _, v in ordered]
+        }
+
+    class_distribution = _group_count("classe_personaggio", top_n=10)
+    cluster_distribution = _group_count("cluster_comportamentale", top_n=10)
+    device_distribution = _group_count("tipo_dispositivo", top_n=10)
+    acquisition_distribution = _group_count("canale_acquisizione", top_n=10)
+    active_day_distribution = _group_count("giorno_settimana_attivo", top_n=7)
+    satisfaction_by_class = _group_avg("classe_personaggio", "soddisfazione", top_n=10)
+    spend_by_cluster = _group_avg("cluster_comportamentale", "spesa_mensile", top_n=10)
+    crash_by_device = _group_avg("tipo_dispositivo", "numero_crash", top_n=10)
+
+    sat_band_counts = {
+        "Bassa (1-3)": 0,
+        "Media (4-6)": 0,
+        "Alta (7-8)": 0,
+        "Molto Alta (9-10)": 0
+    }
+    for row in rows:
+        score = _to_float(row.get("soddisfazione"))
+        if score <= 3:
+            sat_band_counts["Bassa (1-3)"] += 1
+        elif score <= 6:
+            sat_band_counts["Media (4-6)"] += 1
+        elif score <= 8:
+            sat_band_counts["Alta (7-8)"] += 1
+        else:
+            sat_band_counts["Molto Alta (9-10)"] += 1
+
+    satisfaction_bands = {
+        "labels": list(sat_band_counts.keys()),
+        "values": list(sat_band_counts.values())
+    }
+
+    top_playtime = sorted(
+        rows,
+        key=lambda r: _to_float(r.get("tempo_totale_giocato")),
+        reverse=True
+    )[:10]
+    top_spenders = sorted(
+        rows,
+        key=lambda r: _to_float(r.get("spesa_mensile")),
+        reverse=True
+    )[:10]
+
+    high_risk_users = [
+        r for r in rows
+        if _to_float(r.get("soddisfazione")) <= 3
+        and _to_float(r.get("giorni_attivi")) <= 60
+        and _to_float(r.get("numero_crash")) >= 6
+    ][:10]
+
+    alerts = []
+    if win_rate < 45:
+        alerts.append("Win rate globale basso: possibile sbilanciamento gameplay.")
+    if avg_crash >= 5:
+        alerts.append("Crash medi alti: priorità al miglioramento stabilità client.")
+    if subscriber_rate < 25:
+        alerts.append("Conversione abbonamento bassa: rivedere value proposition premium.")
+    if avg_satisfaction < 5:
+        alerts.append("Soddisfazione media sotto soglia: servono interventi UX e retention.")
+
+    return {
+        "kpis": {
+            "total_players": total_players,
+            "total_playtime_hours": total_playtime_hours,
+            "avg_playtime_hours": avg_playtime_hours,
+            "total_battles": total_battles,
+            "win_rate": win_rate,
+            "avg_session_minutes": avg_session_minutes,
+            "avg_daily_sessions": avg_daily_sessions,
+            "monthly_revenue": total_monthly_revenue,
+            "arpu": arpu,
+            "subscriber_rate": subscriber_rate,
+            "avg_crash": avg_crash,
+            "avg_bug": avg_bug,
+            "avg_latency": avg_latency,
+            "avg_satisfaction": avg_satisfaction
+        },
+        "charts": {
+            "class_distribution": class_distribution,
+            "cluster_distribution": cluster_distribution,
+            "device_distribution": device_distribution,
+            "acquisition_distribution": acquisition_distribution,
+            "active_day_distribution": active_day_distribution,
+            "satisfaction_bands": satisfaction_bands,
+            "satisfaction_by_class": satisfaction_by_class,
+            "spend_by_cluster": spend_by_cluster,
+            "crash_by_device": crash_by_device
+        },
+        "tables": {
+            "top_playtime": [
+                {
+                    "nome": r.get("nome", "N/A"),
+                    "classe": r.get("classe_personaggio", "N/A"),
+                    "ore": round(_to_float(r.get("tempo_totale_giocato")) / 60, 2),
+                    "soddisfazione": _to_float(r.get("soddisfazione")),
+                    "spesa_mensile": _to_float(r.get("spesa_mensile"))
+                }
+                for r in top_playtime
+            ],
+            "top_spenders": [
+                {
+                    "nome": r.get("nome", "N/A"),
+                    "classe": r.get("classe_personaggio", "N/A"),
+                    "spesa_mensile": _to_float(r.get("spesa_mensile")),
+                    "abbonato": "Sì" if _to_int(r.get("abbonamento_attivo")) == 1 else "No",
+                    "acquisizione": r.get("canale_acquisizione", "N/A")
+                }
+                for r in top_spenders
+            ],
+            "high_risk_users": [
+                {
+                    "nome": r.get("nome", "N/A"),
+                    "giorni_attivi": _to_int(r.get("giorni_attivi")),
+                    "soddisfazione": _to_float(r.get("soddisfazione")),
+                    "crash": _to_int(r.get("numero_crash")),
+                    "cluster": r.get("cluster_comportamentale", "N/A")
+                }
+                for r in high_risk_users
+            ]
+        },
+        "alerts": alerts
+    }
+
+
+@statistics_bp.route('/analytics_data_analyst')
+@login_required
+def analytics_data_analyst():
+    if not current_user.is_team_member_developer():
+        flash("Accesso riservato al team developer/data analyst.", "warning")
+        return redirect(url_for("gioco.menu"))
+
+    dataset_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "big_dataset_gioco.csv")
+    if not os.path.exists(dataset_path):
+        flash("Dataset analytics non trovato.", "danger")
+        return redirect(url_for("statistics.show_statistics"))
+
+    if request.args.get("refresh") == "1":
+        _load_dataset_rows.cache_clear()
+
+    rows = _load_dataset_rows(dataset_path)
+    payload = _build_analytics_payload_from_rows(rows)
+    filter_options = _build_filter_options(rows)
+    return render_template(
+        "analytics_dashboard.html",
+        analytics=payload,
+        filter_options=filter_options
+    )
+
+
+@statistics_bp.route('/analytics_data_analyst/api')
+@login_required
+def analytics_data_analyst_api():
+    if not current_user.is_team_member_developer():
+        return jsonify({"error": "forbidden"}), 403
+
+    dataset_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "big_dataset_gioco.csv")
+    if not os.path.exists(dataset_path):
+        return jsonify({"error": "dataset_not_found"}), 404
+
+    rows = _load_dataset_rows(dataset_path)
+    filters = {
+        "classe_personaggio": request.args.get("classe_personaggio", "").strip(),
+        "genere": request.args.get("genere", "").strip(),
+        "paese": request.args.get("paese", "").strip(),
+        "tipo_dispositivo": request.args.get("tipo_dispositivo", "").strip(),
+        "cluster_comportamentale": request.args.get("cluster_comportamentale", "").strip()
+    }
+    filtered = _filter_rows(rows, filters)
+    payload = _build_analytics_payload_from_rows(filtered)
+    payload["meta"] = {"filtered_count": len(filtered), "total_count": len(rows)}
+    return jsonify(payload)

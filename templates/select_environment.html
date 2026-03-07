@@ -2,5 +2,33 @@
 {% block title %}Seleziona Ambiente{% endblock %}
 
 {% block content %}
+<div class="d-flex justify-content-center align-items-center flex-column py-5">
+  <form method="post" class="card shadow-sm p-4" style="max-width: 700px; width: 100%;">
+    <h1 class="h4 text-center mb-4">Seleziona l'Ambiente</h1>
 
+    {% if ambiente_corrente %}
+      <p class="text-center mb-3">
+        Ambiente corrente: <strong>{{ ambiente_corrente.nome }}</strong>
+      </p>
+    {% endif %}
+
+    <div class="mb-3">
+      <label for="ambiente" class="form-label">Ambiente</label>
+      <select name="ambiente" id="ambiente" class="form-select" required>
+        <option value="">-- scegli ambiente --</option>
+        {% for key, env in opzioni.items() %}
+          <option value="{{ key }}">{{ env.nome }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary w-100">
+      Conferma ambiente
+    </button>
+
+    <a href="{{ url_for('gioco.menu') }}" class="btn btn-outline-secondary mt-3">
+      Torna al menu
+    </a>
+  </form>
+</div>
 {% endblock %}
