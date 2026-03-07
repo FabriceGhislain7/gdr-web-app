@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, request, flash, jsonify
+﻿from flask import Blueprint, render_template, session, redirect, url_for, request, flash, jsonify
 from flask_login import current_user, login_required
 from . import statistics_bp
 import os
@@ -180,7 +180,7 @@ def _build_analytics_payload_from_rows(rows):
     def _group_count(field_name, top_n=8):
         counts = {}
         for row in rows:
-            key = row.get(field_name) or "Sconosciuto"
+            key = row.get(field_name) or "Unknown"
             counts[key] = counts.get(key, 0) + 1
         ordered = sorted(counts.items(), key=lambda x: x[1], reverse=True)[:top_n]
         return {
@@ -192,7 +192,7 @@ def _build_analytics_payload_from_rows(rows):
         sums = {}
         counts = {}
         for row in rows:
-            key = row.get(group_field) or "Sconosciuto"
+            key = row.get(group_field) or "Unknown"
             sums[key] = sums.get(key, 0.0) + _to_float(row.get(value_field))
             counts[key] = counts.get(key, 0) + 1
         avg_items = []
@@ -214,21 +214,21 @@ def _build_analytics_payload_from_rows(rows):
     crash_by_device = _group_avg("tipo_dispositivo", "numero_crash", top_n=10)
 
     sat_band_counts = {
-        "Bassa (1-3)": 0,
-        "Media (4-6)": 0,
-        "Alta (7-8)": 0,
-        "Molto Alta (9-10)": 0
+        "Low (1-3)": 0,
+        "Medium (4-6)": 0,
+        "High (7-8)": 0,
+        "Very High (9-10)": 0
     }
     for row in rows:
         score = _to_float(row.get("soddisfazione"))
         if score <= 3:
-            sat_band_counts["Bassa (1-3)"] += 1
+            sat_band_counts["Low (1-3)"] += 1
         elif score <= 6:
-            sat_band_counts["Media (4-6)"] += 1
+            sat_band_counts["Medium (4-6)"] += 1
         elif score <= 8:
-            sat_band_counts["Alta (7-8)"] += 1
+            sat_band_counts["High (7-8)"] += 1
         else:
-            sat_band_counts["Molto Alta (9-10)"] += 1
+            sat_band_counts["Very High (9-10)"] += 1
 
     satisfaction_bands = {
         "labels": list(sat_band_counts.keys()),
@@ -255,13 +255,13 @@ def _build_analytics_payload_from_rows(rows):
 
     alerts = []
     if win_rate < 45:
-        alerts.append("Win rate globale basso: possibile sbilanciamento gameplay.")
+        alerts.append("Global win rate is low: possible gameplay imbalance.")
     if avg_crash >= 5:
-        alerts.append("Crash medi alti: priorità al miglioramento stabilità client.")
+        alerts.append("Average crashes are high: prioritize client stability improvements.")
     if subscriber_rate < 25:
-        alerts.append("Conversione abbonamento bassa: rivedere value proposition premium.")
+        alerts.append("Subscriber conversion is low: review premium value proposition.")
     if avg_satisfaction < 5:
-        alerts.append("Soddisfazione media sotto soglia: servono interventi UX e retention.")
+        alerts.append("Average satisfaction is below threshold: improve UX and retention.")
 
     return {
         "kpis": {
@@ -307,7 +307,7 @@ def _build_analytics_payload_from_rows(rows):
                     "nome": r.get("nome", "N/A"),
                     "classe": r.get("classe_personaggio", "N/A"),
                     "spesa_mensile": _to_float(r.get("spesa_mensile")),
-                    "abbonato": "Sì" if _to_int(r.get("abbonamento_attivo")) == 1 else "No",
+                    "abbonato": "Yes" if _to_int(r.get("abbonamento_attivo")) == 1 else "No",
                     "acquisizione": r.get("canale_acquisizione", "N/A")
                 }
                 for r in top_spenders
@@ -331,12 +331,12 @@ def _build_analytics_payload_from_rows(rows):
 @login_required
 def analytics_data_analyst():
     if not current_user.is_team_member_developer():
-        flash("Accesso riservato al team developer/data analyst.", "warning")
+        flash("Access restricted to the developer/data analyst team.", "warning")
         return redirect(url_for("gioco.menu"))
 
     dataset_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "big_dataset_gioco.csv")
     if not os.path.exists(dataset_path):
-        flash("Dataset analytics non trovato.", "danger")
+        flash("Analytics dataset not found.", "danger")
         return redirect(url_for("statistics.show_statistics"))
 
     if request.args.get("refresh") == "1":
@@ -374,3 +374,4 @@ def analytics_data_analyst_api():
     payload = _build_analytics_payload_from_rows(filtered)
     payload["meta"] = {"filtered_count": len(filtered), "total_count": len(rows)}
     return jsonify(payload)
+

@@ -1,5 +1,5 @@
-{% extends "layout.html" %}
-{% block title %}Classifica{% endblock %}
+﻿{% extends "layout.html" %}
+{% block title %}Leaderboard{% endblock %}
 {% block content %}
 
 <!-- SEZIONE HEADER CLASSIFICA -->
@@ -8,18 +8,18 @@
     <!-- Titolo principale -->
     <h1 class="display-6 fw-bold mb-3 leaderboard-hero-title">
       <i class="bi bi-trophy me-3"></i>
-      Classifica Generale
+      Global Leaderboard
     </h1>
     <!-- Sottotitolo descrittivo -->
     <p class="lead mb-4 leaderboard-hero-subtitle">
-      La Hall of Fame dei migliori guerrieri:<br>
-      scopri chi domina il regno!
+      Hall of Fame of the best warriors:<br>
+      discover who rules the kingdom!
     </p>
     <!-- Badge informativo -->
     <div class="mt-4">
       <span class="badge hero-badge px-3 py-2 fs-6">
         <i class="bi bi-star me-1"></i>
-        Ranking Ufficiale
+        Official Ranking
       </span>
     </div>
   </div>
@@ -42,27 +42,27 @@
                 <tr>
                   <th scope="col">
                     <i class="bi bi-hash me-1"></i>
-                    Posizione
+                    Rank
                   </th>
                   <th scope="col">
                     <i class="bi bi-person me-1"></i>
-                    Nome Utente
+                    Username
                   </th>
                   <th scope="col">
                     <i class="bi bi-controller me-1"></i>
-                    Partite Giocate
+                    Games Played
                   </th>
                   <th scope="col">
                     <i class="bi bi-check-circle me-1"></i>
-                    Partite Vinte
+                    Games Won
                   </th>
                   <th scope="col">
                     <i class="bi bi-x-circle me-1"></i>
-                    Partite Perse
+                    Games Lost
                   </th>
                   <th scope="col">
                     <i class="bi bi-star me-1"></i>
-                    Punteggio
+                    Score
                   </th>
                   <th scope="col">
                     <i class="bi bi-percent me-1"></i>
@@ -76,18 +76,18 @@
                   <td class="position-col">
                     {% if loop.index == 1 %}
                       <span class="position-badge first">
-                        <i class="bi bi-trophy-fill"></i> 1°
+                        <i class="bi bi-trophy-fill"></i> #1
                       </span>
                     {% elif loop.index == 2 %}
                       <span class="position-badge second">
-                        <i class="bi bi-award-fill"></i> 2°
+                        <i class="bi bi-award-fill"></i> #2
                       </span>
                     {% elif loop.index == 3 %}
                       <span class="position-badge third">
-                        <i class="bi bi-award-fill"></i> 3°
+                        <i class="bi bi-award-fill"></i> #3
                       </span>
                     {% else %}
-                      <span class="position-normal">{{ loop.index }}°</span>
+                      <span class="position-normal">#{{ loop.index }}</span>
                     {% endif %}
                   </td>
                   <td>
@@ -127,10 +127,10 @@
                 <i class="bi bi-info-circle text-primary me-3 h5"></i>
                 <div>
                   <p class="mb-0">
-                    <strong>Nessun guerriero registrato ancora!</strong>
+                    <strong>No warriors registered yet!</strong>
                   </p>
                   <small class="text-muted">
-                    Sii il primo a entrare nella leggenda del regno.
+                    Be the first to enter the kingdom legend.
                   </small>
                 </div>
               </div>
@@ -146,7 +146,7 @@
                   <i class="bi bi-people text-primary me-2 h5 mb-0"></i>
                   <div>
                     <div class="fw-semibold">{{ users_stats_sorted|length }}</div>
-                    <small class="text-muted">Guerrieri Totali</small>
+                    <small class="text-muted">Total Warriors</small>
                   </div>
                 </div>
               </div>
@@ -155,7 +155,7 @@
                   <i class="bi bi-controller text-success me-2 h5 mb-0"></i>
                   <div>
                     <div class="fw-semibold">{{ users_stats_sorted | sum(attribute='1.partite_giocate') }}</div>
-                    <small class="text-muted">Partite Totali</small>
+                    <small class="text-muted">Total Games</small>
                   </div>
                 </div>
               </div>
@@ -164,7 +164,7 @@
                   <i class="bi bi-star text-warning me-2 h5 mb-0"></i>
                   <div>
                     <div class="fw-semibold">{{ users_stats_sorted[0][1].punteggio if users_stats_sorted else 0 }}</div>
-                    <small class="text-muted">Record Punti</small>
+                    <small class="text-muted">Best Score</small>
                   </div>
                 </div>
               </div>
@@ -177,27 +177,27 @@
 
       <!-- SEZIONE PULSANTI DI NAVIGAZIONE -->
       <div class="text-center pt-4">
-        <h6 class="text-muted mb-4">Vuoi scalare la classifica?</h6>
+        <h6 class="text-muted mb-4">Want to climb the leaderboard?</h6>
         <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
           <!-- Pulsante primario -->
           <a href="{{ url_for('gioco.index') }}" 
              class="btn btn-outline-primary d-flex align-items-center justify-content-center">
             <i class="bi bi-house me-2"></i>
-            Torna alla Home
+            Back to Home
           </a>
           
           <!-- Pulsante gioca -->
           <a href="{{ url_for('gioco.menu') }}" 
              class="btn btn-success d-flex align-items-center justify-content-center">
             <i class="bi bi-play-circle me-2"></i>
-            Inizia a Giocare
+            Start Playing
           </a>
           
           <!-- Pulsante guida -->
           <a href="{{ url_for('gioco.guide_game') }}" 
              class="btn btn-outline-info d-flex align-items-center justify-content-center">
             <i class="bi bi-book me-2"></i>
-            Guida al Gioco
+            Game Guide
           </a>
         </div>
       </div>
@@ -450,3 +450,4 @@
 </style>
 
 {% endblock %}
+

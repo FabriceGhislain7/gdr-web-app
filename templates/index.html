@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Benvenuto - GDR Web{% endblock %}
+{% block title %}Welcome - GDR Web{% endblock %}
 
 {% block content %}
 
@@ -16,10 +16,10 @@
   
   <div class="container position-relative z-index-high">
     <div class="hero-content">
-      <h1 class="display-4 fw-bold mb-3 welcome-title text-shadow">Benvenuto nel GDR Web App</h1>
-      <p class="lead mb-4 welcome-subtitle text-gold">Inizia la tua avventura fantasy nel nostro Gioco Di Ruolo online.</p>
+      <h1 class="display-4 fw-bold mb-3 welcome-title text-shadow">Welcome to GDR Web App</h1>
+      <p class="lead mb-4 welcome-subtitle text-gold">Start your fantasy adventure in our online role-playing game.</p>
       <a href="{{ url_for('gioco.menu') }}" class="btn btn-gold btn-lg mt-3 main-cta-button shadow-lg">
-        <i class="bi bi-play-circle me-2"></i>Vai al Menu Principale
+        <i class="bi bi-play-circle me-2"></i>Go to Main Menu
       </a>
     </div>
   </div>
@@ -37,8 +37,8 @@
           </div>
         </div>
         <div class="card-body d-flex flex-column pt-4">
-          <h5 class="card-title fw-bold text-dark-blue">Chi siamo</h5>
-          <p class="card-text flex-grow-1 text-muted">Scopri chi ha creato il gioco, la filosofia dietro il progetto e i prossimi obiettivi.</p>
+          <h5 class="card-title fw-bold text-dark-blue">About Us</h5>
+          <p class="card-text flex-grow-1 text-muted">Discover who created the game, the project vision, and next goals.</p>
           <a href="{{ url_for('gioco.about') }}" class="btn btn-outline-emerald btn-sm mt-auto medieval-button">
             <i class="bi bi-info-circle me-2"></i>About
           </a>
@@ -55,8 +55,8 @@
           </div>
         </div>
         <div class="card-body d-flex flex-column pt-4">
-          <h5 class="card-title fw-bold text-dark-blue">Guida al gioco</h5>
-          <p class="card-text flex-grow-1 text-muted">Leggi le regole base, comandi principali e consigli per iniziare il tuo viaggio.</p>
+          <h5 class="card-title fw-bold text-dark-blue">Game Guide</h5>
+          <p class="card-text flex-grow-1 text-muted">Read the core rules, main commands, and tips to start your journey.</p>
           <a href="{{ url_for('gioco.guide_game') }}" class="btn btn-outline-crimson btn-sm mt-auto medieval-button">
             <i class="bi bi-compass me-2"></i>Game guide
           </a>
@@ -74,7 +74,7 @@
         </div>
         <div class="card-body d-flex flex-column pt-4">
           <h5 class="card-title fw-bold text-dark-blue">Credits</h5>
-          <p class="card-text flex-grow-1 text-muted">Ringraziamenti, fonti grafiche e contributori open source.</p>
+          <p class="card-text flex-grow-1 text-muted">Acknowledgements, graphic sources, and open-source contributors.</p>
           <a href="{{ url_for('gioco.credits') }}" class="btn btn-outline-royal-purple btn-sm mt-auto medieval-button">
             <i class="bi bi-heart-fill me-2"></i>Credits
           </a>

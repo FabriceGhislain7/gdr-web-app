@@ -4,9 +4,27 @@ from gioco.classi import Mago, Guerriero, Ladro
 from flask_login import login_user, logout_user, login_required, current_user, UserMixin 
 from characters.utils import CharacterStatsCalculator
 import os
+from utils.i18n import get_current_language, set_current_language, translate
 
 template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
 gioco_bp = Blueprint('gioco', __name__, template_folder=template_dir)
+
+
+@gioco_bp.app_context_processor
+def inject_i18n_helpers():
+    return {
+        "t": translate,
+        "current_language": get_current_language()
+    }
+
+
+@gioco_bp.route('/set-language/<lang>')
+def set_language(lang):
+    set_current_language(lang)
+    next_url = request.args.get("next", "").strip()
+    if not next_url.startswith("/"):
+        next_url = url_for("gioco.index")
+    return redirect(next_url)
 
 # ----------------------HOME_PAGE------------------------------------
 @gioco_bp.route('/')
