@@ -1,236 +1,162 @@
-# Gioco di Ruolo - Web App Flask
+# GDR (Gioco di Ruolo) — Web Role Playing Game (Flask)
 
-## Obiettivo
+GDR (Gioco di Ruolo) is a web-based **Role Playing Game (RPG)** built with Flask, designed to explore modular backend architecture and object-oriented design in a turn-based game environment.
 
-Portare il gioco di ruolo in versione web, organizzando l'app con moduli Flask separati e struttura OOP per:
+The application implements core RPG mechanics including character creation, mission selection, combat systems, inventory management, and game state persistence.
 
-* Creazione e gestione dei personaggi
-* Selezione delle missioni
-* Combattimento con logica a turni
-* Inventario e oggetti con effetti diversi
-* Salvataggio e caricamento dello stato di gioco
+This project represents an early implementation of a **web-based RPG engine**, with a focus on backend logic and modular game design.
 
 ---
 
-## Setup Iniziale
+# Features
 
-### Ambiente Virtuale
+The application includes several gameplay systems:
 
-```bash
-python -m venv venv
-# Linux/Mac:
-source venv/bin/activate
-# Windows:
-venv\Scripts\activate
-```
+* Character creation and management
+* Mission selection and environment system
+* Turn-based combat mechanics
+* Inventory and item effects
+* Game state saving and loading
+* Modular Flask architecture using Blueprints
 
-### Installazione Dipendenze
-
-```bash
-pip install Flask Flask-SQLAlchemy Flask-Login Flask-Session
-```
+The project separates **game engine logic** from the **web interface**, allowing easier future expansion and refactoring.
 
 ---
 
-## Struttura del Progetto
+# Architecture Overview
+
+The application follows a modular layered architecture.
+
+```text
+Web Interface (Flask Routes)
+        │
+        ▼
+Application Layer
+        │
+        ▼
+Game Engine Logic
+        │
+        ▼
+Data Persistence (JSON / Session)
+```
+
+Key design goals include:
+
+* modular structure
+* separation of concerns
+* reusable gameplay components
+* extensibility for new game mechanics
+
+---
+
+# Project Structure
 
 ```
 gdr-web-app/
 │
-├── app.py                     # Entry point Flask, registra i blueprint
-├── requirements.txt           # Dipendenze del progetto
-├── README.md                  # Documentazione
+├── app.py
+├── requirements.txt
 │
-├── venv/                      # Ambiente virtuale
+├── static/
+├── templates/
 │
-├── static/                    # CSS, JS, immagini (es. ambiente.jpg)
+├── utils/
 │
-├── templates/                 # Template Jinja2
-│   ├── layout.html
-│   ├── index.html
-│   ├── menu.html
-│   ├── create_char.html
-│   ├── select_mission.html
-│   ├── battle.html
-│   ├── guide_game.html
-│   ├── credits.html
-│   └── ...
+├── gioco/          # Core game engine
 │
-├── data/                      # Eventuali salvataggi (es. salvataggio.json)
+├── battle/         # Battle system
+├── characters/     # Character management
+├── inventory/      # Inventory system
+├── mission/        # Mission logic
+├── environment/    # Game environments
 │
-├── utils/                     # Moduli condivisi
-│   ├── log.py
-│   ├── messaggi.py
-│   └── salvataggio.py
-│
-├── gioco/                     # Logica principale
-│   ├── __init__.py
-│   ├── ambiente.py
-│   ├── basic.py
-│   ├── classi.py
-│   ├── inventario.py
-│   ├── missione.py
-│   ├── oggetto.py
-│   ├── personaggio.py
-│   ├── scontro.py
-│   ├── strategy.py
-│   └── routes.py
-│
-├── battle/                    # Modulo battaglia
-│   ├── __init__.py
-│   └── routes.py
-│
-├── characters/                # Modulo gestione personaggi
-│   ├── __init__.py
-│   └── routes.py
-│
-├── environment/               # Ambienti disponibili
-│   ├── __init__.py
-│   └── routes.py
-│
-├── inventory/                 # Inventario dei personaggi
-│   ├── __init__.py
-│   └── routes.py
-│
-├── mission/                   # Missioni selezionabili
-│   ├── __init__.py
-│   └── routes.py
+└── data/           # Save files
 ```
+
+Each module isolates a specific part of the gameplay logic.
 
 ---
 
-## Blueprint: Uso e Vantaggi
+# Technology Stack
 
-Un Blueprint in Flask consente di organizzare il codice in moduli riutilizzabili. È utile per:
+Backend framework:
 
-* Separare le rotte per area funzionale (`gioco`, `inventory`, ecc.)
-* Facilitare manutenzione e scalabilità
-* Evitare import circolari
+* Flask
+* Flask-Session
+* Flask-Login
+* Flask-SQLAlchemy
 
-### Registrazione in `app.py`
+Core technologies:
 
-```python
-from flask import Flask
-from flask_session import Session
-from gioco.routes import gioco
-from inventory.routes import inventory
-from mission.routes import mission
-# ...
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '...'
-app.config['SESSION_TYPE'] = 'filesystem'
-Session(app)
-
-app.register_blueprint(gioco)
-app.register_blueprint(inventory)
-app.register_blueprint(mission)
-# ...
-```
+* Python
+* Jinja2 templates
+* JSON persistence
 
 ---
 
-## Route Chiave
+# Gameplay Systems
 
-| Route             | Descrizione                        |
-| ----------------- | ---------------------------------- |
-| `/`               | Menu principale                    |
-| `/new-game`       | Creazione compagnia/personaggi     |
-| `/load-game`      | Caricamento stato da file/sessione |
-| `/select-mission` | Selezione missione                 |
-| `/battle`         | Combattimento a turni              |
-| `/inventory`      | Visualizzazione oggetti/personaggi |
-| `/save-game`      | Esporta salvataggio in JSON        |
+The game engine includes several gameplay subsystems.
 
----
+### Character System
 
-## Concetti Avanzati
+Handles:
 
-### Serializzazione degli Oggetti
+* character classes
+* attributes
+* health and abilities
 
-Ogni classe importante (es. Personaggio, Missione) deve:
+### Mission System
 
-```python
-def to_dict(self): ...
-@classmethod
-def from_dict(cls, data): ...
-```
+Defines playable missions and environments.
 
-Serve per salvataggio in sessione o file.
+### Combat System
 
-### Factory Pattern
+Implements turn-based battle mechanics including:
 
-Per ambienti, missioni e classi personaggio:
+* player turns
+* enemy actions
+* combat resolution
 
-* `.get_opzioni()` – restituisce opzioni da mostrare
-* `.seleziona_da_id(id)` – restituisce oggetto istanziato
+### Inventory System
 
-### Sessione
+Manages:
 
-* Salva oggetti Python convertiti in dict
-* Memorizza lo stato di gioco (scontro attivo, inventario, ecc.)
-
-### Salvataggio
-
-* JSON (leggibile, esportabile)
-* Possibile anche in Pickle o database
+* item storage
+* item effects
+* equipment management
 
 ---
 
-## Static & Template
+# Running the Application
 
-**Static:**
-
-* `/static/css/` — stili personalizzati
-* `/static/js/` — interazioni dinamiche
-* `/static/img/` — ambienti, icone, ritratti
-
-**Templates:**
-
-* `layout.html` – base comune
-* `menu.html` – schermata principale
-* `create_char.html` – creazione personaggi
-* `select_mission.html` – missioni disponibili
-* `battle.html` – combattimento
-* `inventory.html` – visualizzazione inventario
-* `guide_game.html` – guida
-* `credits.html` – ringraziamenti
-
----
-
-## Problemi Risolti
-
-### PowerShell non riconosce `python`
-
-Errore:
-
-```
-The term 'C:\Python39\python.exe' is not recognized...
-```
-
-Soluzione:
-
-```powershell
-notepad $PROFILE
-```
-
-E commenta la funzione personalizzata `python`.
-
-### `pip3 --list` non funziona
-
-Soluzione:
+Create a virtual environment:
 
 ```bash
-pip list
-# oppure
-python -m pip list
+python -m venv venv
 ```
 
----
+Activate it:
 
-## Avvio dell’App
+Windows
 
-Con ambiente attivo:
+```
+venv\Scripts\activate
+```
+
+Linux / Mac
+
+```
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the application:
 
 ```bash
 python app.py
@@ -238,17 +164,36 @@ python app.py
 
 ---
 
-## Prossimi Step
+# Documentation
 
-* Aggiungere immagini per personaggi e missioni
-* Migliorare lo stile con Bootstrap
-* Introdurre boss battle o finale narrativo
-* Aggiungere interattività con JavaScript (log dinamico)
-* Autenticazione con Flask-Login
-* Persistenza con Flask-SQLAlchemy
-* Scrittura di test automatizzati
+Additional technical documentation is available in the `docs` folder.
 
-user_name : developer
-password: ^z%mWE7!v^8q
+* `docs/ARCHITECTURE.md`
+* `docs/GAME_ENGINE.md`
+* `docs/DEVELOPMENT.md`
+
+---
+
+# Future Evolution
+
+This project will evolve into a more advanced architecture:
+
+**GDR RPG Platform — Flask API + React Frontend**
+
+The future version will include:
+
+* API-first backend architecture
+* React frontend interface
+* database persistence
+* improved combat and mission systems
+* modular RPG engine expansion
+
+---
+
+# Author
+
+Fabrice Ghislain Tebou
+GitHub
+[https://github.com/FabriceGhislain7](https://github.com/FabriceGhislain7)
 
 
