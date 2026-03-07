@@ -1,0 +1,15 @@
+{
+    "classe": "Mago",
+    "id": "bf5d6b0f-d2da-4bb1-bb82-0badaab75635",
+    "nome": "Dalton",
+    "npc": false,
+    "salute_max": 80,
+    "salute": 53,
+    "attacco_min": 0,
+    "attacco_max": 90,
+    "livello": 1,
+    "destrezza": 15,
+    "storico_danni_subiti": [
+        27
+    ]
+}

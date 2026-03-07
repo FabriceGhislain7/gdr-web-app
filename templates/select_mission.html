@@ -1,4 +1,28 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="d-flex justify-content-center align-items-center flex-column py-5">
+  <form method="post" class="card shadow-sm p-4" style="max-width: 800px; width: 100%;">
+    <h1 class="h4 text-center mb-4">Seleziona Missione</h1>
 
+    <div class="mb-3">
+      <label for="missione_id" class="form-label">Missione</label>
+      <select name="missione_id" id="missione_id" class="form-select" required>
+        <option value="">-- scegli missione --</option>
+        {% for m in missioni %}
+          <option value="{{ m.id }}">
+            {{ m.nome }} - Ambiente: {{ m.ambiente.nome }} - Nemici: {{ m.nemici|length }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary w-100">
+      Conferma missione
+    </button>
+
+    <a href="{{ url_for('gioco.menu') }}" class="btn btn-outline-secondary mt-3">
+      Torna al menu
+    </a>
+  </form>
+</div>
 {% endblock %}

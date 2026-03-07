@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Missione{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center flex-column py-5">
+  <div class="card shadow-sm p-4" style="max-width: 900px; width: 100%;">
+    <h2 class="text-center mb-2">{{ missione.nome }}</h2>
+    <h5 class="text-center mb-4">Ambiente: <strong>{{ ambiente.nome }}</strong></h5>
+
+    <h4>Nemici</h4>
+    <ul class="list-group mb-4">
+      {% for nemico in missione.nemici %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{ nemico.nome }} ({{ nemico.classe }})</span>
+        <span class="badge bg-danger">{{ nemico.salute }} HP</span>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <h4>Premi Potenziali</h4>
+    <ul class="list-group mb-4">
+      {% for nome, premi_list in premi_raggruppati.items() %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{ nome }}</span>
+        <span class="badge bg-secondary">{{ premi_list|length }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('battle.begin_battle') }}" class="btn btn-outline-success w-100">
+        Seleziona personaggi e combatti
+      </a>
+      <a href="{{ url_for('mission.select_mission') }}" class="btn btn-outline-primary w-100">
+        Cambia missione
+      </a>
+      <a href="{{ url_for('gioco.menu') }}" class="btn btn-outline-secondary w-100">
+        Menu
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

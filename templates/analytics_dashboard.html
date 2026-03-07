@@ -1,0 +1,287 @@
+{% extends "layout.html" %}
+{% block title %}Data Analyst Dashboard{% endblock %}
+
+{% block content %}
+<section class="analyst-hero rounded-4 p-4 p-md-5 mt-4 mb-4 shadow">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+    <div>
+      <h1 class="display-6 fw-bold text-white mb-2">
+        <i class="bi bi-graph-up-arrow me-2"></i>Data Analyst Dashboard
+      </h1>
+      <p class="text-light mb-0">
+        Insight su comportamento giocatori, engagement, business e qualita tecnica.
+      </p>
+    </div>
+    <div class="action-panel">
+      <a href="{{ url_for('statistics.analytics_data_analyst', refresh=1) }}" class="btn btn-analyst-refresh">
+        <i class="bi bi-arrow-repeat me-1"></i>Refresh
+      </a>
+      <a href="#satisfaction-section" class="btn btn-analyst-chip"><i class="bi bi-emoji-smile me-1"></i>Soddisfazione</a>
+      <a href="#engagement-section" class="btn btn-analyst-chip"><i class="bi bi-lightning-charge me-1"></i>Engagement</a>
+      <a href="#business-section" class="btn btn-analyst-chip"><i class="bi bi-cash-coin me-1"></i>Business</a>
+      <a href="#tech-section" class="btn btn-analyst-chip"><i class="bi bi-cpu me-1"></i>Stabilita</a>
+    </div>
+  </div>
+</section>
+
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+      <h6 class="mb-0"><i class="bi bi-funnel me-1"></i>Filtri Live</h6>
+      <small id="filterMeta" class="text-muted"></small>
+    </div>
+    <div class="row g-2">
+      <div class="col-md-3">
+        <select id="filterClasse" class="form-select form-select-sm">
+          <option value="">Classe (tutte)</option>
+          {% for v in filter_options.classe_personaggio %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select id="filterGenere" class="form-select form-select-sm">
+          <option value="">Genere (tutti)</option>
+          {% for v in filter_options.genere %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select id="filterPaese" class="form-select form-select-sm">
+          <option value="">Paese (tutti)</option>
+          {% for v in filter_options.paese %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select id="filterDevice" class="form-select form-select-sm">
+          <option value="">Device (tutti)</option>
+          {% for v in filter_options.tipo_dispositivo %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select id="filterCluster" class="form-select form-select-sm">
+          <option value="">Cluster (tutti)</option>
+          {% for v in filter_options.cluster_comportamentale %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="mt-2 d-flex gap-2">
+      <button id="applyFilters" class="btn btn-sm btn-dark">Applica</button>
+      <button id="resetFilters" class="btn btn-sm btn-outline-secondary">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Giocatori Totali</div><div class="kpi-value" id="kpiPlayers">{{ analytics.kpis.total_players }}</div></div></div>
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Ore Totali Giocate</div><div class="kpi-value" id="kpiHours">{{ analytics.kpis.total_playtime_hours }}</div></div></div>
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Win Rate Globale</div><div class="kpi-value" id="kpiWinrate">{{ analytics.kpis.win_rate }}%</div></div></div>
+  <div class="col-6 col-xl-3"><div class="kpi-card"><div class="kpi-label">Revenue Mensile</div><div class="kpi-value" id="kpiRevenue">EUR {{ analytics.kpis.monthly_revenue }}</div></div></div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>ARPU</span><strong id="kpiArpu">EUR {{ analytics.kpis.arpu }}</strong></div></div>
+  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Subscriber Rate</span><strong id="kpiSubs">{{ analytics.kpis.subscriber_rate }}%</strong></div></div>
+  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Sessione Media</span><strong id="kpiSession">{{ analytics.kpis.avg_session_minutes }} min</strong></div></div>
+  <div class="col-md-6 col-xl-3"><div class="mini-card"><span>Soddisfazione Media</span><strong id="kpiSat">{{ analytics.kpis.avg_satisfaction }}/10</strong></div></div>
+</div>
+
+<div id="alertsWrap" class="card border-0 shadow-sm mb-4 {% if not analytics.alerts %}d-none{% endif %}">
+  <div class="card-body">
+    <h5 class="mb-3"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Alert Strategici</h5>
+    <ul id="alertsList" class="mb-0">
+      {% for alert in analytics.alerts %}<li>{{ alert }}</li>{% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div id="engagement-section" class="row g-3 mb-4">
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Distribuzione Classi</h6><canvas id="classChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Cluster Comportamentali</h6><canvas id="clusterChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Dispositivi Usati</h6><canvas id="deviceChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Canali di Acquisizione</h6><canvas id="acqChart"></canvas></div></div></div>
+  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Giorno Piu Attivo</h6><canvas id="dayChart"></canvas></div></div></div>
+</div>
+
+<div id="satisfaction-section" class="row g-3 mb-4">
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Soddisfazione: Distribuzione Fasce</h6><canvas id="satBandChart"></canvas></div></div></div>
+  <div class="col-lg-6"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Soddisfazione Media per Classe</h6><canvas id="satClassChart"></canvas></div></div></div>
+</div>
+
+<div id="business-section" class="row g-3 mb-4">
+  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Spesa Media Mensile per Cluster</h6><canvas id="spendClusterChart"></canvas></div></div></div>
+</div>
+
+<div id="tech-section" class="row g-3 mb-4">
+  <div class="col-12"><div class="card border-0 shadow-sm chart-card"><div class="card-body"><h6>Crash Medi per Dispositivo</h6><canvas id="crashDeviceChart"></canvas></div></div></div>
+</div>
+
+<div class="row g-3 mb-5">
+  <div class="col-xl-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h6>Top 10 per Ore di Gioco</h6>
+        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Nome</th><th>Classe</th><th>Ore</th></tr></thead><tbody id="tablePlaytime">{% for p in analytics.tables.top_playtime %}<tr><td>{{ p.nome }}</td><td>{{ p.classe }}</td><td>{{ p.ore }}</td></tr>{% endfor %}</tbody></table></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h6>Top 10 Spender</h6>
+        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Nome</th><th>Spesa</th><th>Abbonato</th></tr></thead><tbody id="tableSpenders">{% for p in analytics.tables.top_spenders %}<tr><td>{{ p.nome }}</td><td>EUR {{ p.spesa_mensile }}</td><td>{{ p.abbonato }}</td></tr>{% endfor %}</tbody></table></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h6>Utenti a Rischio Churn</h6>
+        <div class="table-responsive"><table class="table table-sm align-middle"><thead><tr><th>Nome</th><th>Sodd.</th><th>Crash</th></tr></thead><tbody id="tableRisk">{% for p in analytics.tables.high_risk_users %}<tr><td>{{ p.nome }}</td><td>{{ p.soddisfazione }}</td><td>{{ p.crash }}</td></tr>{% else %}<tr><td colspan="3" class="text-muted">Nessun rischio elevato rilevato.</td></tr>{% endfor %}</tbody></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+  .analyst-hero {
+    background: linear-gradient(120deg, #0b1220 0%, #1e293b 55%, #115e59 100%);
+    border: 1px solid #334155;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .analyst-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(2, 6, 23, 0.55) 0%, rgba(2, 6, 23, 0.25) 65%, rgba(2, 6, 23, 0.15) 100%);
+    pointer-events: none;
+  }
+  .analyst-hero > div {
+    position: relative;
+    z-index: 1;
+  }
+  .analyst-hero h1 {
+    color: #f8fafc !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  }
+  .analyst-hero p {
+    color: #e2e8f0 !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  }
+  .btn-analyst-refresh { background: linear-gradient(135deg, #f6c453, #e6ad2a); color: #1f2937; font-weight: 700; border-radius: 999px; border: none; padding: 0.6rem 1.1rem; }
+  .action-panel { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.5rem; padding:.65rem; border:1px solid rgba(255,193,7,.28); border-radius:.95rem; background:rgba(15,23,42,.25); }
+  .btn-analyst-chip { border-radius:999px; background:rgba(255,255,255,.1); color:#e2e8f0; border:1px solid rgba(255,255,255,.25); font-size:.86rem; padding:.48rem .85rem; }
+  .btn-analyst-chip:hover { color:#0f172a; background:#f8fafc; border-color:#f8fafc; }
+  .kpi-card { border-radius:1rem; padding:1rem; background:linear-gradient(180deg,#1f2937,#111827); color:#f8fafc; border:1px solid rgba(255,193,7,.22); height:100%; }
+  .kpi-label { font-size:.8rem; opacity:.85; } .kpi-value { font-size:1.35rem; font-weight:800; margin-top:.25rem; }
+  .mini-card { border-radius:.9rem; padding:.9rem 1rem; background:#f8fafc; border:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; }
+  .mini-card strong { color:#0f172a; }
+  .chart-card { min-height:320px; } .chart-card .card-body { height:320px; position:relative; }
+  .chart-card canvas { width:100% !important; height:260px !important; max-height:260px !important; }
+  #engagement-section,
+  #satisfaction-section,
+  #business-section,
+  #tech-section {
+    scroll-margin-top: 120px;
+  }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let currentPayload = {{ analytics | tojson }};
+  let chartRefs = {};
+  const palette = ['#0ea5e9','#22c55e','#f59e0b','#ef4444','#8b5cf6','#14b8a6','#eab308','#64748b','#ec4899','#10b981'];
+  const paletteSoft = ['rgba(14,165,233,.65)','rgba(34,197,94,.65)','rgba(245,158,11,.65)','rgba(239,68,68,.65)','rgba(139,92,246,.65)','rgba(20,184,166,.65)','rgba(234,179,8,.65)','rgba(100,116,139,.65)','rgba(236,72,153,.65)','rgba(16,185,129,.65)'];
+
+  function bar(id, labels, values) {
+    if (chartRefs[id]) chartRefs[id].destroy();
+    chartRefs[id] = new Chart(document.getElementById(id), {
+      type: 'bar',
+      data: { labels, datasets: [{ data: values, backgroundColor: paletteSoft, borderColor: palette, borderWidth: 1 }] },
+      options: { responsive: true, maintainAspectRatio: true, aspectRatio: 2.2, plugins: { legend: { display: false } } }
+    });
+  }
+  function doughnut(id, labels, values) {
+    if (chartRefs[id]) chartRefs[id].destroy();
+    chartRefs[id] = new Chart(document.getElementById(id), {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data: values, backgroundColor: palette }] },
+      options: { responsive: true, maintainAspectRatio: true, aspectRatio: 1.8 }
+    });
+  }
+
+  function renderTables(payload) {
+    const playtime = payload.tables.top_playtime || [];
+    const spenders = payload.tables.top_spenders || [];
+    const risk = payload.tables.high_risk_users || [];
+    document.getElementById('tablePlaytime').innerHTML = playtime.map(p => `<tr><td>${p.nome}</td><td>${p.classe}</td><td>${p.ore}</td></tr>`).join('');
+    document.getElementById('tableSpenders').innerHTML = spenders.map(p => `<tr><td>${p.nome}</td><td>EUR ${p.spesa_mensile}</td><td>${p.abbonato}</td></tr>`).join('');
+    document.getElementById('tableRisk').innerHTML = risk.length ? risk.map(p => `<tr><td>${p.nome}</td><td>${p.soddisfazione}</td><td>${p.crash}</td></tr>`).join('') : `<tr><td colspan="3" class="text-muted">Nessun rischio elevato rilevato.</td></tr>`;
+  }
+  function renderAlerts(payload) {
+    const wrap = document.getElementById('alertsWrap');
+    const list = document.getElementById('alertsList');
+    const alerts = payload.alerts || [];
+    if (!alerts.length) { wrap.classList.add('d-none'); list.innerHTML = ''; return; }
+    wrap.classList.remove('d-none');
+    list.innerHTML = alerts.map(a => `<li>${a}</li>`).join('');
+  }
+  function renderKpis(payload) {
+    const k = payload.kpis;
+    document.getElementById('kpiPlayers').textContent = k.total_players;
+    document.getElementById('kpiHours').textContent = k.total_playtime_hours;
+    document.getElementById('kpiWinrate').textContent = `${k.win_rate}%`;
+    document.getElementById('kpiRevenue').textContent = `EUR ${k.monthly_revenue}`;
+    document.getElementById('kpiArpu').textContent = `EUR ${k.arpu}`;
+    document.getElementById('kpiSubs').textContent = `${k.subscriber_rate}%`;
+    document.getElementById('kpiSession').textContent = `${k.avg_session_minutes} min`;
+    document.getElementById('kpiSat').textContent = `${k.avg_satisfaction}/10`;
+  }
+  function renderCharts(payload) {
+    const c = payload.charts;
+    bar('classChart', c.class_distribution.labels, c.class_distribution.values);
+    doughnut('clusterChart', c.cluster_distribution.labels, c.cluster_distribution.values);
+    doughnut('deviceChart', c.device_distribution.labels, c.device_distribution.values);
+    bar('acqChart', c.acquisition_distribution.labels, c.acquisition_distribution.values);
+    bar('dayChart', c.active_day_distribution.labels, c.active_day_distribution.values);
+    doughnut('satBandChart', c.satisfaction_bands.labels, c.satisfaction_bands.values);
+    bar('satClassChart', c.satisfaction_by_class.labels, c.satisfaction_by_class.values);
+    bar('spendClusterChart', c.spend_by_cluster.labels, c.spend_by_cluster.values);
+    bar('crashDeviceChart', c.crash_by_device.labels, c.crash_by_device.values);
+  }
+  function renderAll(payload) {
+    renderKpis(payload); renderAlerts(payload); renderTables(payload); renderCharts(payload);
+    const metaEl = document.getElementById('filterMeta');
+    if (payload.meta) metaEl.textContent = `Mostrati ${payload.meta.filtered_count} su ${payload.meta.total_count} giocatori`;
+    else metaEl.textContent = '';
+  }
+
+  async function fetchFiltered() {
+    const params = new URLSearchParams({
+      classe_personaggio: document.getElementById('filterClasse').value,
+      genere: document.getElementById('filterGenere').value,
+      paese: document.getElementById('filterPaese').value,
+      tipo_dispositivo: document.getElementById('filterDevice').value,
+      cluster_comportamentale: document.getElementById('filterCluster').value
+    });
+    const res = await fetch(`{{ url_for('statistics.analytics_data_analyst_api') }}?${params.toString()}`);
+    if (!res.ok) return;
+    currentPayload = await res.json();
+    renderAll(currentPayload);
+  }
+
+  document.getElementById('applyFilters').addEventListener('click', fetchFiltered);
+  document.getElementById('resetFilters').addEventListener('click', () => {
+    document.getElementById('filterClasse').value = '';
+    document.getElementById('filterGenere').value = '';
+    document.getElementById('filterPaese').value = '';
+    document.getElementById('filterDevice').value = '';
+    document.getElementById('filterCluster').value = '';
+    fetchFiltered();
+  });
+  renderAll(currentPayload);
+</script>
+{% endblock %}

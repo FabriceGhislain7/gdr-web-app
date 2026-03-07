@@ -3,21 +3,21 @@
 {% block content %}
 
 <!-- SEZIONE HEADER CLASSIFICA -->
-<section class="py-4 text-center bg-secondary text-white rounded-4 shadow-sm mb-4 mt-4">
+<section class="py-4 text-center leaderboard-hero rounded-4 shadow-sm mb-4 mt-4">
   <div class="container py-3">
     <!-- Titolo principale -->
-    <h1 class="display-6 fw-bold mb-3">
+    <h1 class="display-6 fw-bold mb-3 leaderboard-hero-title">
       <i class="bi bi-trophy me-3"></i>
       Classifica Generale
     </h1>
     <!-- Sottotitolo descrittivo -->
-    <p class="lead mb-4">
+    <p class="lead mb-4 leaderboard-hero-subtitle">
       La Hall of Fame dei migliori guerrieri:<br>
       scopri chi domina il regno!
     </p>
     <!-- Badge informativo -->
     <div class="mt-4">
-      <span class="badge bg-light text-primary px-3 py-2 fs-6">
+      <span class="badge hero-badge px-3 py-2 fs-6">
         <i class="bi bi-star me-1"></i>
         Ranking Ufficiale
       </span>
@@ -32,11 +32,11 @@
     <div class="col-lg-10">
 
       <!-- CARD CLASSIFICA -->
-      <div class="card border-0 shadow-sm">
+      <div class="card border-0 shadow-sm leaderboard-card">
         <div class="card-body p-4">
 
           <!-- Tabella Classifica -->
-          <div class="table-responsive">
+          <div class="table-responsive leaderboard-table-wrap">
             <table class="table leaderboard-table">
               <thead>
                 <tr>
@@ -209,9 +209,22 @@
 <!-- FINE SEZIONE CONTENUTO -->
 
 <style>
-/* Header Section */
-.bg-primary {
-  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+/* Hero section */
+.leaderboard-hero {
+  background: linear-gradient(130deg, #1f2937 0%, #334155 45%, #0f766e 100%);
+  border: 1px solid rgba(255, 193, 7, 0.22);
+}
+
+.leaderboard-hero-title,
+.leaderboard-hero-subtitle {
+  color: #ffffff !important;
+}
+
+.hero-badge {
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  color: #1f2937;
+  border: 1px solid #cbd5e1;
+  font-weight: 700;
 }
 
 /* Card principale */
@@ -220,11 +233,21 @@
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+.leaderboard-card {
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
 .card-body {
   background: #ffffff;
 }
 
 /* Tabella */
+.leaderboard-table-wrap {
+  border-radius: 0.9rem;
+  border: 1px solid #e2e8f0;
+}
+
 .leaderboard-table {
   margin-bottom: 0;
   background: white;
@@ -234,7 +257,7 @@
 }
 
 .leaderboard-table thead th {
-  background: #495057;
+  background: linear-gradient(135deg, #1f2937, #334155);
   color: white;
   border: none;
   padding: 1rem 0.75rem;
@@ -250,17 +273,17 @@
 }
 
 .player-row:hover {
-  background-color: #f8f9fa;
-  transform: scale(1.005);
+  background-color: #f1f5f9;
+  transform: translateY(-1px);
 }
 
 .top-player {
-  border-left: 4px solid #ffc107;
-  background-color: #fffbf0;
+  border-left: 4px solid #f59e0b;
+  background-color: #fffaf0;
 }
 
 .top-player:hover {
-  background-color: #fff8e1;
+  background-color: #fff5db;
 }
 
 /* Badge posizioni */
@@ -299,7 +322,7 @@
 .player-name {
   display: flex;
   align-items: center;
-  color: #495057;
+  color: #1f2937;
   font-weight: 500;
 }
 
@@ -368,7 +391,7 @@
 .leaderboard-table td {
   padding: 1rem 0.75rem;
   vertical-align: middle;
-  border-bottom: 1px solid #f8f9fa;
+  border-bottom: 1px solid #eef2f7;
 }
 
 /* Alert migliorato */
@@ -410,10 +433,12 @@
 /* Hover effects sui pulsanti */
 .btn {
   transition: all 0.2s ease;
+  border-radius: 0.7rem;
+  font-weight: 600;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
