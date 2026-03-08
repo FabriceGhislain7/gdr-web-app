@@ -1,0 +1,108 @@
+.text-light-gray {
+  color: #adb5bd !important;
+}
+
+.footer {
+  background: linear-gradient(135deg, #212529 0%, #343a40 100%) !important;
+  border-top: 3px solid #ffc107;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hover-link {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hover-link:hover {
+  color: #ffc107 !important;
+  transform: translateY(-1px);
+}
+
+.hover-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #ffc107;
+  transition: width 0.3s ease;
+}
+
+.hover-link:hover::after {
+  width: 100%;
+}
+
+.social-links a {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.social-links a:hover {
+  color: #ffc107 !important;
+  transform: translateY(-2px) scale(1.1);
+}
+
+.social-links a[href*="linkedin"]:hover {
+  color: #0077b5 !important;
+}
+
+.social-links a[href*="github"]:hover {
+  color: #f0f6fc !important;
+}
+
+.social-links a[href*="tel:"]:hover {
+  color: #28a745 !important;
+}
+
+#current-time {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.footer h5 i {
+  animation: shieldGlow 3s ease-in-out infinite alternate;
+  cursor: pointer;
+}
+
+@keyframes shieldGlow {
+  from {
+    text-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+  }
+  to {
+    text-shadow: 0 0 15px rgba(255, 193, 7, 0.8), 0 0 25px rgba(255, 193, 7, 0.4);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    position: relative !important;
+  }
+
+  .social-links {
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  .col-md-6.text-md-end {
+    text-align: center !important;
+    margin-top: 10px;
+  }
+
+  .social-links a {
+    font-size: 1.4rem;
+    margin: 0 8px;
+  }
+}

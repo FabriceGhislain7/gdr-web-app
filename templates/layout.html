@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}RPG Web{% endblock %}</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    
+    <link href="{{ url_for('static', filename='css/components/header.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components/footer.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/base/layout.css') }}" rel="stylesheet">
+
     <!-- Meta tags per SEO -->
     <meta name="description" content="{{ t('layout.meta_description') }}">
     <meta name="keywords" content="{{ t('layout.meta_keywords') }}">
     <meta name="author" content="GDR Web Team">
     {% block head %}{% endblock %}
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100" data-time-locale="{{ 'it-IT' if current_language == 'it' else 'en-US' }}">
     {% include "header.html" %}
-    
-    <main class="container flex-grow-1" style="padding-top: 80px; padding-bottom: 100px;">
+
+    <main class="container flex-grow-1 app-main">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -30,25 +33,17 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        
+
         {% block content %}{% endblock %}
     </main>
-    
+
     {% include "footer.html" %}
-    
+
     <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Scroll automatico se c'è un messaggio -->
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const alert = document.querySelector('.alert');
-            if (alert) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-    </script>
-    
+    <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+
     {% block scripts %}{% endblock %}
 </body>
 </html>

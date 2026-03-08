@@ -43,9 +43,14 @@ def _save_battle_state(state):
 
 
 def _build_turn_order(pc_ids, npc_ids):
-    ordine = [str(x) for x in (pc_ids + npc_ids)]
+    # Prefix IDs to avoid collisions between players and enemies.
+    ordine = [f"pc:{x}" for x in pc_ids] + [f"npc:{x}" for x in npc_ids]
     random.shuffle(ordine)
     return ordine
+
+
+def _t(it_text, en_text):
+    return en_text if session.get("lang") == "en" else it_text
 
 
 def _resolve_battle_turn(state):
@@ -64,10 +69,23 @@ def _resolve_battle_turn(state):
         index = 0
 
     actor = None
+    actor_is_npc = False
     checked = 0
     while checked < len(ordine):
-        actor_id = ordine[index % len(ordine)]
-        actor = next((x for x in tutti if str(x.id) == str(actor_id)), None)
+        actor_key = str(ordine[index % len(ordine)])
+        if ":" in actor_key:
+            actor_side, actor_id = actor_key.split(":", 1)
+        else:
+            # Backward compatibility for old sessions.
+            actor_side, actor_id = "pc", actor_key
+
+        if actor_side == "npc":
+            actor = next((x for x in npcs if str(x.id) == str(actor_id)), None)
+            actor_is_npc = True
+        else:
+            actor = next((x for x in pcs if str(x.id) == str(actor_id)), None)
+            actor_is_npc = False
+
         if actor and _is_alive(actor):
             break
         index = (index + 1) % len(ordine)
@@ -76,25 +94,40 @@ def _resolve_battle_turn(state):
     if not actor or not _is_alive(actor):
         return pcs, npcs, logs, True, False, state
 
-    if actor.npc:
+    if actor_is_npc:
         targets = [p for p in pcs if _is_alive(p)]
     else:
         targets = [n for n in npcs if _is_alive(n)]
 
-    logs.append(f"Turno {state.get('round', 0) + 1}: {actor.nome} agisce.")
+    logs.append(_t(
+        f"Turno {state.get('round', 0) + 1}: {actor.nome} agisce.",
+        f"Turn {state.get('round', 0) + 1}: {actor.nome} acts."
+    ))
 
     if targets:
         target = random.choice(targets)
         danno = actor.attacca(ambiente.modifica_attacco(actor))
         if danno > 0:
             target.subisci_danno(danno)
-            logs.append(f"{actor.nome} colpisce {target.nome} per {danno} danni.")
+            logs.append(_t(
+                f"{actor.nome} colpisce {target.nome} per {danno} danni.",
+                f"{actor.nome} hits {target.nome} for {danno} damage."
+            ))
             if target.sconfitto():
-                logs.append(f"{target.nome} è stato sconfitto.")
+                logs.append(_t(
+                    f"{target.nome} è stato sconfitto.",
+                    f"{target.nome} has been defeated."
+                ))
         else:
-            logs.append(f"{actor.nome} fallisce l'attacco contro {target.nome}.")
+            logs.append(_t(
+                f"{actor.nome} fallisce l'attacco contro {target.nome}.",
+                f"{actor.nome} misses the attack against {target.nome}."
+            ))
     else:
-        logs.append(f"Nessun bersaglio valido per {actor.nome}.")
+        logs.append(_t(
+            f"Nessun bersaglio valido per {actor.nome}.",
+            f"No valid target for {actor.nome}."
+        ))
 
     index = (index + 1) % len(ordine)
     state["round"] = state.get("round", 0) + 1
@@ -106,9 +139,9 @@ def _resolve_battle_turn(state):
 
     if battaglia_finita and vittoria:
         _assign_rewards(missione, pcs)
-        logs.append("Vittoria! Premi assegnati.")
+        logs.append(_t("Vittoria! Premi assegnati.", "Victory! Rewards assigned."))
     elif battaglia_finita:
-        logs.append("Sconfitta! I nemici hanno vinto.")
+        logs.append(_t("Sconfitta! I nemici hanno vinto.", "Defeat! Enemies won."))
 
     state["pcs"] = personaggio_schema.dump(pcs, many=True)
     state["npcs"] = personaggio_schema.dump(npcs, many=True)
@@ -150,6 +183,8 @@ def _assign_rewards(missione: Missione, pcs):
 def _finalize_battle(pcs, npcs, vittoria):
     alive_pcs = [pg for pg in pcs if _is_alive(pg)]
     dead_pcs = [pg for pg in pcs if not _is_alive(pg)]
+    # Defensive deduplication by ID to avoid duplicate removals/log lines.
+    dead_pcs = list({str(pg.id): pg for pg in dead_pcs}.values())
 
     # Rimuove personaggi sconfitti dal sistema
     current_ids = [str(cid) for cid in (current_user.character_ids or [])]
@@ -268,10 +303,12 @@ def test_battle():
         alive_pcs, dead_pcs, delta = _finalize_battle(pcs, npcs, vittoria)
         if dead_pcs:
             logs.append(
-                "Personaggi rimossi dopo la battaglia: "
+                _t("Personaggi rimossi dopo la battaglia: ",
+                   "Characters removed after battle: ")
                 + ", ".join(pg.nome for pg in dead_pcs)
             )
-        logs.append(f"Classifica aggiornata. Punteggio partita: {delta:+d}.")
+        logs.append(_t(f"Classifica aggiornata. Punteggio partita: {delta:+d}.",
+                       f"Leaderboard updated. Match score: {delta:+d}."))
         pcs = alive_pcs
         session.pop("battle_state", None)
 

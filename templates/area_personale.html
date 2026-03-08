@@ -1,32 +1,32 @@
 {% extends "layout.html" %}
-{% block title %}Area Personale{% endblock %}
+{% block title %}{{ "Area Personale" if current_language == "it" else "Personal Area" }}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="text-center mb-4">
-        <h1 class="display-5 fw-bold">Area Personale</h1>
-        <p class="lead">Benvenuto nella tua area personale, <strong>{{ user.nome }}</strong>!</p>
+        <h1 class="display-5 fw-bold">{{ "Area Personale" if current_language == "it" else "Personal Area" }}</h1>
+        <p class="lead">{{ "Benvenuto nella tua area personale" if current_language == "it" else "Welcome to your personal area" }}, <strong>{{ user.nome }}</strong>!</p>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="d-grid gap-3">
                 <a href="{{ url_for('characters.create_char') }}" class="btn btn-success btn-lg">
-                    <i class="bi bi-person-plus me-2"></i> Crea Personaggi
+                    <i class="bi bi-person-plus me-2"></i> {{ "Crea Personaggi" if current_language == "it" else "Create Characters" }}
                 </a>
                 <a href="{{ url_for('characters.mostra_personaggi') }}" class="btn btn-primary btn-lg">
-                    <i class="bi bi-people-fill me-2"></i> Lista Personaggi
+                    <i class="bi bi-people-fill me-2"></i> {{ "Lista Personaggi" if current_language == "it" else "Character List" }}
                 </a>
                 <a href="{{ url_for('auth.modified_user') }}" class="btn btn-warning btn-lg">
-                    <i class="bi bi-pencil-square me-2"></i> Modifica Informazioni
+                    <i class="bi bi-pencil-square me-2"></i> {{ "Modifica Informazioni" if current_language == "it" else "Edit Information" }}
                 </a>
                 <a href="{{ url_for('auth.credit_refill') }}" class="btn btn-info btn-lg text-white">
-                    <i class="bi bi-bank me-2"></i> Ricarica Crediti
+                    <i class="bi bi-bank me-2"></i> {{ "Ricarica Crediti" if current_language == "it" else "Refill Credits" }}
                 </a>
                 <a href="{{ url_for('auth.delete_user', id=user.id) }}"
                    class="btn btn-danger btn-lg"
-                   onclick="return confirm('Sei sicuro di voler eliminare il tuo account?');">
-                    <i class="bi bi-trash3 me-2"></i> Elimina Utente
+                   onclick="return confirm('{{ 'Sei sicuro di voler eliminare il tuo account?' if current_language == 'it' else 'Are you sure you want to delete your account?' }}');">
+                    <i class="bi bi-trash3 me-2"></i> {{ "Elimina Utente" if current_language == "it" else "Delete User" }}
                 </a>
             </div>
         </div>

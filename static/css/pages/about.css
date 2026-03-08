@@ -1,0 +1,55 @@
+﻿.about-hero {
+    background: linear-gradient(130deg, #1f2937 0%, #334155 45%, #0f766e 100%) !important;
+    border: 1px solid rgba(255, 193, 7, 0.22) !important;
+  }
+
+  .about-hero h1,
+  .about-hero p {
+    color: #ffffff !important;
+  }
+
+  .about-page .card {
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  }
+
+  .about-page .card-body {
+    padding: 1.6rem;
+  }
+
+  .about-page .h5 {
+    line-height: 1.25;
+  }
+
+  .about-page p,
+  .about-page li,
+  .about-page small {
+    line-height: 1.62;
+  }
+
+  .about-page .btn {
+    border-radius: 0.75rem;
+    font-weight: 600;
+  }
+
+  .about-page .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  @media (min-width: 1200px) {
+    .about-hero .display-5 {
+      font-size: 2.65rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero .display-5 {
+      font-size: 2rem;
+    }
+
+    .about-hero .lead {
+      font-size: 1rem;
+    }
+  }
+

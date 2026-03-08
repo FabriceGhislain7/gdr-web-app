@@ -1,0 +1,375 @@
+﻿/* ========================================================================
+     PALETTE COLORI FANTASY COORDINATA
+     ======================================================================== */
+  :root {
+    --fantasy-blue: #2c3e50;      /* Blu profondo elegante */
+    --fantasy-crimson: #8b2635;   /* Cremisi medievale */
+    --fantasy-emerald: #27ae60;   /* Verde smeraldo */
+    --fantasy-purple: #6c5ce7;    /* Viola magico */
+    --fantasy-gold: #d4af37;      /* Oro antico */
+    --fantasy-dark: #34495e;      /* Grigio scuro */
+    --fantasy-light: #ecf0f1;     /* Grigio chiaro */
+    --text-gold: #f4d03f;         /* Oro per testi */
+  }
+
+  /* ========================================================================
+     CLASSI COLORI DI BASE
+     ======================================================================== */
+  .bg-fantasy-blue { background-color: var(--fantasy-blue) !important; }
+  .bg-fantasy-crimson { background-color: var(--fantasy-crimson) !important; }
+  .bg-fantasy-emerald { background-color: var(--fantasy-emerald) !important; }
+  .bg-fantasy-purple { background-color: var(--fantasy-purple) !important; }
+  .bg-fantasy-gold { background-color: var(--fantasy-gold) !important; }
+  .bg-fantasy-dark { background-color: var(--fantasy-dark) !important; }
+
+  .text-fantasy-blue { color: var(--fantasy-blue) !important; }
+  .text-fantasy-crimson { color: var(--fantasy-crimson) !important; }
+  .text-fantasy-emerald { color: var(--fantasy-emerald) !important; }
+  .text-fantasy-purple { color: var(--fantasy-purple) !important; }
+  .text-gold { color: var(--text-gold) !important; }
+  .text-dark-blue { color: var(--fantasy-dark) !important; }
+
+  /* ========================================================================
+     PULSANTI FANTASY
+     ======================================================================== */
+  .btn-fantasy-blue {
+    background-color: var(--fantasy-blue);
+    border-color: var(--fantasy-blue);
+    color: white;
+  }
+  .btn-fantasy-blue:hover {
+    background-color: #34495e;
+    border-color: #34495e;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(52, 73, 94, 0.3);
+  }
+
+  .btn-fantasy-crimson {
+    background-color: var(--fantasy-crimson);
+    border-color: var(--fantasy-crimson);
+    color: white;
+  }
+  .btn-fantasy-crimson:hover {
+    background-color: #a12d42;
+    border-color: #a12d42;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(161, 45, 66, 0.3);
+  }
+
+  .btn-fantasy-emerald {
+    background-color: var(--fantasy-emerald);
+    border-color: var(--fantasy-emerald);
+    color: white;
+  }
+  .btn-fantasy-emerald:hover {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+  }
+
+  .btn-fantasy-purple {
+    background-color: var(--fantasy-purple);
+    border-color: var(--fantasy-purple);
+    color: white;
+  }
+  .btn-fantasy-purple:hover {
+    background-color: #7f8ff4;
+    border-color: #7f8ff4;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(127, 143, 244, 0.3);
+  }
+
+  .btn-fantasy-gold {
+    background-color: var(--fantasy-gold);
+    border-color: var(--fantasy-gold);
+    color: var(--fantasy-dark);
+    font-weight: 600;
+  }
+  .btn-fantasy-gold:hover {
+    background-color: #f1c40f;
+    border-color: #f1c40f;
+    color: var(--fantasy-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(241, 196, 15, 0.4);
+  }
+
+  .btn-fantasy-dark {
+    background-color: var(--fantasy-dark);
+    border-color: var(--fantasy-dark);
+    color: white;
+  }
+  .btn-fantasy-dark:hover {
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+  }
+
+  /* ========================================================================
+     PULSANTI OUTLINE CON EFFETTI HOVER
+     ======================================================================== */
+  .btn-outline-fantasy-blue {
+    color: var(--fantasy-blue);
+    border-color: var(--fantasy-blue);
+    transition: all 0.3s ease;
+  }
+  .btn-outline-fantasy-blue:hover {
+    background-color: var(--fantasy-blue);
+    border-color: var(--fantasy-blue);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+  }
+
+  .btn-outline-fantasy-crimson {
+    color: var(--fantasy-crimson);
+    border-color: var(--fantasy-crimson);
+    transition: all 0.3s ease;
+  }
+  .btn-outline-fantasy-crimson:hover {
+    background-color: var(--fantasy-crimson);
+    border-color: var(--fantasy-crimson);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 38, 53, 0.3);
+  }
+
+  .btn-outline-fantasy-emerald {
+    color: var(--fantasy-emerald);
+    border-color: var(--fantasy-emerald);
+    transition: all 0.3s ease;
+  }
+  .btn-outline-fantasy-emerald:hover {
+    background-color: var(--fantasy-emerald);
+    border-color: var(--fantasy-emerald);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  }
+
+  /* ========================================================================
+     HERO SECTION - FIXATO IL PROBLEMA COLORI
+     ======================================================================== */
+  .hero-section {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--fantasy-gold);
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+  }
+
+  /* Testi Hero Section - CONTRASTO GARANTITO */
+  .hero-title {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-subtitle {
+    color: var(--text-gold) !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    background-color: rgba(255,255,255,0.9) !important;
+    color: var(--fantasy-blue) !important;
+    border: 2px solid var(--fantasy-gold);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ========================================================================
+     PULSANTI PRINCIPALI CON EFFETTI
+     ======================================================================== */
+  .main-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    min-height: 100px;
+    border-radius: 1.25rem !important;
+  }
+
+  .main-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  }
+
+  .button-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .main-button:hover .button-shine {
+    left: 100%;
+  }
+
+  /* ========================================================================
+     TITOLI E SEZIONI
+     ======================================================================== */
+  .section-title {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    animation: slideInFromTop 0.6s ease-out;
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ========================================================================
+     CARDS MIGLIORATI
+     ======================================================================== */
+  .game-card {
+    transition: all 0.3s ease;
+    border: 1px solid #dee2e6;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,249,250,0.98) 100%);
+  }
+
+  .game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+  }
+
+  .game-card .card-header {
+    border-bottom: none;
+    padding: 1.5rem;
+  }
+
+  /* ========================================================================
+     EVIDENZIAZIONE SEZIONI ATTIVE
+     ======================================================================== */
+  .highlight-blue {
+    border: 3px solid var(--fantasy-blue) !important;
+    box-shadow: 0 0 0.8rem rgba(44, 62, 80, 0.5);
+    animation: pulseBlue 3s infinite;
+  }
+
+  .highlight-crimson {
+    border: 3px solid var(--fantasy-crimson) !important;
+    box-shadow: 0 0 0.8rem rgba(139, 38, 53, 0.5);
+    animation: pulseCrimson 3s infinite;
+  }
+
+  @keyframes pulseBlue {
+    0% { box-shadow: 0 0 0.5rem rgba(44, 62, 80, 0.4); }
+    50% { box-shadow: 0 0 1.2rem rgba(44, 62, 80, 0.7); }
+    100% { box-shadow: 0 0 0.5rem rgba(44, 62, 80, 0.4); }
+  }
+
+  @keyframes pulseCrimson {
+    0% { box-shadow: 0 0 0.5rem rgba(139, 38, 53, 0.4); }
+    50% { box-shadow: 0 0 1.2rem rgba(139, 38, 53, 0.7); }
+    100% { box-shadow: 0 0 0.5rem rgba(139, 38, 53, 0.4); }
+  }
+
+  /* ========================================================================
+     ANIMAZIONI SEZIONI
+     ======================================================================== */
+  .section-block {
+    animation: slideIn 0.6s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ========================================================================
+     ANIMAZIONI DI ENTRATA
+     ======================================================================== */
+  .fade-in {
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .fade-in-delay {
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ========================================================================
+     RESPONSIVE DESIGN
+     ======================================================================== */
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 2rem 0;
+      margin-top: 1rem;
+    }
+    
+    .display-4 {
+      font-size: 2rem;
+    }
+    
+    .main-button {
+      font-size: 0.95rem;
+      min-height: 70px;
+    }
+    
+    .game-card {
+      margin-bottom: 1rem;
+    }
+
+    .section-block {
+      margin-top: 2rem !important;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-section {
+      margin-top: 0.5rem;
+      padding: 1.5rem 0;
+    }
+
+    .main-button {
+      min-height: 60px;
+      font-size: 0.9rem;
+    }
+  }
+

@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+﻿{% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
 {% block title %}About Us - GDR Web App{% endblock %}
@@ -48,11 +48,19 @@
             
             <div class="ps-4 ps-md-5">
               <p class="text-muted mb-3">
+                {% if current_language == 'it' %}
                 Questo progetto è il risultato della collaborazione tra studenti del corso in presenza
-                <strong>"Programmatore e Sviluppatore Python"</strong>, organizzato da 
-                <span class="fw-semibold text-primary">Ente F.IRE</span> e cofinanziato dal programma 
+                <strong>"Programmatore e Sviluppatore Python"</strong>, organizzato da
+                <span class="fw-semibold text-primary">Ente F.IRE</span> e cofinanziato dal programma
                 <span class="fw-semibold text-success">FSE+ della Regione Liguria</span>,
                 sotto la supervisione del docente del corso.
+                {% else %}
+                This project is the result of collaboration among students attending the
+                <strong>"Python Programmer and Developer"</strong> course, organized by
+                <span class="fw-semibold text-primary">Ente F.IRE</span> and co-funded by the
+                <span class="fw-semibold text-success">FSE+ program of the Liguria Region</span>,
+                under the supervision of the course instructor.
+                {% endif %}
               </p>
               
               <div class="alert alert-info border-0 bg-light">
@@ -60,12 +68,22 @@
                   <i class="bi bi-lightbulb text-primary me-2 mt-1"></i>
                   <div>
                     <p class="mb-0">
-                      La versione attuale del progetto è stata <strong>ristrutturata e adattata</strong> 
+                      {% if current_language == 'it' %}
+                      La versione attuale del progetto è stata <strong>ristrutturata e adattata</strong>
                       personalmente, mantenendo gli elementi chiave, ma con modifiche strutturali e stilistiche.
+                      {% else %}
+                      The current version of the project has been <strong>restructured and adapted</strong>
+                      personally, preserving key elements while introducing structural and stylistic changes.
+                      {% endif %}
                     </p>
                     <small class="text-muted">
-                      Non mi prendo tutto il merito: è frutto di un <em>lavoro di gruppo</em>, 
+                      {% if current_language == 'it' %}
+                      Non mi prendo tutto il merito: è frutto di un <em>lavoro di gruppo</em>,
                       ma anche di <em>iniziativa individuale</em>.
+                      {% else %}
+                      I do not take full credit: this is the result of <em>teamwork</em>,
+                      but also <em>individual initiative</em>.
+                      {% endif %}
                     </small>
                   </div>
                 </div>
@@ -86,7 +104,7 @@
             
             <div class="ps-4 ps-md-5">
               <p class="text-muted mb-3">
-                Il corso mira a fornire competenze pratiche in diverse aree tecnologiche:
+                {{ "Il corso mira a fornire competenze pratiche in diverse aree tecnologiche:" if current_language == "it" else "The course aims to provide practical skills across different technology areas:" }}
               </p>
               
               <!-- Grid competenze -->
@@ -94,25 +112,25 @@
                 <div class="col-sm-6">
                   <div class="d-flex align-items-center">
                     <i class="bi bi-code-slash text-primary me-2"></i>
-                    <span>Programmazione Python</span>
+                    <span>{{ "Programmazione Python" if current_language == "it" else "Python Programming" }}</span>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex align-items-center">
                     <i class="bi bi-gear text-secondary me-2"></i>
-                    <span>Sviluppo software</span>
+                    <span>{{ "Sviluppo software" if current_language == "it" else "Software Development" }}</span>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex align-items-center">
                     <i class="bi bi-cpu text-info me-2"></i>
-                    <span>Sistemi IoT</span>
+                    <span>{{ "Sistemi IoT" if current_language == "it" else "IoT Systems" }}</span>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex align-items-center">
                     <i class="bi bi-robot text-primary me-2"></i>
-                    <span>Applicazioni AI</span>
+                    <span>{{ "Applicazioni AI" if current_language == "it" else "AI Applications" }}</span>
                   </div>
                 </div>
               </div>
@@ -120,8 +138,13 @@
               <div class="mt-3 p-3 bg-light rounded">
                 <small class="text-muted">
                   <i class="bi bi-dice-6 text-primary me-1"></i>
-                  Il nostro <strong>gioco di ruolo</strong> è uno dei progetti sviluppati 
+                  {% if current_language == 'it' %}
+                  Il nostro <strong>gioco di ruolo</strong> è uno dei progetti sviluppati
                   a partire dai moduli pratici del corso.
+                  {% else %}
+                  Our <strong>role-playing game</strong> is one of the projects developed
+                  from the course's practical modules.
+                  {% endif %}
                 </small>
               </div>
             </div>
@@ -140,9 +163,15 @@
             
             <div class="ps-4 ps-md-5">
               <p class="text-muted mb-3">
-                Il gioco GDR è stato sviluppato in gruppo, seguendo un 
-                <span class="fw-semibold text-primary">approccio incrementale</span>, 
+                {% if current_language == 'it' %}
+                Il gioco GDR è stato sviluppato in gruppo, seguendo un
+                <span class="fw-semibold text-primary">approccio incrementale</span>,
                 versione dopo versione.
+                {% else %}
+                The GDR game was developed as a team, following an
+                <span class="fw-semibold text-primary">incremental approach</span>,
+                version after version.
+                {% endif %}
               </p>
               
               <!-- Timeline simbolica -->
@@ -152,12 +181,17 @@
                 <span class="badge bg-secondary me-2">v2.0</span>
                 <i class="bi bi-arrow-right me-2"></i>
                 <span class="badge bg-primary me-2">v3.0</span>
-                <span class="ms-2">Versione attuale</span>
+                <span class="ms-2">{{ "Versione attuale" if current_language == "it" else "Current version" }}</span>
               </div>
               
               <p class="text-muted mt-3 mb-0">
-                Ogni funzionalità è frutto di <em>confronto</em>, <em>test</em> e 
+                {% if current_language == 'it' %}
+                Ogni funzionalità è frutto di <em>confronto</em>, <em>test</em> e
                 <em>collaborazione</em> tra colleghi.
+                {% else %}
+                Every feature is the result of <em>discussion</em>, <em>testing</em>, and
+                <em>collaboration</em> among colleagues.
+                {% endif %}
               </p>
             </div>
           </div>
@@ -218,7 +252,7 @@
                       <i class="bi bi-laptop text-white"></i>
                     </div>
                     <div>
-                      <div class="fw-semibold">Sviluppo</div>
+                      <div class="fw-semibold">{{ "Sviluppo" if current_language == "it" else "Development" }}</div>
                       <small class="text-muted">VS Code + Extensions</small>
                     </div>
                   </div>
@@ -241,9 +275,15 @@
             <div class="ps-4 ps-md-5">
               <blockquote class="blockquote">
                 <p class="mb-3 text-muted fst-italic">
-                  "Questo progetto rappresenta un <strong>portfolio vivo</strong> del nostro percorso. 
-                  Ogni commit è un piccolo passo avanti: un errore superato, 
+                  {% if current_language == 'it' %}
+                  "Questo progetto rappresenta un <strong>portfolio vivo</strong> del nostro percorso.
+                  Ogni commit è un piccolo passo avanti: un errore superato,
                   una funzionalità completata, un'idea diventata codice."
+                  {% else %}
+                  "This project represents a <strong>living portfolio</strong> of our journey.
+                  Every commit is a small step forward: a solved error,
+                  a completed feature, an idea turned into code."
+                  {% endif %}
                 </p>
               </blockquote>
               
@@ -252,7 +292,7 @@
                 <div class="col-4">
                   <div class="text-primary">
                     <i class="bi bi-code-slash h4"></i>
-                    <div class="small fw-semibold">Linee di codice</div>
+                    <div class="small fw-semibold">{{ "Linee di codice" if current_language == "it" else "Lines of code" }}</div>
                     <div class="text-muted small">~3000+</div>
                   </div>
                 </div>
@@ -266,7 +306,7 @@
                 <div class="col-4">
                   <div class="text-info">
                     <i class="bi bi-people h4"></i>
-                    <div class="small fw-semibold">Collaboratori</div>
+                    <div class="small fw-semibold">{{ "Collaboratori" if current_language == "it" else "Contributors" }}</div>
                     <div class="text-muted small">Team</div>
                   </div>
                 </div>
@@ -305,7 +345,7 @@
             <div class="mt-3">
               <small class="text-muted">
                 <i class="bi bi-envelope me-1"></i>
-                Per info sul corso: 
+                {{ "Per info sul corso:" if current_language == "it" else "For course information:" }}
                 <a href="mailto:info@fire.it" class="text-decoration-none">info@fire.it</a>
               </small>
             </div>
@@ -324,222 +364,12 @@
 {% endblock %}
 
 {% block head %}
-<style>
-  .about-hero {
-    background: linear-gradient(130deg, #1f2937 0%, #334155 45%, #0f766e 100%) !important;
-    border: 1px solid rgba(255, 193, 7, 0.22) !important;
-  }
-
-  .about-hero h1,
-  .about-hero p {
-    color: #ffffff !important;
-  }
-
-  .about-page .card {
-    border-radius: 1rem;
-    border: 1px solid #e2e8f0 !important;
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  }
-
-  .about-page .card-body {
-    padding: 1.6rem;
-  }
-
-  .about-page .h5 {
-    line-height: 1.25;
-  }
-
-  .about-page p,
-  .about-page li,
-  .about-page small {
-    line-height: 1.62;
-  }
-
-  .about-page .btn {
-    border-radius: 0.75rem;
-    font-weight: 600;
-  }
-
-  .about-page .btn:hover {
-    transform: translateY(-1px);
-  }
-
-  @media (min-width: 1200px) {
-    .about-hero .display-5 {
-      font-size: 2.65rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .about-hero .display-5 {
-      font-size: 2rem;
-    }
-
-    .about-hero .lead {
-      font-size: 1rem;
-    }
-  }
-</style>
+<link href="{{ url_for('static', filename='css/pages/about.css') }}" rel="stylesheet">
 {% endblock %}
 
 <!-- BLOCCO SCRIPTS PERSONALIZZATI -->
 {% block scripts %}
-<script>
-// ============================================================================
-// ABOUT PAGE - ENHANCED INTERACTIONS
-// ============================================================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // FEATURE 1: SMOOTH SCROLL PER SEZIONI (se servisse)
-    const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
-    smoothScrollLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // FEATURE 2: ANIMATE ON SCROLL (opzionale - leggero)
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Applica animazione alle sezioni
-    const sections = document.querySelectorAll('.mb-5');
-    sections.forEach((section, index) => {
-        // Inizializza stato
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = `opacity 0.6s ease, transform 0.6s ease`;
-        section.style.transitionDelay = `${index * 0.1}s`;
-        
-        // Osserva per animazione
-        observer.observe(section);
-    });
-
-    // FEATURE 3: TOOLTIP SU BADGE E ICONE (se Bootstrap tooltip è disponibile)
-    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    }
-
-    // FEATURE 4: COUNTER ANIMATION PER STATISTICHE
-    const counters = document.querySelectorAll('.text-muted.small');
-    const animateCounters = (entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const text = counter.textContent;
-                
-                // Se contiene numeri, animali
-                if (text.includes('3000+')) {
-                    animateNumber(counter, 0, 3000, '+', 2000);
-                } else if (text.includes('100+')) {
-                    animateNumber(counter, 0, 100, '+', 1500);
-                }
-            }
-        });
-    };
-
-    const counterObserver = new IntersectionObserver(animateCounters, {
-        threshold: 0.5
-    });
-
-    counters.forEach(counter => {
-        if (counter.textContent.includes('+')) {
-            counterObserver.observe(counter);
-        }
-    });
-
-    // Funzione helper per animare numeri
-    function animateNumber(element, start, end, suffix, duration) {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const current = Math.floor(progress * (end - start) + start);
-            element.textContent = `~${current}${suffix}`;
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
-    }
-
-    // FEATURE 5: EASTER EGG - Click su logo/icone speciali
-    let clickCount = 0;
-    const heartIcon = document.querySelector('.bi-heart');
-    if (heartIcon) {
-        heartIcon.addEventListener('click', function() {
-            clickCount++;
-            if (clickCount === 5) {
-                this.style.color = '#ff6b6b';
-                this.style.animation = 'pulse 1s infinite';
-                
-                // Mostra messaggio nascosto
-                const message = document.createElement('div');
-                message.className = 'alert alert-success mt-3';
-                message.innerHTML = '<i class="bi bi-heart-fill text-danger me-2"></i>Grazie per aver esplorato il nostro progetto! 🎮❤️';
-                this.closest('.ps-4').appendChild(message);
-                
-                // Rimuovi dopo 5 secondi
-                setTimeout(() => {
-                    message.style.opacity = '0';
-                    setTimeout(() => message.remove(), 500);
-                }, 5000);
-                
-                clickCount = 0; // Reset
-            }
-        });
-    }
-
-});
-
-// CSS INLINE PER ANIMAZIONI
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-    }
-    
-    .btn:hover {
-        transform: translateY(-2px);
-        transition: transform 0.2s ease;
-    }
-    
-    .bg-light:hover {
-        background-color: #f8f9fa !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: all 0.2s ease;
-    }
-`;
-document.head.appendChild(style);
-
-// ============================================================================
-// FINE JAVASCRIPT
-// ============================================================================
-</script>
+<script src="{{ url_for('static', filename='js/pages/about.js') }}"></script>
 {% endblock %}
 
 <!-- 
@@ -578,3 +408,7 @@ TECNOLOGIE UTILIZZATE:
 ⚡ RequestAnimationFrame per performance
 🎮 Progressive enhancement approach
 -->
+
+
+
+

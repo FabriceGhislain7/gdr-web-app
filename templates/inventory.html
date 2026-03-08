@@ -1,51 +1,50 @@
 {% extends "layout.html" %}
-{% block title %}Inventario Personaggi{% endblock %}
+{% block title %}{{ "Inventario Personaggi" if current_language == "it" else "Character Inventory" }}{% endblock %}
 {% block content %}
   <div class="d-flex justify-content-center align-items-center flex-column py-5">
     {% if id_passato is none %}
     <form method="post" class="card shadow-sm p-4 mb-4" style="max-width: 800px; width: 100%;">
-      <h1 class="h4 text-center mb-4">Seleziona un personaggio</h1>
+      <h1 class="h4 text-center mb-4">{{ "Seleziona un personaggio" if current_language == "it" else "Select a character" }}</h1>
       <div class="mb-3">
-        <label for="personaggio_id" class="form-label">Personaggio</label>
+        <label for="personaggio_id" class="form-label">{{ "Personaggio" if current_language == "it" else "Character" }}</label>
         <select name="personaggio_id" id="personaggio_id" class="form-select" required>
-          <option value="">-- Scegli un personaggio --</option>
+          <option value="">{{ "-- Scegli un personaggio --" if current_language == "it" else "-- Choose a character --" }}</option>
           {% for p in personaggi %}
             <option value="{{ p.id }}" {% if id_selezionato == p.id %}selected{% endif %}>
-              {{ p.nome }} ({{ p.classe }})
+              {{ p.nome }} ({{ {'Guerriero':'Warrior','Mago':'Mage','Ladro':'Rogue'}.get(p.classe, p.classe) if current_language == 'en' else p.classe }})
             </option>
           {% endfor %}
         </select>
       </div>
-      <button type="submit" class="btn btn-outline-primary w-100">Mostra Inventario</button>
+      <button type="submit" class="btn btn-outline-primary w-100">{{ "Mostra Inventario" if current_language == "it" else "Show Inventory" }}</button>
     </form>
     {% endif %}
 
     {% if (id_selezionato or id_passato) and inventario and personaggio %}
       <div class="card shadow-sm p-4 mb-4" style="max-width: 800px; width: 100%;">
-        <h1 class="h4 text-center mb-4">Inventario di {{ personaggio.nome }}</h1>
-        <p class="text-center text-muted">Classe: {{ personaggio.classe }}</p>
-        
+        <h1 class="h4 text-center mb-4">{{ ("Inventario di " ~ personaggio.nome) if current_language == "it" else (personaggio.nome ~ "'s Inventory") }}</h1>
+        <p class="text-center text-muted">{{ "Classe" if current_language == "it" else "Class" }}: {{ {'Guerriero':'Warrior','Mago':'Mage','Ladro':'Rogue'}.get(personaggio.classe, personaggio.classe) if current_language == 'en' else personaggio.classe }}</p>
+
         {% if inventario.oggetti %}
         <ul class="list-unstyled">
           {% for oggetto in inventario.oggetti %}
             <li class="mb-3">
               <div class="d-flex justify-content-between align-items-start border rounded p-3">
                 <div class="flex-grow-1">
-                  <strong>{{ oggetto.nome }}</strong> 
+                  <strong>{{ oggetto.nome }}</strong>
                   <span class="badge bg-secondary ms-2">{{ oggetto.classe }}</span>
                   <br>
                   <small class="text-muted">
-                    {% if oggetto.valore %}Valore: {{ oggetto.valore }} crediti{% endif %}
-                    {% if oggetto.usato %} • Usato{% else %} • Non usato{% endif %}
+                    {% if oggetto.valore %}{{ "Valore" if current_language == "it" else "Value" }}: {{ oggetto.valore }} {{ "crediti" if current_language == "it" else "credits" }}{% endif %}
+                    {{ " • Usato" if oggetto.usato and current_language == "it" else (" • Used" if oggetto.usato else (" • Non usato" if current_language == "it" else " • Not used")) }}
                   </small>
                 </div>
-                
-                <!-- Pulsante elimina oggetto -->
+
                 <form method="post" action="{{ url_for('inventory.delete_object', oggetto_id=oggetto.id) }}" class="ms-2">
                   <input type="hidden" name="personaggio_id" value="{{ personaggio.id }}">
                   <button type="submit" class="btn btn-outline-danger btn-sm"
-                          onclick="return confirm('Eliminare {{ oggetto.nome }}?')">
-                    <i class="fas fa-trash"></i> Elimina
+                          onclick="return confirm('{{ 'Eliminare' if current_language == 'it' else 'Delete' }} {{ oggetto.nome }}?')">
+                    <i class="fas fa-trash"></i> {{ "Elimina" if current_language == "it" else "Delete" }}
                   </button>
                 </form>
               </div>
@@ -54,57 +53,46 @@
         </ul>
         {% else %}
         <div class="text-center py-4">
-          <p class="text-muted">L'inventario è vuoto</p>
+          <p class="text-muted">{{ "L'inventario è vuoto" if current_language == "it" else "Inventory is empty" }}</p>
         </div>
         {% endif %}
 
-        <!-- Pulsante per aggiungere un oggetto -->
         <div class="text-center mt-3">
-          <a href="{{ url_for('inventory.add_object', personaggio_id=personaggio.id) }}" 
+          <a href="{{ url_for('inventory.add_object', personaggio_id=personaggio.id) }}"
              class="btn btn-outline-success">
-            <i class="fas fa-plus"></i> Aggiungi Oggetto
+            <i class="fas fa-plus"></i> {{ "Aggiungi Oggetto" if current_language == "it" else "Add Item" }}
           </a>
         </div>
 
-        <!-- Statistiche inventario -->
         <div class="mt-4 pt-3 border-top">
           <div class="row text-center">
             <div class="col-4">
-              <small class="text-muted">Oggetti totali</small>
+              <small class="text-muted">{{ "Oggetti totali" if current_language == "it" else "Total items" }}</small>
               <br>
               <strong>{{ inventario.oggetti|length }}</strong>
             </div>
             <div class="col-4">
-              <small class="text-muted">Valore totale</small>
+              <small class="text-muted">{{ "Valore totale" if current_language == "it" else "Total value" }}</small>
               <br>
-              <strong>{{ inventario.oggetti|sum(attribute='valore') }} crediti</strong>
+              <strong>{{ inventario.oggetti|sum(attribute='valore') }} {{ "crediti" if current_language == "it" else "credits" }}</strong>
             </div>
             <div class="col-4">
-              <small class="text-muted">Oggetti usati</small>
+              <small class="text-muted">{{ "Oggetti usati" if current_language == "it" else "Used items" }}</small>
               <br>
               <strong>{{ inventario.oggetti|selectattr('usato')|list|length }}</strong>
             </div>
           </div>
         </div>
-
-        <!-- Link statistiche dettagliate -->
-        {# <div class="text-center mt-3"> #}
-          {# <a href="{{ url_for('inventory.inventory_stats', personaggio_id=personaggio.id) }}" #}
-             {# class="btn btn-outline-info btn-sm"> #}
-            {# <i class="fas fa-chart-bar"></i> Statistiche Dettagliate #}
-          {# </a> #}
-        {# </div> #}
       </div>
     {% endif %}
 
-    <!-- Bottoni navigazione -->
     <div class="d-flex gap-2">
       <a href="{{ url_for('characters.show_chars') }}" class="btn btn-outline-primary">
-        <i class="fas fa-arrow-left"></i> Torna alla lista
+        <i class="fas fa-arrow-left"></i> {{ "Torna alla lista" if current_language == "it" else "Back to list" }}
       </a>
       {% if personaggio %}
       <a href="{{ url_for('characters.char_details', char_id=personaggio.id) }}" class="btn btn-outline-secondary">
-        <i class="fas fa-user"></i> Dettagli Personaggio
+        <i class="fas fa-user"></i> {{ "Dettagli Personaggio" if current_language == "it" else "Character Details" }}
       </a>
       {% endif %}
     </div>

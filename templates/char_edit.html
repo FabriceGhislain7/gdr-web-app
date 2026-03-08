@@ -1,39 +1,39 @@
 {% extends "layout.html" %}
 
-{% block title %}Modifica Personaggio{% endblock %}
+{% block title %}{{ "Modifica Personaggio" if current_language == "it" else "Edit Character" }}{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
     <form method="POST" class="card shadow p-4 w-100" style="max-width: 600px;">
-        <h2 class="text-center mb-4">Modifica Personaggio</h2>
+        <h2 class="text-center mb-4">{{ "Modifica Personaggio" if current_language == "it" else "Edit Character" }}</h2>
 
         <!-- Campo nome -->
         <div class="mb-3">
-            <label for="nome" class="form-label">Nome</label>
+            <label for="nome" class="form-label">{{ "Nome" if current_language == "it" else "Name" }}</label>
             <input
                 type="text"
                 id="nome"
                 name="nome"
                 class="form-control"
-                placeholder="Inserisci il nuovo nome"
+                placeholder="{{ 'Inserisci il nuovo nome' if current_language == 'it' else 'Enter the new name' }}"
                 value="{{ pg.nome }}"
                 required>
         </div>
 
         <!-- Campo classe -->
         <div class="mb-3">
-            <label for="classe" class="form-label">Classe</label>
+            <label for="classe" class="form-label">{{ "Classe" if current_language == "it" else "Class" }}</label>
             <select id="classe" name="classe" class="form-select" required>
                 {% for c in classi %}
-                    <option value="{{ c }}" {% if pg.classe == c %}selected{% endif %}>{{ c }}</option>
+                    <option value="{{ c }}" {% if pg.classe == c %}selected{% endif %}>{{ {'Guerriero':'Warrior','Mago':'Mage','Ladro':'Rogue'}.get(c, c) if current_language == 'en' else c }}</option>
                 {% endfor %}
             </select>
         </div>
 
         <!-- Pulsanti -->
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary btn-lg">Salva modifiche</button>
-            <a href="{{ url_for('characters.show_chars') }}" class="btn btn-secondary btn-sm">Annulla</a>
+            <button type="submit" class="btn btn-primary btn-lg">{{ "Salva modifiche" if current_language == "it" else "Save changes" }}</button>
+            <a href="{{ url_for('characters.show_chars') }}" class="btn btn-secondary btn-sm">{{ "Annulla" if current_language == "it" else "Cancel" }}</a>
         </div>
     </form>
 </div>

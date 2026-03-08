@@ -1,12 +1,12 @@
-{% extends "layout.html" %}
-{% block title %}Battaglia{% endblock %}
+﻿{% extends "layout.html" %}
+{% block title %}{{ "Battaglia" if current_language == "it" else "Battle" }}{% endblock %}
 
 {% block content %}
 <div class="row mt-4">
   <div class="col-md-3">
     <div class="card shadow mb-3">
       <div class="card-header bg-primary text-white">
-        <h5 class="mb-0 text-center">Personaggi</h5>
+        <h5 class="mb-0 text-center">{{ "Personaggi" if current_language == "it" else "Characters" }}</h5>
       </div>
       <div class="card-body" style="max-height: 500px; min-height: 500px; overflow-y: auto;">
         <ul class="list-group list-group-flush">
@@ -17,11 +17,11 @@
               {% if pg.sconfitto() %}
               <span class="badge bg-danger ms-1">KO</span>
               {% else %}
-              <span class="badge bg-success ms-1">Vivo</span>
+              <span class="badge bg-success ms-1">{{ "Vivo" if current_language == "it" else "Alive" }}</span>
               {% endif %}
             </h6>
-            <p class="mb-1">Classe: {{ pg.classe }}</p>
-            <p class="mb-1">Salute: {{ pg.salute }} / {{ pg.salute_max }}</p>
+            <p class="mb-1">{{ "Classe" if current_language == "it" else "Class" }}: {{ {'Guerriero':'Warrior','Mago':'Mage','Ladro':'Rogue'}.get(pg.classe, pg.classe) if current_language == 'en' else pg.classe }}</p>
+            <p class="mb-1">{{ "Salute" if current_language == "it" else "Health" }}: {{ pg.salute }} / {{ pg.salute_max }}</p>
             <div class="progress">
               <div
                 class="progress-bar {% if pg.salute > pg.salute_max / 2 %} bg-success {% elif pg.salute > pg.salute_max / 4 %} bg-warning {% else %} bg-danger {% endif %}"
@@ -32,15 +32,15 @@
                 aria-valuemax="{{ pg.salute_max }}"
               ></div>
             </div>
-            <p class="mb-1">Attacco: {{ pg.attacco_min }} - {{ pg.attacco_max }}</p>
+            <p class="mb-1">{{ "Attacco" if current_language == "it" else "Attack" }}: {{ pg.attacco_min }} - {{ pg.attacco_max }}</p>
           </li>
           {% else %}
-          <li class="list-group-item">Nessun personaggio</li>
+          <li class="list-group-item">{{ "Nessun personaggio" if current_language == "it" else "No characters" }}</li>
           {% endfor %}
         </ul>
       </div>
       <div class="card-footer bg-primary text-white text-center">
-        In vita: {{ pc_vivi|length }}
+        {{ "In vita" if current_language == "it" else "Alive" }}: {{ pc_vivi|length }}
       </div>
     </div>
   </div>
@@ -59,20 +59,20 @@
           {% for log in messaggi %}
           <p class="mb-2">{{ log }}</p>
           {% else %}
-          <p class="text-muted">In attesa eventi...</p>
+          <p class="text-muted">{{ "In attesa eventi..." if current_language == "it" else "Waiting for events..." }}</p>
           {% endfor %}
           {% if battaglia_finita %}
           <a href="{{ url_for('gioco.menu') }}" class="btn btn-warning btn-sm my-2 w-50 d-block mx-auto rounded">
-            Torna al menu
+            {{ "Torna al menu" if current_language == "it" else "Back to menu" }}
           </a>
           {% endif %}
         </div>
       </div>
       <div class="card-footer bg-dark text-white text-center">
         {% if battaglia_finita %}
-          {% if vittoria %}Vittoria{% else %}Sconfitta{% endif %}
+          {% if vittoria %}{{ "Vittoria" if current_language == "it" else "Victory" }}{% else %}{{ "Sconfitta" if current_language == "it" else "Defeat" }}{% endif %}
         {% else %}
-          Battaglia in corso
+          {{ "Battaglia in corso" if current_language == "it" else "Battle in progress" }}
         {% endif %}
       </div>
     </div>
@@ -81,7 +81,7 @@
   <div class="col-md-3">
     <div class="card shadow mb-3">
       <div class="card-header bg-danger text-white">
-        <h5 class="mb-0 text-center">Nemici</h5>
+        <h5 class="mb-0 text-center">{{ "Nemici" if current_language == "it" else "Enemies" }}</h5>
       </div>
       <div class="card-body" style="max-height: 500px; min-height: 500px; overflow-y: auto;">
         <ul class="list-group list-group-flush">
@@ -92,11 +92,11 @@
               {% if n.sconfitto() %}
               <span class="badge bg-danger ms-1">KO</span>
               {% else %}
-              <span class="badge bg-success ms-1">Vivo</span>
+              <span class="badge bg-success ms-1">{{ "Vivo" if current_language == "it" else "Alive" }}</span>
               {% endif %}
             </h6>
-            <p class="mb-1">Classe: {{ n.classe }}</p>
-            <p class="mb-1">Salute: {{ n.salute }} / {{ n.salute_max }}</p>
+            <p class="mb-1">{{ "Classe" if current_language == "it" else "Class" }}: {{ {'Guerriero':'Warrior','Mago':'Mage','Ladro':'Rogue'}.get(n.classe, n.classe) if current_language == 'en' else n.classe }}</p>
+            <p class="mb-1">{{ "Salute" if current_language == "it" else "Health" }}: {{ n.salute }} / {{ n.salute_max }}</p>
             <div class="progress">
               <div
                 class="progress-bar {% if n.salute > n.salute_max / 2 %} bg-success {% elif n.salute > n.salute_max / 4 %} bg-warning {% else %} bg-danger {% endif %}"
@@ -107,15 +107,15 @@
                 aria-valuemax="{{ n.salute_max }}"
               ></div>
             </div>
-            <p class="mb-1">Attacco: {{ n.attacco_min }} - {{ n.attacco_max }}</p>
+            <p class="mb-1">{{ "Attacco" if current_language == "it" else "Attack" }}: {{ n.attacco_min }} - {{ n.attacco_max }}</p>
           </li>
           {% else %}
-          <li class="list-group-item">Nessun nemico</li>
+          <li class="list-group-item">{{ "Nessun nemico" if current_language == "it" else "No enemies" }}</li>
           {% endfor %}
         </ul>
       </div>
       <div class="card-footer bg-danger text-white text-center">
-        In vita: {{ npc_vivi|length }}
+        {{ "In vita" if current_language == "it" else "Alive" }}: {{ npc_vivi|length }}
       </div>
     </div>
   </div>
@@ -127,10 +127,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-const log = document.getElementById('log');
-if (log) {
-  log.scrollTop = log.scrollHeight;
-}
-</script>
+<script src="{{ url_for('static', filename='js/pages/battle.js') }}"></script>
 {% endblock %}
+
+

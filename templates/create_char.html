@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Creazione Personaggio{% endblock %}
+{% block title %}{{ "Creazione Personaggio" if current_language == "it" else "Character Creation" }}{% endblock %}
 
 {% block content %}
 <!-- Sezione principale con margine verticale -->
@@ -19,7 +19,7 @@
 
           <!-- Titolo del form centrato e colorato -->
           <h2 class="card-title text-center mb-4 text-primary">
-            Crea un personaggio
+            {{ "Crea un personaggio" if current_language == "it" else "Create a character" }}
           </h2>
 
             <!-- Inizio del form -->
@@ -27,26 +27,26 @@
 
                 <!-- Campo nome -->
                 <div class="mb-3">
-                <label for="nome" class="form-label">Nome personaggio:</label>
+                <label for="nome" class="form-label">{{ "Nome personaggio:" if current_language == "it" else "Character name:" }}</label>
                 <input type="text" id="nome" name="nome" class="form-control" required>
                 </div>
 
                 <!-- Campo selezione classe -->
                 <div class="mb-3">
-                <label for="classe" class="form-label">Seleziona la classe:</label>
+                <label for="classe" class="form-label">{{ "Seleziona la classe:" if current_language == "it" else "Select class:" }}</label>
                 <select id="classe" name="classe" class="form-select" required>
-                    <option value="" disabled selected>-- Seleziona una classe --</option>
+                    <option value="" disabled selected>{{ "-- Seleziona una classe --" if current_language == "it" else "-- Select a class --" }}</option>
                     {% for classe_pg in classi.keys() %}
-                    <option value="{{ classe_pg }}">{{ classe_pg }}</option>
+                    <option value="{{ classe_pg }}">{{ {'Guerriero':'Warrior','Mago':'Mage','Ladro':'Rogue'}.get(classe_pg, classe_pg) if current_language == 'en' else classe_pg }}</option>
                     {% endfor %}
                 </select>
                 </div>
 
                 <!-- Campo selezione oggetto -->
                 <div class="mb-3">
-                <label for="oggetto" class="form-label">Seleziona l'oggetto:</label>
+                <label for="oggetto" class="form-label">{{ "Seleziona l'oggetto:" if current_language == "it" else "Select item:" }}</label>
                 <select id="oggetto" name="oggetto" class="form-select" required>
-                    <option value="" disabled selected>-- Seleziona un oggetto --</option>
+                    <option value="" disabled selected>{{ "-- Seleziona un oggetto --" if current_language == "it" else "-- Select an item --" }}</option>
                     {% for oggetto in oggetti.keys() %}
                     <option value="{{ oggetto }}">{{ oggetto }}</option>
                     {% endfor %}
@@ -55,14 +55,14 @@
 
                 <!-- Pulsanti di invio e reset -->
                 <div class="d-flex justify-content-between mt-4">
-                <button type="submit" class="btn btn-success w-50 me-2">Crea Personaggio</button>
+                <button type="submit" class="btn btn-success w-50 me-2">{{ "Crea Personaggio" if current_language == "it" else "Create Character" }}</button>
                 <button type="reset" class="btn btn-secondary w-50">Reset</button>
                 </div>
 
                 <!-- Pulsante per tornare alla home -->
                 <div class="mt-4 text-center">
                     <a href="{{ url_for('gioco.menu') }}" class="btn btn-outline-primary">
-                         &larr;  Torna al menu principale
+                         &larr;  {{ "Torna al menu principale" if current_language == "it" else "Back to main menu" }}
                     </a>
                 </div>
 

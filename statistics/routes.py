@@ -5,7 +5,7 @@ import os
 import json
 import csv
 from functools import lru_cache
-from config import DATA_DIR_SAVE, DATA_DIR_PGS, load_leaderboard
+from config import BASE_DIR, DATA_DIR_SAVE, DATA_DIR_PGS, load_leaderboard
 
 
 # Home / menu principale
@@ -107,6 +107,17 @@ def _load_dataset_rows(dataset_path):
     with open(dataset_path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         return list(reader)
+
+
+def _resolve_dataset_path():
+    candidates = [
+        os.path.join(BASE_DIR, "data", "big_dataset_gioco.csv"),
+        os.path.join(BASE_DIR, "big_dataset_gioco.csv"),
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    return None
 
 
 def _filter_rows(rows, filters):
@@ -329,8 +340,8 @@ def analytics_data_analyst():
         flash("Access restricted to the developer/data analyst team.", "warning")
         return redirect(url_for("gioco.menu"))
 
-    dataset_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "big_dataset_gioco.csv")
-    if not os.path.exists(dataset_path):
+    dataset_path = _resolve_dataset_path()
+    if not dataset_path:
         flash("Analytics dataset not found.", "danger")
         return redirect(url_for("statistics.show_statistics"))
 
@@ -353,8 +364,8 @@ def analytics_data_analyst_api():
     if not current_user.is_team_member_developer():
         return jsonify({"error": "forbidden"}), 403
 
-    dataset_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "big_dataset_gioco.csv")
-    if not os.path.exists(dataset_path):
+    dataset_path = _resolve_dataset_path()
+    if not dataset_path:
         return jsonify({"error": "dataset_not_found"}), 404
 
     rows = _load_dataset_rows(dataset_path)

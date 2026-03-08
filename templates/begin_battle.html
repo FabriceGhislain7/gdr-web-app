@@ -1,11 +1,11 @@
-{% extends "layout.html" %}
-{% block title %}Inizio Battaglia{% endblock %}
+﻿{% extends "layout.html" %}
+{% block title %}{{ "Inizio Battaglia" if current_language == "it" else "Battle Start" }}{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center flex-column py-5">
   <form method="post" class="card shadow-sm p-4" style="max-width: 900px; width: 100%;">
     <h3 class="text-center mb-2"><i>{{ missione_corrente.nome }}</i></h3>
-    <h5 class="text-center mb-4">Ambiente: <i>{{ missione_corrente.ambiente.nome }}</i></h5>
+    <h5 class="text-center mb-4">{{ "Ambiente" if current_language == "it" else "Environment" }}: <i>{{ missione_corrente.ambiente.nome }}</i></h5>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-3">
       {% for personaggio in personaggi %}
@@ -21,7 +21,7 @@
           <label class="btn btn-outline-primary card h-100 text-center p-2" for="{{ personaggio.id }}">
             <div class="card-body d-flex flex-column justify-content-center">
               <h5 class="card-title">{{ personaggio.nome|truncate(18, True, '...') }}</h5>
-              <p class="card-text">Classe: {{ personaggio.classe }}</p>
+              <p class="card-text">{{ "Classe" if current_language == "it" else "Class" }}: {{ {'Guerriero':'Warrior','Mago':'Mage','Ladro':'Rogue'}.get(personaggio.classe, personaggio.classe) if current_language == 'en' else personaggio.classe }}</p>
               <small class="text-muted">HP: {{ personaggio.salute }}/{{ personaggio.salute_max }}</small>
             </div>
           </label>
@@ -30,28 +30,17 @@
     </div>
 
     <button type="submit" class="btn btn-outline-primary btn-lg w-100" id="submit-battle" disabled>
-      Vai alla battaglia
+      {{ "Vai alla battaglia" if current_language == "it" else "Go to battle" }}
     </button>
     <a href="{{ url_for('mission.show_mission') }}" class="btn btn-outline-secondary btn-sm mt-3 w-50 d-block mx-auto rounded">
-      Annulla
+      {{ "Annulla" if current_language == "it" else "Cancel" }}
     </a>
   </form>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const checkboxes = document.querySelectorAll('input[name="selected_chars"]');
-  const submitBtn = document.getElementById('submit-battle');
-
-  function toggleButton() {
-    const selected = Array.from(checkboxes).some(cb => cb.checked);
-    submitBtn.disabled = !selected;
-  }
-
-  toggleButton();
-  checkboxes.forEach(cb => cb.addEventListener('change', toggleButton));
-});
-</script>
+<script src="{{ url_for('static', filename='js/pages/begin_battle.js') }}"></script>
 {% endblock %}
+
+

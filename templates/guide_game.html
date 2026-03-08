@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+﻿{% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
 {% block title %}Game Guide - GDR Web App{% endblock %}
@@ -107,7 +107,7 @@
                style="width: 45px; height: 45px;">
             <i class="bi bi-info-circle text-white"></i>
           </div>
-          <h2 class="h4 fw-bold mb-0">Introduzione</h2>
+          <h2 class="h4 fw-bold mb-0">{{ "Introduzione" if current_language == "it" else "Introduction" }}</h2>
         </div>
         
         <div class="ps-4 ps-md-5">
@@ -116,11 +116,16 @@
               <i class="bi bi-dice-6 text-primary me-3 mt-1 h5"></i>
               <div>
                 <p class="mb-0">
-                  Il <strong>GDR Web App</strong> è un gioco di ruolo fantasy basato su Flask e Python, 
+                  {% if current_language == 'it' %}
+                  Il <strong>GDR Web App</strong> è un gioco di ruolo fantasy basato su Flask e Python,
                   dove ogni giocatore può creare un personaggio, esplorare ambienti, combattere nemici e ottenere ricompense.
+                  {% else %}
+                  <strong>GDR Web App</strong> is a fantasy role-playing game built with Flask and Python,
+                  where each player can create a character, explore environments, fight enemies, and earn rewards.
+                  {% endif %}
                 </p>
                 <small class="text-muted">
-                  L'interfaccia è semplice e ogni azione è supportata da una logica Python ben strutturata.
+                  {{ "L'interfaccia è semplice e ogni azione è supportata da una logica Python ben strutturata." if current_language == "it" else "The interface is simple and each action is powered by well-structured Python logic." }}
                 </small>
               </div>
             </div>
@@ -131,22 +136,22 @@
             <div class="col-md-4">
               <div class="text-center p-3 bg-light rounded">
                 <i class="bi bi-people text-primary h4"></i>
-                <div class="fw-semibold">Multigiocatore</div>
-                <small class="text-muted">Gioca con i tuoi amici</small>
+                <div class="fw-semibold">{{ "Multigiocatore" if current_language == "it" else "Multiplayer" }}</div>
+                <small class="text-muted">{{ "Gioca con i tuoi amici" if current_language == "it" else "Play with your friends" }}</small>
               </div>
             </div>
             <div class="col-md-4">
               <div class="text-center p-3 bg-light rounded">
                 <i class="bi bi-gear text-secondary h4"></i>
-                <div class="fw-semibold">Strategico</div>
-                <small class="text-muted">Ogni scelta conta</small>
+                <div class="fw-semibold">{{ "Strategico" if current_language == "it" else "Strategic" }}</div>
+                <small class="text-muted">{{ "Ogni scelta conta" if current_language == "it" else "Every choice matters" }}</small>
               </div>
             </div>
             <div class="col-md-4">
               <div class="text-center p-3 bg-light rounded">
                 <i class="bi bi-trophy text-info h4"></i>
-                <div class="fw-semibold">Progressivo</div>
-                <small class="text-muted">Migliora il tuo eroe</small>
+                <div class="fw-semibold">{{ "Progressivo" if current_language == "it" else "Progression" }}</div>
+                <small class="text-muted">{{ "Migliora il tuo eroe" if current_language == "it" else "Improve your hero" }}</small>
               </div>
             </div>
           </div>
@@ -161,12 +166,12 @@
                style="width: 45px; height: 45px;">
             <i class="bi bi-person-plus text-white"></i>
           </div>
-          <h2 class="h4 fw-bold mb-0">1. Creazione del Personaggio</h2>
+          <h2 class="h4 fw-bold mb-0">{{ "1. Creazione del Personaggio" if current_language == "it" else "1. Character Creation" }}</h2>
         </div>
         
         <div class="ps-4 ps-md-5">
           <p class="text-muted mb-4">
-            Scegli la tua classe tra tre opzioni distinte, ognuna con caratteristiche uniche:
+            {{ "Scegli la tua classe tra tre opzioni distinte, ognuna con caratteristiche uniche:" if current_language == "it" else "Choose your class among three distinct options, each with unique characteristics:" }}
           </p>
           
           <!-- Grid classi personaggi -->
@@ -179,22 +184,22 @@
                        style="width: 60px; height: 60px;">
                     <i class="bi bi-shield text-white h4 mb-0"></i>
                   </div>
-                  <h5 class="card-title text-danger">Guerriero</h5>
+                  <h5 class="card-title text-danger">{{ "Guerriero" if current_language == "it" else "Warrior" }}</h5>
                   <p class="card-text small text-muted">
-                    Forte in attacco fisico, favorito nella <strong>Foresta</strong>
+                    {{ "Forte in attacco fisico, favorito nella" if current_language == "it" else "Strong in physical attack, favored in the" }} <strong>{{ "Foresta" if current_language == "it" else "Forest" }}</strong>
                   </p>
                   <div class="mt-3">
                     <div class="d-flex justify-content-between small">
-                      <span>Salute:</span>
+                      <span>{{ "Salute" if current_language == "it" else "Health" }}:</span>
                       <span class="fw-semibold">130 HP</span>
                     </div>
                     <div class="d-flex justify-content-between small">
-                      <span>Attacco:</span>
+                      <span>{{ "Attacco" if current_language == "it" else "Attack" }}:</span>
                       <span class="fw-semibold">20-100</span>
                     </div>
                     <div class="d-flex justify-content-between small">
-                      <span>Recupero:</span>
-                      <span class="fw-semibold">30 HP fissi</span>
+                      <span>{{ "Recupero" if current_language == "it" else "Recovery" }}:</span>
+                      <span class="fw-semibold">{{ "30 HP fissi" if current_language == "it" else "30 HP fixed" }}</span>
                     </div>
                   </div>
                 </div>
@@ -211,19 +216,19 @@
                   </div>
                   <h5 class="card-title text-primary">Mago</h5>
                   <p class="card-text small text-muted">
-                    Potente nel <strong>Vulcano</strong>, usa incantesimi devastanti
+                    {{ "Potente nel" if current_language == "it" else "Powerful in the" }} <strong>{{ "Vulcano" if current_language == "it" else "Volcano" }}</strong>, {{ "usa incantesimi devastanti" if current_language == "it" else "uses devastating spells" }}
                   </p>
                   <div class="mt-3">
                     <div class="d-flex justify-content-between small">
-                      <span>Salute:</span>
+                      <span>{{ "Salute" if current_language == "it" else "Health" }}:</span>
                       <span class="fw-semibold">80 HP</span>
                     </div>
                     <div class="d-flex justify-content-between small">
-                      <span>Attacco:</span>
+                      <span>{{ "Attacco" if current_language == "it" else "Attack" }}:</span>
                       <span class="fw-semibold">0-90</span>
                     </div>
                     <div class="d-flex justify-content-between small">
-                      <span>Recupero:</span>
+                      <span>{{ "Recupero" if current_language == "it" else "Recovery" }}:</span>
                       <span class="fw-semibold">20% HP</span>
                     </div>
                   </div>
@@ -239,21 +244,21 @@
                        style="width: 60px; height: 60px;">
                     <i class="bi bi-mask text-white h4 mb-0"></i>
                   </div>
-                  <h5 class="card-title text-dark">Ladro</h5>
+                  <h5 class="card-title text-dark">{{ "Ladro" if current_language == "it" else "Rogue" }}</h5>
                   <p class="card-text small text-muted">
-                    Agile, si cura meglio in ambienti come la <strong>Foresta</strong>
+                    {{ "Agile, si cura meglio in ambienti come la" if current_language == "it" else "Agile, heals better in environments like the" }} <strong>{{ "Foresta" if current_language == "it" else "Forest" }}</strong>
                   </p>
                   <div class="mt-3">
                     <div class="d-flex justify-content-between small">
-                      <span>Salute:</span>
+                      <span>{{ "Salute" if current_language == "it" else "Health" }}:</span>
                       <span class="fw-semibold">120 HP</span>
                     </div>
                     <div class="d-flex justify-content-between small">
-                      <span>Attacco:</span>
+                      <span>{{ "Attacco" if current_language == "it" else "Attack" }}:</span>
                       <span class="fw-semibold">10-85</span>
                     </div>
                     <div class="d-flex justify-content-between small">
-                      <span>Recupero:</span>
+                      <span>{{ "Recupero" if current_language == "it" else "Recovery" }}:</span>
                       <span class="fw-semibold">10-40 HP</span>
                     </div>
                   </div>
@@ -267,8 +272,8 @@
               <i class="bi bi-arrow-up-circle text-info me-2 mt-1"></i>
               <div>
                 <small>
-                  <strong>Progressione:</strong> Ogni personaggio inizia con le statistiche base e 
-                  può salire di livello completando missioni, migliorando attacco e salute.
+                  <strong>{{ "Progressione" if current_language == "it" else "Progression" }}:</strong>
+                  {{ "Ogni personaggio inizia con le statistiche base e può salire di livello completando missioni, migliorando attacco e salute." if current_language == "it" else "Each character starts with base stats and can level up by completing missions, improving attack and health." }}
                 </small>
               </div>
             </div>
@@ -284,12 +289,12 @@
                style="width: 45px; height: 45px;">
             <i class="bi bi-bag text-white"></i>
           </div>
-          <h2 class="h4 fw-bold mb-0">2. Inventario e Oggetti</h2>
+          <h2 class="h4 fw-bold mb-0">{{ "2. Inventario e Oggetti" if current_language == "it" else "2. Inventory and Items" }}</h2>
         </div>
         
         <div class="ps-4 ps-md-5">
           <p class="text-muted mb-4">
-            Durante le missioni riceverai oggetti preziosi da usare strategicamente in battaglia:
+            {{ "Durante le missioni riceverai oggetti preziosi da usare strategicamente in battaglia:" if current_language == "it" else "During missions you will receive valuable items to use strategically in battle:" }}
           </p>
           
           <!-- Lista oggetti -->
@@ -301,10 +306,10 @@
                   <i class="bi bi-heart-pulse text-white"></i>
                 </div>
                 <div>
-                  <div class="fw-semibold text-success">Pozione Rossa</div>
-                  <small class="text-muted">Recupera +30 HP istantaneamente</small>
+                  <div class="fw-semibold text-success">{{ "Pozione Rossa" if current_language == "it" else "Red Potion" }}</div>
+                  <small class="text-muted">{{ "Recupera +30 HP istantaneamente" if current_language == "it" else "Instantly restores +30 HP" }}</small>
                   <div class="mt-1">
-                    <span class="badge bg-success bg-opacity-10 text-success">Ristorativo</span>
+                    <span class="badge bg-success bg-opacity-10 text-success">{{ "Ristorativo" if current_language == "it" else "Restorative" }}</span>
                   </div>
                 </div>
               </div>
@@ -317,10 +322,10 @@
                   <i class="bi bi-fire text-white"></i>
                 </div>
                 <div>
-                  <div class="fw-semibold text-danger">Bomba Acida</div>
-                  <small class="text-muted">Infligge 30 danni al nemico</small>
+                  <div class="fw-semibold text-danger">{{ "Bomba Acida" if current_language == "it" else "Acid Bomb" }}</div>
+                  <small class="text-muted">{{ "Infligge 30 danni al nemico" if current_language == "it" else "Deals 30 damage to the enemy" }}</small>
                   <div class="mt-1">
-                    <span class="badge bg-danger bg-opacity-10 text-danger">Offensivo</span>
+                    <span class="badge bg-danger bg-opacity-10 text-danger">{{ "Offensivo" if current_language == "it" else "Offensive" }}</span>
                   </div>
                 </div>
               </div>
@@ -333,10 +338,10 @@
                   <i class="bi bi-gem text-white"></i>
                 </div>
                 <div>
-                  <div class="fw-semibold text-warning">Medaglione</div>
-                  <small class="text-muted">Potenzia attacco massimo +10</small>
+                  <div class="fw-semibold text-warning">{{ "Medaglione" if current_language == "it" else "Medallion" }}</div>
+                  <small class="text-muted">{{ "Potenzia attacco massimo +10" if current_language == "it" else "Boosts max attack by +10" }}</small>
                   <div class="mt-1">
-                    <span class="badge bg-warning bg-opacity-10 text-warning">Buff Permanente</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning">{{ "Buff Permanente" if current_language == "it" else "Permanent Buff" }}</span>
                   </div>
                 </div>
               </div>
@@ -348,8 +353,8 @@
               <i class="bi bi-exclamation-triangle text-warning me-2 mt-1"></i>
               <div>
                 <small>
-                  <strong>Attenzione:</strong> Alcuni oggetti hanno effetti speciali in ambienti specifici! 
-                  Ad esempio, le Bombe Acide diventano più potenti nel Vulcano.
+                  <strong>{{ "Attenzione" if current_language == "it" else "Warning" }}:</strong>
+                  {{ "Alcuni oggetti hanno effetti speciali in ambienti specifici! Ad esempio, le Bombe Acide diventano più potenti nel Vulcano." if current_language == "it" else "Some items have special effects in specific environments! For example, Acid Bombs become more powerful in the Volcano." }}
                 </small>
               </div>
             </div>
@@ -365,12 +370,12 @@
                style="width: 45px; height: 45px;">
             <i class="bi bi-globe text-white"></i>
           </div>
-          <h2 class="h4 fw-bold mb-0">3. Ambienti</h2>
+          <h2 class="h4 fw-bold mb-0">{{ "3. Ambienti" if current_language == "it" else "3. Environments" }}</h2>
         </div>
         
         <div class="ps-4 ps-md-5">
           <p class="text-muted mb-4">
-            Ogni missione si svolge in un ambiente unico che modifica il comportamento di personaggi e oggetti:
+            {{ "Ogni missione si svolge in un ambiente unico che modifica il comportamento di personaggi e oggetti:" if current_language == "it" else "Each mission takes place in a unique environment that changes character and item behavior:" }}
           </p>
           
           <!-- Ambienti cards -->
@@ -384,22 +389,22 @@
                          style="width: 50px; height: 50px;">
                       <i class="bi bi-tree text-white h5 mb-0"></i>
                     </div>
-                    <h5 class="card-title text-success">Foresta</h5>
+                    <h5 class="card-title text-success">{{ "Foresta" if current_language == "it" else "Forest" }}</h5>
                   </div>
                   
                   <div class="mb-3">
                     <div class="d-flex align-items-center mb-1">
                       <i class="bi bi-arrow-up text-success me-2 small"></i>
-                      <small>Guerrieri: +5 attacco</small>
+                      <small>{{ "Guerrieri: +5 attacco" if current_language == "it" else "Warriors: +5 attack" }}</small>
                     </div>
                     <div class="d-flex align-items-center">
                       <i class="bi bi-heart text-success me-2 small"></i>
-                      <small>Ladri: +5 cura per turno</small>
+                      <small>{{ "Ladri: +5 cura per turno" if current_language == "it" else "Rogues: +5 healing per turn" }}</small>
                     </div>
                   </div>
                   
                   <div class="text-center">
-                    <span class="badge bg-success bg-opacity-10 text-success">Ambiente Equilibrato</span>
+                    <span class="badge bg-success bg-opacity-10 text-success">{{ "Ambiente Equilibrato" if current_language == "it" else "Balanced Environment" }}</span>
                   </div>
                 </div>
               </div>
@@ -414,26 +419,26 @@
                          style="width: 50px; height: 50px;">
                       <i class="bi bi-fire text-white h5 mb-0"></i>
                     </div>
-                    <h5 class="card-title text-danger">Vulcano</h5>
+                    <h5 class="card-title text-danger">{{ "Vulcano" if current_language == "it" else "Volcano" }}</h5>
                   </div>
                   
                   <div class="mb-3">
                     <div class="d-flex align-items-center mb-1">
                       <i class="bi bi-arrow-up text-danger me-2 small"></i>
-                      <small>Maghi: +10 attacco</small>
+                      <small>{{ "Maghi: +10 attacco" if current_language == "it" else "Mages: +10 attack" }}</small>
                     </div>
                     <div class="d-flex align-items-center mb-1">
                       <i class="bi bi-arrow-down text-danger me-2 small"></i>
-                      <small>Ladri: -10 attacco</small>
+                      <small>{{ "Ladri: -10 attacco" if current_language == "it" else "Rogues: -10 attack" }}</small>
                     </div>
                     <div class="d-flex align-items-center">
                       <i class="bi bi-fire text-danger me-2 small"></i>
-                      <small>Bombe: +0-15 danni</small>
+                      <small>{{ "Bombe: +0-15 danni" if current_language == "it" else "Bombs: +0-15 damage" }}</small>
                     </div>
                   </div>
                   
                   <div class="text-center">
-                    <span class="badge bg-danger bg-opacity-10 text-danger">Ambiente Estremo</span>
+                    <span class="badge bg-danger bg-opacity-10 text-danger">{{ "Ambiente Estremo" if current_language == "it" else "Extreme Environment" }}</span>
                   </div>
                 </div>
               </div>
@@ -448,22 +453,22 @@
                          style="width: 50px; height: 50px;">
                       <i class="bi bi-droplet text-white h5 mb-0"></i>
                     </div>
-                    <h5 class="card-title text-secondary">Palude</h5>
+                    <h5 class="card-title text-secondary">{{ "Palude" if current_language == "it" else "Swamp" }}</h5>
                   </div>
                   
                   <div class="mb-3">
                     <div class="d-flex align-items-center mb-1">
                       <i class="bi bi-arrow-down text-secondary me-2 small"></i>
-                      <small>Guerrieri/Ladri: -5 attacco</small>
+                      <small>{{ "Guerrieri/Ladri: -5 attacco" if current_language == "it" else "Warriors/Rogues: -5 attack" }}</small>
                     </div>
                     <div class="d-flex align-items-center">
                       <i class="bi bi-arrow-down text-secondary me-2 small"></i>
-                      <small>Pozioni: -30% efficacia</small>
+                      <small>{{ "Pozioni: -30% efficacia" if current_language == "it" else "Potions: -30% effectiveness" }}</small>
                     </div>
                   </div>
                   
                   <div class="text-center">
-                    <span class="badge bg-secondary bg-opacity-10 text-secondary">Ambiente Ostile</span>
+                    <span class="badge bg-secondary bg-opacity-10 text-secondary">{{ "Ambiente Ostile" if current_language == "it" else "Hostile Environment" }}</span>
                   </div>
                 </div>
               </div>
@@ -480,12 +485,12 @@
                style="width: 45px; height: 45px;">
             <i class="bi bi-flag text-white"></i>
           </div>
-          <h2 class="h4 fw-bold mb-0">4. Missioni e Combattimenti</h2>
+          <h2 class="h4 fw-bold mb-0">{{ "4. Missioni e Combattimenti" if current_language == "it" else "4. Missions and Battles" }}</h2>
         </div>
         
         <div class="ps-4 ps-md-5">
           <p class="text-muted mb-4">
-            Le missioni sono il cuore del gioco. Ogni missione è composta da diversi elementi:
+            {{ "Le missioni sono il cuore del gioco. Ogni missione è composta da diversi elementi:" if current_language == "it" else "Missions are the core of the game. Each mission is composed of several elements:" }}
           </p>
           
           <!-- Componenti missione -->
@@ -494,8 +499,8 @@
               <div class="d-flex align-items-center p-3 border rounded">
                 <i class="bi bi-journal-text text-primary me-3 h5 mb-0"></i>
                 <div>
-                  <div class="fw-semibold">Nome Missione</div>
-                  <small class="text-muted">es: <em>Imboscata</em>, <em>Salva la Principessa</em></small>
+                  <div class="fw-semibold">{{ "Nome Missione" if current_language == "it" else "Mission Name" }}</div>
+                  <small class="text-muted">{{ "es: " if current_language == "it" else "e.g.: " }}<em>{{ "Imboscata" if current_language == "it" else "Ambush" }}</em>, <em>{{ "Salva la Principessa" if current_language == "it" else "Save the Princess" }}</em></small>
                 </div>
               </div>
             </div>
@@ -504,8 +509,8 @@
               <div class="d-flex align-items-center p-3 border rounded">
                 <i class="bi bi-geo-alt text-success me-3 h5 mb-0"></i>
                 <div>
-                  <div class="fw-semibold">Ambiente</div>
-                  <small class="text-muted">Foresta, Vulcano o Palude</small>
+                  <div class="fw-semibold">{{ "Ambiente" if current_language == "it" else "Environment" }}</div>
+                  <small class="text-muted">{{ "Foresta, Vulcano o Palude" if current_language == "it" else "Forest, Volcano, or Swamp" }}</small>
                 </div>
               </div>
             </div>
@@ -514,8 +519,8 @@
               <div class="d-flex align-items-center p-3 border rounded">
                 <i class="bi bi-people text-danger me-3 h5 mb-0"></i>
                 <div>
-                  <div class="fw-semibold">Lista Nemici</div>
-                  <small class="text-muted">Da sconfiggere per completare</small>
+                  <div class="fw-semibold">{{ "Lista Nemici" if current_language == "it" else "Enemy List" }}</div>
+                  <small class="text-muted">{{ "Da sconfiggere per completare" if current_language == "it" else "Defeat them to complete the mission" }}</small>
                 </div>
               </div>
             </div>
@@ -524,8 +529,8 @@
               <div class="d-flex align-items-center p-3 border rounded">
                 <i class="bi bi-gift text-warning me-3 h5 mb-0"></i>
                 <div>
-                  <div class="fw-semibold">Ricompense</div>
-                  <small class="text-muted">Oggetti e premi per i vincitori</small>
+                  <div class="fw-semibold">{{ "Ricompense" if current_language == "it" else "Rewards" }}</div>
+                  <small class="text-muted">{{ "Oggetti e premi per i vincitori" if current_language == "it" else "Items and prizes for the winners" }}</small>
                 </div>
               </div>
             </div>
@@ -536,7 +541,7 @@
             <div class="card-body">
               <h6 class="fw-semibold mb-3">
                 <i class="bi bi-diagram-3 text-primary me-2"></i>
-                Flusso di Combattimento
+                {{ "Flusso di Combattimento" if current_language == "it" else "Battle Flow" }}
               </h6>
               
               <div class="d-flex align-items-center justify-content-between text-center small">
@@ -545,7 +550,7 @@
                        style="width: 35px; height: 35px;">
                     <span class="text-white fw-bold">1</span>
                   </div>
-                  <div>Attacco</div>
+                  <div>{{ "Attacco" if current_language == "it" else "Attack" }}</div>
                 </div>
                 
                 <i class="bi bi-arrow-right text-muted mx-2"></i>
@@ -555,7 +560,7 @@
                        style="width: 35px; height: 35px;">
                     <span class="text-white fw-bold">2</span>
                   </div>
-                  <div>Verifica Danno</div>
+                  <div>{{ "Damage Check" if current_language == "en" else "Verifica Danno" }}</div>
                 </div>
                 
                 <i class="bi bi-arrow-right text-muted mx-2"></i>
@@ -565,7 +570,7 @@
                        style="width: 35px; height: 35px;">
                     <span class="text-white fw-bold">3</span>
                   </div>
-                  <div>Check Sconfitta</div>
+                  <div>{{ "Defeat Check" if current_language == "en" else "Check Sconfitta" }}</div>
                 </div>
                 
                 <i class="bi bi-arrow-right text-muted mx-2"></i>
@@ -575,13 +580,13 @@
                        style="width: 35px; height: 35px;">
                     <span class="text-white fw-bold">4</span>
                   </div>
-                  <div>Assegna Premi</div>
+                  <div>{{ "Assign Rewards" if current_language == "en" else "Assegna Premi" }}</div>
                 </div>
               </div>
               
               <div class="mt-3 text-center">
                 <small class="text-muted">
-                  I premi vengono assegnati <strong>casualmente</strong> agli inventari dei giocatori vincitori
+                  {{ "I premi vengono assegnati" if current_language == "it" else "Rewards are assigned" }} <strong>{{ "casualmente" if current_language == "it" else "randomly" }}</strong> {{ "agli inventari dei giocatori vincitori" if current_language == "it" else "to the inventories of winning players" }}
                 </small>
               </div>
             </div>
@@ -597,7 +602,7 @@
                style="width: 45px; height: 45px;">
             <i class="bi bi-lightbulb text-white"></i>
           </div>
-          <h2 class="h4 fw-bold mb-0">5. Strategia di Gioco</h2>
+          <h2 class="h4 fw-bold mb-0">{{ "5. Strategia di Gioco" if current_language == "it" else "5. Game Strategy" }}</h2>
         </div>
         
         <div class="ps-4 ps-md-5">
@@ -606,8 +611,8 @@
               <i class="bi bi-trophy text-success me-2 mt-1"></i>
               <div>
                 <p class="mb-0">
-                  <strong>Le decisioni contano!</strong> Usa saggiamente gli oggetti, scegli l'ordine degli attacchi 
-                  e sfrutta gli ambienti a tuo vantaggio.
+                  <strong>{{ "Le decisioni contano!" if current_language == "it" else "Decisions matter!" }}</strong>
+                  {{ "Usa saggiamente gli oggetti, scegli l'ordine degli attacchi e sfrutta gli ambienti a tuo vantaggio." if current_language == "it" else "Use items wisely, choose attack order carefully, and exploit environments to your advantage." }}
                 </p>
               </div>
             </div>
@@ -621,7 +626,7 @@
                   <div class="d-flex align-items-start">
                     <i class="bi bi-dice-6 text-primary me-3 mt-1 h5"></i>
                     <div>
-                      <h6 class="fw-semibold">Danno Variabile</h6>
+                      <h6 class="fw-semibold">{{ "Danno Variabile" if current_language == "it" else "Variable Damage" }}</h6>
                       <small class="text-muted">
                         Il danno è calcolato come: <br>
                         <code>random(min, max) + modificatore_ambiente</code>
@@ -638,10 +643,10 @@
                   <div class="d-flex align-items-start">
                     <i class="bi bi-arrow-up-circle text-success me-3 mt-1 h5"></i>
                     <div>
-                      <h6 class="fw-semibold">Progressione</h6>
+                      <h6 class="fw-semibold">{{ "Progressione" if current_language == "it" else "Progression" }}</h6>
                       <small class="text-muted">
-                        Ogni personaggio può potenziarsi salendo di livello: <br>
-                        <strong>+2% attacco</strong> e <strong>+1% salute</strong>
+                        {{ "Ogni personaggio può potenziarsi salendo di livello:" if current_language == "it" else "Each character can improve by leveling up:" }} <br>
+                        <strong>{{ "+2% attacco" if current_language == "it" else "+2% attack" }}</strong> {{ "e" if current_language == "it" else "and" }} <strong>{{ "+1% salute" if current_language == "it" else "+1% health" }}</strong>
                       </small>
                     </div>
                   </div>
@@ -655,10 +660,10 @@
                   <div class="d-flex align-items-start">
                     <i class="bi bi-exclamation-triangle text-warning me-3 mt-1 h5"></i>
                     <div>
-                      <h6 class="fw-semibold">Oggetti Monouso</h6>
+                      <h6 class="fw-semibold">{{ "Oggetti Monouso" if current_language == "it" else "Single-Use Items" }}</h6>
                       <small class="text-muted">
-                        Ogni oggetto può essere usato <strong>una sola volta</strong>. <br>
-                        Pianifica attentamente quando utilizzarli!
+                        {{ "Ogni oggetto può essere usato" if current_language == "it" else "Each item can be used" }} <strong>{{ "una sola volta" if current_language == "it" else "only once" }}</strong>. <br>
+                        {{ "Pianifica attentamente quando utilizzarli!" if current_language == "it" else "Plan carefully when to use them!" }}
                       </small>
                     </div>
                   </div>
@@ -672,10 +677,10 @@
                   <div class="d-flex align-items-start">
                     <i class="bi bi-geo-alt text-info me-3 mt-1 h5"></i>
                     <div>
-                      <h6 class="fw-semibold">Sinergie Ambiente</h6>
+                      <h6 class="fw-semibold">{{ "Sinergie Ambiente" if current_language == "it" else "Environment Synergies" }}</h6>
                       <small class="text-muted">
-                        Abbina la tua classe all'ambiente giusto: <br>
-                        <strong>Guerriero → Foresta</strong>, <strong>Mago → Vulcano</strong>
+                        {{ "Abbina la tua classe all'ambiente giusto:" if current_language == "it" else "Match your class with the right environment:" }} <br>
+                        <strong>{{ "Guerriero" if current_language == "it" else "Warrior" }} → {{ "Foresta" if current_language == "it" else "Forest" }}</strong>, <strong>{{ "Mago" if current_language == "it" else "Mage" }} → {{ "Vulcano" if current_language == "it" else "Volcano" }}</strong>
                       </small>
                     </div>
                   </div>
@@ -688,32 +693,32 @@
           <div class="mt-4">
             <h6 class="fw-semibold mb-3">
               <i class="bi bi-star text-warning me-2"></i>
-              Consigli Avanzati
+              {{ "Consigli Avanzati" if current_language == "it" else "Advanced Tips" }}
             </h6>
             
             <div class="row g-2">
               <div class="col-12">
                 <div class="d-flex align-items-center p-2 border-start border-primary border-3 ps-3">
                   <i class="bi bi-check-circle text-success me-2"></i>
-                  <small>Usa le Bombe Acide nel Vulcano per massimizzare i danni</small>
+                  <small>{{ "Usa le Bombe Acide nel Vulcano per massimizzare i danni" if current_language == "it" else "Use Acid Bombs in the Volcano to maximize damage" }}</small>
                 </div>
               </div>
               <div class="col-12">
                 <div class="d-flex align-items-center p-2 border-start border-primary border-3 ps-3">
                   <i class="bi bi-check-circle text-success me-2"></i>
-                  <small>Evita la Palude con Guerrieri e Ladri se possibile</small>
+                  <small>{{ "Evita la Palude con Guerrieri e Ladri se possibile" if current_language == "it" else "Avoid the Swamp with Warriors and Rogues when possible" }}</small>
                 </div>
               </div>
               <div class="col-12">
                 <div class="d-flex align-items-center p-2 border-start border-primary border-3 ps-3">
                   <i class="bi bi-check-circle text-success me-2"></i>
-                  <small>Conserva le Pozioni Rosse per i momenti critici</small>
+                  <small>{{ "Conserva le Pozioni Rosse per i momenti critici" if current_language == "it" else "Save Red Potions for critical moments" }}</small>
                 </div>
               </div>
               <div class="col-12">
                 <div class="d-flex align-items-center p-2 border-start border-primary border-3 ps-3">
                   <i class="bi bi-check-circle text-success me-2"></i>
-                  <small>I Medaglioni sono permanenti: usali appena li trovi</small>
+                  <small>{{ "I Medaglioni sono permanenti: usali appena li trovi" if current_language == "it" else "Medallions are permanent: use them as soon as you find them" }}</small>
                 </div>
               </div>
             </div>
@@ -729,7 +734,7 @@
                style="width: 45px; height: 45px;">
             <i class="bi bi-flag-fill text-white"></i>
           </div>
-          <h2 class="h4 fw-bold mb-0">Conclusione</h2>
+          <h2 class="h4 fw-bold mb-0">{{ "Conclusione" if current_language == "it" else "Conclusion" }}</h2>
         </div>
         
         <div class="ps-4 ps-md-5">
@@ -737,13 +742,12 @@
             <div class="card-body text-white">
               <div class="row align-items-center">
                 <div class="col-md-8">
-                  <h5 class="fw-bold mb-3">🏆 Vittoria e Progressione</h5>
+                  <h5 class="fw-bold mb-3">{{ "Vittoria e Progressione" if current_language == "it" else "Victory and Progression" }}</h5>
                   <p class="mb-2">
-                    Il gioco termina quando <strong>tutte le missioni</strong> vengono completate con successo.
+                    {{ "Il gioco termina quando" if current_language == "it" else "The game ends when" }} <strong>{{ "tutte le missioni" if current_language == "it" else "all missions" }}</strong> {{ "vengono completate con successo." if current_language == "it" else "are completed successfully." }}
                   </p>
                   <p class="mb-0">
-                    Ogni giocatore potrà conservare il proprio personaggio e i log delle partite 
-                    per future avventure epiche!
+                    {{ "Ogni giocatore potrà conservare il proprio personaggio e i log delle partite per future avventure epiche!" if current_language == "it" else "Each player can keep their character and match logs for future epic adventures!" }}
                   </p>
                 </div>
                 <div class="col-md-4 text-center">
@@ -758,22 +762,22 @@
             <div class="col-4">
               <div class="text-primary">
                 <i class="bi bi-people h4"></i>
-                <div class="small fw-semibold">Classi</div>
-                <div class="text-muted small">3 Uniche</div>
+                <div class="small fw-semibold">{{ "Classi" if current_language == "it" else "Classes" }}</div>
+                <div class="text-muted small">{{ "3 Uniche" if current_language == "it" else "3 Unique" }}</div>
               </div>
             </div>
             <div class="col-4">
               <div class="text-success">
                 <i class="bi bi-globe h4"></i>
-                <div class="small fw-semibold">Ambienti</div>
-                <div class="text-muted small">3 Diversi</div>
+                <div class="small fw-semibold">{{ "Ambienti" if current_language == "it" else "Environments" }}</div>
+                <div class="text-muted small">{{ "3 Diversi" if current_language == "it" else "3 Different" }}</div>
               </div>
             </div>
             <div class="col-4">
               <div class="text-info">
                 <i class="bi bi-bag h4"></i>
-                <div class="small fw-semibold">Oggetti</div>
-                <div class="text-muted small">3+ Tipi</div>
+                <div class="small fw-semibold">{{ "Oggetti" if current_language == "it" else "Items" }}</div>
+                <div class="text-muted small">{{ "3+ Tipi" if current_language == "it" else "3+ Types" }}</div>
               </div>
             </div>
           </div>
@@ -783,7 +787,7 @@
 
       <!-- SEZIONE PULSANTI DI NAVIGAZIONE -->
       <div class="text-center pt-4 border-top">
-        <h6 class="text-muted mb-4">Pronto per l'avventura?</h6>
+        <h6 class="text-muted mb-4">{{ "Pronto per l'avventura?" if current_language == "it" else "Ready for the adventure?" }}</h6>
         <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
           <!-- Pulsante primario -->
           <a href="{{ url_for('gioco.index') }}" 
@@ -803,7 +807,7 @@
           <a href="{{ url_for('gioco.about') }}" 
              class="btn btn-outline-info d-flex align-items-center justify-content-center">
             <i class="bi bi-info-circle me-2"></i>
-            Chi Siamo
+            {{ "Chi Siamo" if current_language == "it" else "About Us" }}
           </a>
         </div>
         
@@ -811,8 +815,8 @@
         <div class="mt-4">
           <small class="text-muted">
             <i class="bi bi-question-circle me-1"></i>
-            Hai domande? 
-            <a href="#" class="text-decoration-none" id="help-link">Contatta il supporto</a>
+            {{ "Hai domande?" if current_language == "it" else "Questions?" }}
+            <a href="#" class="text-decoration-none" id="help-link" data-menu-url="{{ url_for('gioco.menu') }}">{{ "Contatta il supporto" if current_language == "it" else "Contact support" }}</a>
           </small>
         </div>
       </div>
@@ -826,403 +830,12 @@
 {% endblock %}
 
 {% block head %}
-<style>
-  .guide-hero {
-    background: linear-gradient(130deg, #1f2937 0%, #334155 45%, #0f766e 100%) !important;
-    border: 1px solid rgba(255, 193, 7, 0.22);
-  }
-
-  .guide-hero h1,
-  .guide-hero p {
-    color: #ffffff !important;
-  }
-
-  #introduzione,
-  #personaggio,
-  #inventario,
-  #ambienti,
-  #missioni,
-  #strategia,
-  #conclusione {
-    scroll-margin-top: 110px;
-    margin-bottom: 4rem !important;
-  }
-
-  .guide-game .card,
-  .container .card {
-    border-radius: 0.95rem;
-  }
-
-  .guide-game .card-body,
-  .container .card-body {
-    padding: 1.25rem;
-  }
-
-  .container .h4 {
-    line-height: 1.25;
-  }
-
-  .container p,
-  .container li,
-  .container small {
-    line-height: 1.6;
-  }
-
-  @media (min-width: 1200px) {
-    .guide-hero .display-5 {
-      font-size: 2.6rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .guide-hero .display-5 {
-      font-size: 2rem;
-    }
-
-    .guide-hero .lead {
-      font-size: 1rem;
-    }
-  }
-</style>
+<link href="{{ url_for('static', filename='css/pages/guide_game.css') }}" rel="stylesheet">
 {% endblock %}
 
 <!-- BLOCCO SCRIPTS PERSONALIZZATI -->
 {% block scripts %}
-<script>
-// ============================================================================
-// GUIDE PAGE - ENHANCED INTERACTIONS
-// ============================================================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // FEATURE 1: SMOOTH SCROLL PER INDICE NAVIGABILE
-    const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
-    smoothScrollLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const target = document.querySelector(targetId);
-            
-            if (target) {
-                // Offset per header fisso (se presente)
-                const offsetTop = target.offsetTop - 80;
-                
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-                
-                // Evidenzia temporaneamente la sezione
-                target.style.backgroundColor = '#f8f9fa';
-                target.style.transition = 'background-color 0.3s ease';
-                
-                setTimeout(() => {
-                    target.style.backgroundColor = '';
-                }, 2000);
-            }
-        });
-    });
-
-    // FEATURE 2: ANIMATE ON SCROLL PER SEZIONI
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-
-    // Applica animazione alle sezioni principali
-    const sections = document.querySelectorAll('.mb-5');
-    sections.forEach((section, index) => {
-        // Inizializza stato per animazione
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(30px)';
-        section.style.transition = `opacity 0.8s ease ${index * 0.1}s, transform 0.8s ease ${index * 0.1}s`;
-        
-        // Osserva per animazione
-        observer.observe(section);
-    });
-
-    // FEATURE 3: HIGHLIGHT ATTIVO NELL'INDICE
-    const updateActiveSection = () => {
-        const sections = ['introduzione', 'personaggio', 'inventario', 'ambienti', 'missioni', 'strategia'];
-        let activeSection = '';
-        
-        sections.forEach(sectionId => {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                const rect = section.getBoundingClientRect();
-                if (rect.top <= 100 && rect.bottom >= 100) {
-                    activeSection = sectionId;
-                }
-            }
-        });
-        
-        // Rimuovi active da tutti i link
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.classList.remove('active-section');
-        });
-        
-        // Aggiungi active al link corrente
-        if (activeSection) {
-            const activeLink = document.querySelector(`a[href="#${activeSection}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active-section');
-            }
-        }
-    };
-
-    // Ascolta scroll per aggiornare sezione attiva
-    window.addEventListener('scroll', updateActiveSection);
-    updateActiveSection(); // Inizializza
-
-    // FEATURE 4: TOOLTIP SU CARD PERSONAGGI E AMBIENTI
-    const addTooltips = () => {
-        // Tooltip per classi
-        const guerrieroCard = document.querySelector('.text-danger').closest('.card');
-        if (guerrieroCard) {
-            guerrieroCard.title = 'Ideale per principianti - statistiche bilanciate';
-        }
-        
-        const magoCard = document.querySelector('.text-primary').closest('.card');
-        if (magoCard) {
-            magoCard.title = 'Alto rischio, alta ricompensa - per giocatori esperti';
-        }
-        
-        const ladroCard = document.querySelector('.text-dark').closest('.card');
-        if (ladroCard) {
-            ladroCard.title = 'Versatile ma imprevedibile - richiede strategia';
-        }
-    };
-
-    addTooltips();
-
-    // FEATURE 5: COUNTER ANIMATION PER STATISTICHE FINALI
-    const animateStats = (entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const statElements = entry.target.querySelectorAll('.text-muted.small');
-                
-                statElements.forEach((el, index) => {
-                    const text = el.textContent;
-                    if (text.includes('3 ')) {
-                        animateNumber(el, 0, 3, '', 1000, text.split(' ')[1]);
-                    }
-                });
-            }
-        });
-    };
-
-    const statsObserver = new IntersectionObserver(animateStats, { threshold: 0.5 });
-    const statsSection = document.querySelector('.row.text-center.mt-4');
-    if (statsSection) {
-        statsObserver.observe(statsSection);
-    }
-
-    // Funzione helper per animare numeri
-    function animateNumber(element, start, end, prefix, duration, suffix) {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const current = Math.floor(progress * (end - start) + start);
-            element.textContent = `${prefix}${current} ${suffix || ''}`;
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
-    }
-
-    // FEATURE 6: EASTER EGG - CLICK SU ICONE SPECIFICHE
-    let clickCounts = {};
-    const easterEggIcons = document.querySelectorAll('.bi-dice-6, .bi-trophy, .bi-magic');
-    
-    easterEggIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
-            const iconClass = this.className.split(' ').find(c => c.startsWith('bi-'));
-            clickCounts[iconClass] = (clickCounts[iconClass] || 0) + 1;
-            
-            if (clickCounts[iconClass] === 3) {
-                this.style.color = '#ff6b6b';
-                this.style.animation = 'bounce 0.5s ease';
-                
-                // Messaggio speciale
-                const message = document.createElement('div');
-                message.className = 'alert alert-success mt-2';
-                message.innerHTML = `<i class="bi bi-star text-warning me-2"></i>Segreto sbloccato! Hai scoperto un bonus! 🎉`;
-                
-                const parent = this.closest('.card-body') || this.closest('.ps-4');
-                if (parent) {
-                    parent.appendChild(message);
-                    
-                    setTimeout(() => {
-                        message.style.opacity = '0';
-                        setTimeout(() => message.remove(), 500);
-                    }, 3000);
-                }
-                
-                clickCounts[iconClass] = 0; // Reset
-            }
-        });
-    });
-
-    // FEATURE 7: HELP LINK FUNCTIONALITY
-    const helpLink = document.getElementById('help-link');
-    if (helpLink) {
-        helpLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Mostra modale di aiuto improvvisato
-            const helpModal = document.createElement('div');
-            helpModal.innerHTML = `
-                <div class="modal fade show" style="display: block; background: rgba(0,0,0,0.5);" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">
-                                    <i class="bi bi-question-circle me-2"></i>
-                                    Supporto GDR Web App
-                                </h5>
-                                <button type="button" class="btn-close" data-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p><strong>Hai bisogno di aiuto?</strong></p>
-                                <p>Ecco come puoi ottenere supporto:</p>
-                                <ul>
-                                    <li><i class="bi bi-envelope me-2"></i>Email: support@gdr-webapp.com</li>
-                                    <li><i class="bi bi-chat-dots me-2"></i>Chat: Disponibile nel menu principale</li>
-                                    <li><i class="bi bi-book me-2"></i>Documentazione: Questa guida completa</li>
-                                </ul>
-                                <div class="alert alert-info">
-                                    <small><i class="bi bi-info-circle me-1"></i>
-                                    Progetto educativo - Il supporto è fornito dai creatori del corso.</small>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                <button type="button" class="btn btn-primary">Vai al Menu</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(helpModal);
-            
-            // Gestisci chiusura
-            const closeButtons = helpModal.querySelectorAll('[data-dismiss="modal"]');
-            closeButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    helpModal.remove();
-                });
-            });
-            
-            // Gestisci vai al menu
-            const menuButton = helpModal.querySelector('.btn-primary');
-            menuButton.addEventListener('click', () => {
-                window.location.href = "{{ url_for('gioco.menu') }}";
-            });
-        });
-    }
-
-    // FEATURE 8: PROGRESS INDICATOR
-    const createProgressIndicator = () => {
-        const progressBar = document.createElement('div');
-        progressBar.innerHTML = `
-            <div class="position-fixed bottom-0 start-0 w-100" style="z-index: 1000;">
-                <div class="progress" style="height: 4px; border-radius: 0;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(progressBar);
-        
-        const bar = progressBar.querySelector('.progress-bar');
-        
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            bar.style.width = scrolled + '%';
-        });
-    };
-
-    createProgressIndicator();
-
-});
-
-// CSS INLINE PER ANIMAZIONI E STILI
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes bounce {
-        0%, 20%, 60%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        80% { transform: translateY(-5px); }
-    }
-    
-    .hover-bg-light:hover {
-        background-color: #f8f9fa !important;
-        transition: background-color 0.2s ease;
-    }
-    
-    .active-section {
-        background-color: #e3f2fd !important;
-        border-radius: 0.375rem;
-        font-weight: 600 !important;
-    }
-    
-    .animate-in {
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: box-shadow 0.3s ease;
-    }
-    
-    .card:hover {
-        transform: translateY(-2px);
-        transition: transform 0.2s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    
-    .btn:hover {
-        transform: translateY(-1px);
-        transition: transform 0.2s ease;
-    }
-    
-    .bg-gradient {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .bg-gradient::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="80" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="70" r="1.5" fill="white" opacity="0.1"/></svg>');
-        animation: float 20s infinite linear;
-    }
-    
-    @keyframes float {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-100px, -100px); }
-    }
-`;
-document.head.appendChild(style);
-
-// ============================================================================
-// FINE JAVASCRIPT
-// ============================================================================
-</script>
+<script src="{{ url_for('static', filename='js/pages/guide_game.js') }}"></script>
 {% endblock %}
 
 <!-- 
@@ -1267,3 +880,7 @@ SOSTANZA MANTENUTA:
 ✅ Collegamenti funzionanti
 ✅ Informazioni tecniche accurate
 -->
+
+
+
+

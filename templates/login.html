@@ -6,7 +6,7 @@
   <div class="col-md-6 col-lg-5">
     <div class="card shadow-lg mt-5">
       <div class="card-body">
-        <h3 class="card-title text-center mb-4">Accedi al tuo account</h3>
+        <h3 class="card-title text-center mb-4">{{ "Accedi al tuo account" if current_language == "it" else "Sign in to your account" }}</h3>
 
         <form method="POST" action="{{ url_for('auth.login') }}">
           <div class="mb-3">
@@ -16,7 +16,7 @@
               class="form-control"
               id="email"
               name="email"
-              placeholder="Inserisci la tua email"
+              placeholder="{{ 'Inserisci la tua email' if current_language == 'it' else 'Enter your email' }}"
               required
             >
           </div>
@@ -28,13 +28,13 @@
               class="form-control"
               id="psw"
               name="psw"
-              placeholder="Inserisci la tua password"
+              placeholder="{{ 'Inserisci la tua password' if current_language == 'it' else 'Enter your password' }}"
               required
             >
           </div>
 
           <div class="d-grid gap-2 mt-4">
-            <button type="submit" class="btn btn-primary">Conferma</button>
+            <button type="submit" class="btn btn-primary">{{ "Conferma" if current_language == "it" else "Submit" }}</button>
             <button type="reset" class="btn btn-outline-secondary">Reset</button>
           </div>
         </form>
@@ -42,8 +42,8 @@
         <hr class="my-4">
 
         <p class="text-center">
-          Non sei registrato?
-          <a href="{{ url_for('auth.register') }}" class="text-decoration-none fw-bold">Crea un account</a>
+          {{ "Non sei registrato?" if current_language == "it" else "Not registered?" }}
+          <a href="{{ url_for('auth.register') }}" class="text-decoration-none fw-bold">{{ "Create an account" if current_language == "en" else "Crea un account" }}</a>
         </p>
       </div>
     </div>

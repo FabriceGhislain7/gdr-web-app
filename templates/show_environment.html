@@ -1,29 +1,29 @@
 {% extends "layout.html" %}
-{% block title %}Ambiente Selezionato{% endblock %}
+{% block title %}{{ "Ambiente Selezionato" if current_language == "it" else "Selected Environment" }}{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center flex-column py-5">
   <div class="card shadow-sm p-4" style="max-width: 700px; width: 100%;">
     <h1 class="h4 text-center mb-3">{{ ambiente.nome }}</h1>
-    <p class="text-center text-muted">Modificatori applicati nell'ambiente selezionato</p>
+    <p class="text-center text-muted">{{ "Modificatori applicati nell'ambiente selezionato" if current_language == "it" else "Modifiers applied in the selected environment" }}</p>
 
     <div class="row text-center mt-3">
       <div class="col-6">
-        <small class="text-muted">Modificatore Attacco</small>
+        <small class="text-muted">{{ "Modificatore Attacco" if current_language == "it" else "Attack Modifier" }}</small>
         <div class="h5 mb-0">{{ ambiente.mod_attacco }}</div>
       </div>
       <div class="col-6">
-        <small class="text-muted">Modificatore Cura</small>
+        <small class="text-muted">{{ "Modificatore Cura" if current_language == "it" else "Healing Modifier" }}</small>
         <div class="h5 mb-0">{{ ambiente.mod_cura }}</div>
       </div>
     </div>
 
     <div class="d-flex gap-2 mt-4">
       <a href="{{ url_for('mission.select_mission') }}" class="btn btn-outline-primary w-100">
-        Vai alle missioni
+        {{ "Vai alle missioni" if current_language == "it" else "Go to missions" }}
       </a>
       <a href="{{ url_for('environment.select_environment') }}" class="btn btn-outline-secondary w-100">
-        Cambia ambiente
+        {{ "Cambia ambiente" if current_language == "it" else "Change environment" }}
       </a>
     </div>
   </div>

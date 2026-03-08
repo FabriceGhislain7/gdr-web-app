@@ -69,4 +69,18 @@ def load_user(user_id):
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=5001)
+    host = os.environ.get("FLASK_HOST", "0.0.0.0")
+    port = int(os.environ.get("FLASK_PORT", "5001"))
+    debug = os.environ.get("FLASK_DEBUG", "1") == "1"
+
+    ssl_context = None
+    use_adhoc_ssl = os.environ.get("FLASK_SSL_ADHOC", "0") == "1"
+    ssl_cert = os.environ.get("FLASK_SSL_CERT")
+    ssl_key = os.environ.get("FLASK_SSL_KEY")
+
+    if use_adhoc_ssl:
+        ssl_context = "adhoc"
+    elif ssl_cert and ssl_key:
+        ssl_context = (ssl_cert, ssl_key)
+
+    app.run(debug=debug, host=host, port=port, ssl_context=ssl_context)
