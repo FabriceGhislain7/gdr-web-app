@@ -1,5 +1,7 @@
 ﻿const analyticsBootstrap = document.getElementById('analytics-bootstrap');
 const analyticsApiUrl = analyticsBootstrap?.dataset?.apiUrl || '';
+const noRiskText = analyticsBootstrap?.dataset?.noRiskText || 'No high-risk users detected.';
+const filterMetaTemplate = analyticsBootstrap?.dataset?.filterMetaTemplate || 'Showing {filtered} of {total} players';
 let currentPayload = {};
 
 try {
@@ -40,7 +42,7 @@ function renderTables(payload) {
   document.getElementById('tableSpenders').innerHTML = spenders.map((p) => `<tr><td>${p.nome}</td><td>EUR ${p.spesa_mensile}</td><td>${p.abbonato}</td></tr>`).join('');
   document.getElementById('tableRisk').innerHTML = risk.length
     ? risk.map((p) => `<tr><td>${p.nome}</td><td>${p.soddisfazione}</td><td>${p.crash}</td></tr>`).join('')
-    : '<tr><td colspan="3" class="text-muted">No high-risk users detected.</td></tr>';
+    : `<tr><td colspan="3" class="text-muted">${noRiskText}</td></tr>`;
 }
 
 function renderAlerts(payload) {
@@ -91,7 +93,11 @@ function renderAll(payload) {
   renderTables(payload);
   renderCharts(payload);
   const metaEl = document.getElementById('filterMeta');
-  if (payload.meta) metaEl.textContent = `Showing ${payload.meta.filtered_count} of ${payload.meta.total_count} players`;
+  if (payload.meta) {
+    metaEl.textContent = filterMetaTemplate
+      .replace('{filtered}', payload.meta.filtered_count)
+      .replace('{total}', payload.meta.total_count);
+  }
   else metaEl.textContent = '';
 }
 
@@ -130,3 +136,5 @@ if (currentPayload && currentPayload.kpis && Object.keys(currentPayload.kpis).le
 } else {
   fetchFiltered();
 }
+
+

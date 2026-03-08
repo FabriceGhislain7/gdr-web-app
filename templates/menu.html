@@ -1,7 +1,7 @@
 ﻿{% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
-{% block title %}Main Menu{% endblock %}
+{% block title %}{{ "Menu Principale" if current_language == "it" else "Main Menu" }}{% endblock %}
 
 <!-- BLOCCO CONTENUTO PRINCIPALE -->
 {% block content %}
@@ -11,16 +11,16 @@
   <div class="container py-3">
     <h1 class="display-4 fw-bold mb-3 fade-in hero-title">
       <i class="bi bi-joystick me-3"></i>
-      Main Menu
+      {{ "Menu Principale" if current_language == "it" else "Main Menu" }}
     </h1>
     <p class="lead fade-in-delay hero-subtitle mb-4">
-      Welcome to the world of GDR! Choose a section to begin your adventure.
+      {{ "Benvenuto nel mondo di GDR! Scegli una sezione per iniziare la tua avventura." if current_language == "it" else "Welcome to the world of GDR! Choose a section to begin your adventure." }}
     </p>
     <!-- Badge informativo -->
     <div class="mt-4">
       <span class="badge bg-white text-primary px-4 py-3 fs-5 border border-warning">
         <i class="bi bi-person-circle me-2"></i>
-        Welcome, {{ current_user.nome }}!
+        {{ "Benvenuto" if current_language == "it" else "Welcome" }}, {{ current_user.nome }}!
       </span>
     </div>
   </div>
@@ -39,8 +39,8 @@
       >
         <i class="bi bi-person-circle me-2 h4 mb-0"></i>
         <div class="d-flex flex-column">
-          <span class="fw-bold h5 mb-1">Personal Area</span>
-          <small class="opacity-75">Manage profile and characters</small>
+          <span class="fw-bold h5 mb-1">{{ "Area Personale" if current_language == "it" else "Personal Area" }}</span>
+          <small class="opacity-75">{{ "Gestisci profilo e personaggi" if current_language == "it" else "Manage profile and characters" }}</small>
         </div>
         <div class="button-shine"></div>
       </button>
@@ -55,8 +55,8 @@
       >
         <i class="bi bi-controller me-2 h4 mb-0"></i>
         <div class="d-flex flex-column">
-          <span class="fw-bold h5 mb-1">Game Mode</span>
-          <small class="opacity-75">Missions, battles and adventures</small>
+          <span class="fw-bold h5 mb-1">{{ "Modalità Gioco" if current_language == "it" else "Game Mode" }}</span>
+          <small class="opacity-75">{{ "Missioni, battaglie e avventure" if current_language == "it" else "Missions, battles and adventures" }}</small>
         </div>
         <div class="button-shine"></div>
       </button>
@@ -70,9 +70,9 @@
   <div class="text-center mb-5">
     <h2 class="text-fantasy-blue section-title mb-3">
       <i class="bi bi-person-badge me-2"></i>
-      Personal Area
+      {{ "Area Personale" if current_language == "it" else "Personal Area" }}
     </h2>
-    <p class="text-muted">Manage your account, credits and characters</p>
+    <p class="text-muted">{{ "Gestisci il tuo account, i crediti e i personaggi" if current_language == "it" else "Manage your account, credits and characters" }}</p>
   </div>
   
   <div class="row g-4">
@@ -97,7 +97,7 @@
               </div>
               <div class="col-6">
                 <div class="fw-semibold text-primary">{{ t('menu.characters') }}</div>
-                <div class="h5 mb-0 text-info">{{ current_user.character_ids|length }}</div>
+                <div class="h5 mb-0 text-info">{{ num_personaggi }}</div>
               </div>
             </div>
           </div>
@@ -115,7 +115,7 @@
               data-bs-toggle="modal" 
               data-bs-target="#deleteModal"
             >
-              <i class="bi bi-trash3 me-2"></i>Delete Account
+              <i class="bi bi-trash3 me-2"></i>{{ "Elimina Account" if current_language == "it" else "Delete Account" }}
             </button>
           </div>
         </div>
@@ -161,10 +161,10 @@
           
           <div class="d-grid gap-2">
             <a href="{{ url_for('characters.create_char') }}" class="btn btn-fantasy-emerald">
-              <i class="bi bi-person-plus me-2"></i>Create Character
+              <i class="bi bi-person-plus me-2"></i>{{ "Crea Personaggio" if current_language == "it" else "Create Character" }}
             </a>
             <a href="{{ url_for('characters.show_chars') }}" class="btn btn-outline-fantasy-blue">
-              <i class="bi bi-people-fill me-2"></i>Manage Party
+              <i class="bi bi-people-fill me-2"></i>{{ "Gestisci Squadra" if current_language == "it" else "Manage Party" }}
             </a>
           </div>
         </div>
@@ -178,10 +178,10 @@
 <div class="container mt-5 section-block" id="modalita-gioco" style="display: none;">
   <div class="text-center mb-5">
     <h2 class="text-fantasy-crimson section-title mb-3">
-      <i class="bi bi-dice-6 me-2"></i>
-      Game Mode
+      <i class="bi bi-shield me-2"></i>
+      {{ "Modalità Gioco" if current_language == "it" else "Game Mode" }}
     </h2>
-    <p class="text-muted">Explore fantasy worlds, face epic missions, and fight legendary enemies</p>
+    <p class="text-muted">{{ "Esplora mondi fantasy, affronta missioni epiche e combatti nemici leggendari" if current_language == "it" else "Explore fantasy worlds, face epic missions, and fight legendary enemies" }}</p>
   </div>
   
   <div class="row g-4">
@@ -192,9 +192,9 @@
           <i class="bi bi-map h2 mb-0"></i>
         </div>
         <div class="card-body p-4">
-          <h5 class="card-title text-dark-blue mb-3">Exploration</h5>
+          <h5 class="card-title text-dark-blue mb-3">{{ "Esplorazione" if current_language == "it" else "Exploration" }}</h5>
           <p class="card-text text-muted small mb-4">
-            Choose your missions and explore environments full of danger and treasure
+            {{ "Scegli le tue missioni ed esplora ambienti pieni di pericoli e tesori" if current_language == "it" else "Choose your missions and explore environments full of danger and treasure" }}
           </p>
           
           <!-- Ambienti disponibili -->
@@ -202,35 +202,35 @@
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-tree text-success"></i>
-                <div class="small fw-semibold">Forest</div>
-                <div class="small text-muted">Balanced</div>
+                <div class="small fw-semibold">{{ "Foresta" if current_language == "it" else "Forest" }}</div>
+                <div class="small text-muted">{{ "Bilanciato" if current_language == "it" else "Balanced" }}</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-fire text-danger"></i>
-                <div class="small fw-semibold">Volcano</div>
-                <div class="small text-muted">Extreme</div>
+                <div class="small fw-semibold">{{ "Vulcano" if current_language == "it" else "Volcano" }}</div>
+                <div class="small text-muted">{{ "Estremo" if current_language == "it" else "Extreme" }}</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-droplet text-secondary"></i>
-                <div class="small fw-semibold">Swamp</div>
-                <div class="small text-muted">Hostile</div>
+                <div class="small fw-semibold">{{ "Palude" if current_language == "it" else "Swamp" }}</div>
+                <div class="small text-muted">{{ "Ostile" if current_language == "it" else "Hostile" }}</div>
               </div>
             </div>
           </div>
           
           <div class="d-grid gap-2">
             <a href="{{ url_for('mission.select_mission') }}" class="btn btn-fantasy-purple">
-              <i class="bi bi-flag me-2"></i>Start Mission
+              <i class="bi bi-flag me-2"></i>{{ "Avvia Missione" if current_language == "it" else "Start Mission" }}
             </a>
             <a href="{{ url_for('environment.select_environment') }}" class="btn btn-fantasy-emerald">
-              <i class="bi bi-globe me-2"></i>Choose Environment
+              <i class="bi bi-globe me-2"></i>{{ "Scegli Ambiente" if current_language == "it" else "Choose Environment" }}
             </a>
             <a href="{{ url_for('environment.show_environment') }}" class="btn btn-outline-fantasy-emerald">
-              <i class="bi bi-eye me-2"></i>Explore Environment
+              <i class="bi bi-eye me-2"></i>{{ "Esplora Ambiente" if current_language == "it" else "Explore Environment" }}
             </a>
           </div>
         </div>
@@ -246,7 +246,7 @@
         <div class="card-body p-4">
           <h5 class="card-title text-dark-blue mb-3">{{ t('menu.combat') }}</h5>
           <p class="card-text text-muted small mb-4">
-            Manage your inventory and prepare for epic battles
+            {{ "Gestisci il tuo inventario e preparati a battaglie epiche" if current_language == "it" else "Manage your inventory and prepare for epic battles" }}
           </p>
           
           <!-- Oggetti disponibili -->
@@ -254,32 +254,32 @@
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-heart-pulse text-success"></i>
-                <div class="small fw-semibold">Potions</div>
-                <div class="small text-muted">Healing</div>
+                <div class="small fw-semibold">{{ "Pozioni" if current_language == "it" else "Potions" }}</div>
+                <div class="small text-muted">{{ "Cura" if current_language == "it" else "Healing" }}</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-fire text-danger"></i>
-                <div class="small fw-semibold">Bombs</div>
-                <div class="small text-muted">Attack</div>
+                <div class="small fw-semibold">{{ "Bombe" if current_language == "it" else "Bombs" }}</div>
+                <div class="small text-muted">{{ "Attacco" if current_language == "it" else "Attack" }}</div>
               </div>
             </div>
             <div class="col-4">
               <div class="p-2 bg-light rounded">
                 <i class="bi bi-gem text-warning"></i>
-                <div class="small fw-semibold">Artifacts</div>
-                <div class="small text-muted">Buff</div>
+                <div class="small fw-semibold">{{ "Artefatti" if current_language == "it" else "Artifacts" }}</div>
+                <div class="small text-muted">{{ "Potenziamento" if current_language == "it" else "Buff" }}</div>
               </div>
             </div>
           </div>
           
           <div class="d-grid gap-2">
             <a href="{{ url_for('inventory.inventory') }}" class="btn btn-fantasy-emerald">
-              <i class="bi bi-backpack me-2"></i>Manage Inventory
+              <i class="bi bi-backpack me-2"></i>{{ "Gestisci Inventario" if current_language == "it" else "Manage Inventory" }}
             </a>
             <a href="{{ url_for('battle.begin_battle') }}" class="btn btn-fantasy-dark">
-              <i class="bi bi-sword me-2"></i>Start Battle
+              <i class="bi bi-sword me-2"></i>{{ "Avvia Battaglia" if current_language == "it" else "Start Battle" }}
             </a>
           </div>
         </div>
@@ -296,34 +296,34 @@
       <div class="modal-header border-0 d-block position-relative bg-fantasy-crimson text-white">
         <h5 class="modal-title">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Confirm Account Deletion
+          {{ "Conferma Eliminazione Account" if current_language == "it" else "Confirm Account Deletion" }}
         </h5>
         <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="{{ t('menu.close') }}"></button>
       </div>
       <div class="modal-body py-4">
         <i class="bi bi-person-x display-1 text-fantasy-crimson mb-3"></i>
-        <h6 class="fw-bold mb-3">Are you sure you want to delete your account?</h6>
+        <h6 class="fw-bold mb-3">{{ "Sei sicuro di voler eliminare il tuo account?" if current_language == "it" else "Are you sure you want to delete your account?" }}</h6>
         <div class="alert alert-warning border-0">
           <div class="d-flex align-items-start">
             <i class="bi bi-exclamation-triangle text-warning me-2 mt-1"></i>
             <div class="text-start">
-              <strong>Warning:</strong> This action will remove:
+              <strong>{{ "Attenzione:" if current_language == "it" else "Warning:" }}</strong> {{ "Questa azione rimuovera:" if current_language == "it" else "This action will remove:" }}
               <ul class="mb-0 mt-2">
-                <li>Your user profile</li>
-                <li>All your characters</li>
-                <li>Progress and credits</li>
+                <li>{{ "Il tuo profilo utente" if current_language == "it" else "Your user profile" }}</li>
+                <li>{{ "Tutti i tuoi personaggi" if current_language == "it" else "All your characters" }}</li>
+                <li>{{ "Progressi e crediti" if current_language == "it" else "Progress and credits" }}</li>
               </ul>
             </div>
           </div>
         </div>
-        <p class="text-muted small mb-0">This action <strong>cannot be undone</strong>.</p>
+        <p class="text-muted small mb-0">{{ "Questa azione" if current_language == "it" else "This action" }} <strong>{{ "non puo essere annullata" if current_language == "it" else "cannot be undone" }}</strong>.</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
         <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
-          <i class="bi bi-x-circle me-2"></i>Cancel
+          <i class="bi bi-x-circle me-2"></i>{{ "Annulla" if current_language == "it" else "Cancel" }}
         </button>
         <a href="{{ url_for('auth.delete_user', id=current_user.id) }}" class="btn btn-fantasy-crimson">
-          <i class="bi bi-trash3 me-2"></i>Delete Permanently
+          <i class="bi bi-trash3 me-2"></i>{{ "Elimina Definitivamente" if current_language == "it" else "Delete Permanently" }}
         </a>
       </div>
     </div>

@@ -8,12 +8,12 @@ DEFAULT_LANGUAGE = "en"
 TRANSLATIONS = {
     "it": {
         "nav.home": "Home",
-        "nav.about": "About",
+        "nav.about": "Chi Siamo",
         "nav.guide": "Guida",
         "nav.main_menu": "Menu Principale",
         "nav.classification": "Classifica",
         "nav.data_analyst": "Data Analyst",
-        "nav.game_guide": "Guida Gioco",
+        "nav.game_guide": "Guida di Gioco",
         "nav.login": "Login",
         "nav.signup": "Sign up",
         "nav.edit_profile": "Modifica Profilo",

@@ -354,16 +354,27 @@ class CharacterStatsCalculator:
         owned_chars = CharacterManager.filter_owned_characters(user_char_ids)
         characters = CharacterManager.load_multiple_characters_json(owned_chars)
         
-        # Conteggio per classe
+        # Conteggio per classe con normalizzazione IT/EN
         stats = {"Mago": 0, "Guerriero": 0, "Ladro": 0}
-        
+        class_aliases = {
+            "Mago": "Mago",
+            "Mage": "Mago",
+            "Guerriero": "Guerriero",
+            "Warrior": "Guerriero",
+            "Ladro": "Ladro",
+            "Rogue": "Ladro",
+        }
+
         for char in characters:
-            classe = char.get('classe', 'Unknown')
-            if classe in stats:
-                stats[classe] += 1
+            raw_class = str(char.get("classe", "")).strip()
+            normalized_class = class_aliases.get(raw_class)
+            if normalized_class:
+                stats[normalized_class] += 1
+            else:
+                logger.warning(f"Classe personaggio non riconosciuta nelle statistiche: '{raw_class}'")
         
-        # Aggiungi totale
-        stats["Totale"] = sum(stats.values())
+        # Totale reale personaggi posseduti (anche se classe non riconosciuta)
+        stats["Totale"] = len(characters)
         
         logger.info(f"Statistiche personaggi per classe: {stats}")
         return stats

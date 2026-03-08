@@ -53,11 +53,13 @@ def menu():
     num_guerrieri = stat_char["Guerriero"]
     num_maghi = stat_char["Mago"]
     num_ladri = stat_char["Ladro"]
+    num_personaggi = stat_char["Totale"]
 
     return render_template('menu.html',
                            num_guerrieri=num_guerrieri,
                            num_ladri=num_ladri,
-                           num_maghi=num_maghi)
+                           num_maghi=num_maghi,
+                           num_personaggi=num_personaggi)
 
 # -----------------------CLEAR THE SESION ---------------------------
 @gioco_bp.route('/clear')

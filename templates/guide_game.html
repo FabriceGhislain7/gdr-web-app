@@ -1,7 +1,7 @@
 ﻿{% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
-{% block title %}Game Guide - GDR Web App{% endblock %}
+{% block title %}{{ "Guida di Gioco" if current_language == "it" else "Game Guide" }} - GDR Web App{% endblock %}
 
 <!-- BLOCCO CONTENUTO PRINCIPALE -->
 {% block content %}
@@ -12,18 +12,18 @@
     <!-- Titolo principale -->
     <h1 class="display-5 fw-bold mb-3">
       <i class="bi bi-book me-3"></i>
-      Game Guide
+      {{ "Guida di Gioco" if current_language == "it" else "Game Guide" }}
     </h1>
     <!-- Sottotitolo descrittivo -->
     <p class="lead mb-4">
-      Discover how to play GDR Web App:<br>
-      from character creation to final victory!
+      {{ "Scopri come giocare a GDR Web App:" if current_language == "it" else "Discover how to play GDR Web App:" }}<br>
+      {{ "dalla creazione del personaggio alla vittoria finale!" if current_language == "it" else "from character creation to final victory!" }}
     </p>
     <!-- Badge informativo -->
     <div class="mt-4">
       <span class="badge bg-light text-primary px-3 py-2 fs-6">
         <i class="bi bi-controller me-1"></i>
-        Complete Guide
+        {{ "Guida Completa" if current_language == "it" else "Complete Guide" }}
       </span>
     </div>
   </div>
@@ -43,7 +43,7 @@
                  style="width: 40px; height: 40px;">
               <i class="bi bi-list-ul text-white"></i>
             </div>
-            <h3 class="h5 fw-semibold mb-0">Guide Index</h3>
+            <h3 class="h5 fw-semibold mb-0">{{ "Indice della Guida" if current_language == "it" else "Guide Index" }}</h3>
           </div>
           
           <div class="row g-2">
@@ -51,7 +51,7 @@
               <a href="#introduzione" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-info-circle text-primary me-2"></i>
-                  <span>Introduction</span>
+                  <span>{{ "Introduzione" if current_language == "it" else "Introduction" }}</span>
                 </div>
               </a>
             </div>
@@ -59,7 +59,7 @@
               <a href="#personaggio" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-person-plus text-primary me-2"></i>
-                  <span>Character Creation</span>
+                  <span>{{ "Creazione del Personaggio" if current_language == "it" else "Character Creation" }}</span>
                 </div>
               </a>
             </div>
@@ -67,7 +67,7 @@
               <a href="#inventario" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-bag text-primary me-2"></i>
-                  <span>Inventory and Items</span>
+                  <span>{{ "Inventario e Oggetti" if current_language == "it" else "Inventory and Items" }}</span>
                 </div>
               </a>
             </div>
@@ -75,7 +75,7 @@
               <a href="#ambienti" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-globe text-primary me-2"></i>
-                  <span>Environments</span>
+                  <span>{{ "Ambienti" if current_language == "it" else "Environments" }}</span>
                 </div>
               </a>
             </div>
@@ -83,7 +83,7 @@
               <a href="#missioni" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-flag text-primary me-2"></i>
-                  <span>Missions and Battles</span>
+                  <span>{{ "Missioni e Combattimenti" if current_language == "it" else "Missions and Battles" }}</span>
                 </div>
               </a>
             </div>
@@ -91,7 +91,7 @@
               <a href="#strategia" class="text-decoration-none">
                 <div class="d-flex align-items-center p-2 rounded hover-bg-light">
                   <i class="bi bi-lightbulb text-primary me-2"></i>
-                  <span>Game Strategy</span>
+                  <span>{{ "Strategia di Gioco" if current_language == "it" else "Game Strategy" }}</span>
                 </div>
               </a>
             </div>
@@ -570,7 +570,7 @@
                        style="width: 35px; height: 35px;">
                     <span class="text-white fw-bold">3</span>
                   </div>
-                  <div>{{ "Defeat Check" if current_language == "en" else "Check Sconfitta" }}</div>
+                  <div>{{ "Defeat Check" if current_language == "en" else "Verifica Sconfitta" }}</div>
                 </div>
                 
                 <i class="bi bi-arrow-right text-muted mx-2"></i>
@@ -815,8 +815,8 @@
         <div class="mt-4">
           <small class="text-muted">
             <i class="bi bi-question-circle me-1"></i>
-            {{ "Hai domande?" if current_language == "it" else "Questions?" }}
-            <a href="#" class="text-decoration-none" id="help-link" data-menu-url="{{ url_for('gioco.menu') }}">{{ "Contatta il supporto" if current_language == "it" else "Contact support" }}</a>
+            {{ "Hai domande? " if current_language == "it" else "Questions? " }}
+            <a href="#" class="text-decoration-none" id="help-link" data-menu-url="{{ url_for('gioco.menu') }}">{{ "Contatta il supporto" if current_language == "it" else "Contact support" }}</a>{{ "." if current_language == "it" else "" }}
           </small>
         </div>
       </div>

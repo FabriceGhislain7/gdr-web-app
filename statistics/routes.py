@@ -6,6 +6,7 @@ import json
 import csv
 from functools import lru_cache
 from config import BASE_DIR, DATA_DIR_SAVE, DATA_DIR_PGS, load_leaderboard
+from utils.i18n import get_current_language
 
 
 # Home / menu principale
@@ -148,6 +149,12 @@ def _build_filter_options(rows):
 
 
 def _build_analytics_payload_from_rows(rows):
+    lang = get_current_language()
+    is_it = lang == "it"
+    unknown_label = "Sconosciuto" if is_it else "Unknown"
+    yes_label = "Sì" if is_it else "Yes"
+    no_label = "No"
+
     total_players = len(rows)
     if total_players == 0:
         return {
@@ -186,7 +193,7 @@ def _build_analytics_payload_from_rows(rows):
     def _group_count(field_name, top_n=8):
         counts = {}
         for row in rows:
-            key = row.get(field_name) or "Unknown"
+            key = row.get(field_name) or unknown_label
             counts[key] = counts.get(key, 0) + 1
         ordered = sorted(counts.items(), key=lambda x: x[1], reverse=True)[:top_n]
         return {
@@ -198,7 +205,7 @@ def _build_analytics_payload_from_rows(rows):
         sums = {}
         counts = {}
         for row in rows:
-            key = row.get(group_field) or "Unknown"
+            key = row.get(group_field) or unknown_label
             sums[key] = sums.get(key, 0.0) + _to_float(row.get(value_field))
             counts[key] = counts.get(key, 0) + 1
         avg_items = []
@@ -220,21 +227,21 @@ def _build_analytics_payload_from_rows(rows):
     crash_by_device = _group_avg("tipo_dispositivo", "numero_crash", top_n=10)
 
     sat_band_counts = {
-        "Low (1-3)": 0,
-        "Medium (4-6)": 0,
-        "High (7-8)": 0,
-        "Very High (9-10)": 0
+        "Bassa (1-3)" if is_it else "Low (1-3)": 0,
+        "Media (4-6)" if is_it else "Medium (4-6)": 0,
+        "Alta (7-8)" if is_it else "High (7-8)": 0,
+        "Molto Alta (9-10)" if is_it else "Very High (9-10)": 0
     }
     for row in rows:
         score = _to_float(row.get("soddisfazione"))
         if score <= 3:
-            sat_band_counts["Low (1-3)"] += 1
+            sat_band_counts["Bassa (1-3)" if is_it else "Low (1-3)"] += 1
         elif score <= 6:
-            sat_band_counts["Medium (4-6)"] += 1
+            sat_band_counts["Media (4-6)" if is_it else "Medium (4-6)"] += 1
         elif score <= 8:
-            sat_band_counts["High (7-8)"] += 1
+            sat_band_counts["Alta (7-8)" if is_it else "High (7-8)"] += 1
         else:
-            sat_band_counts["Very High (9-10)"] += 1
+            sat_band_counts["Molto Alta (9-10)" if is_it else "Very High (9-10)"] += 1
 
     satisfaction_bands = {
         "labels": list(sat_band_counts.keys()),
@@ -261,13 +268,25 @@ def _build_analytics_payload_from_rows(rows):
 
     alerts = []
     if win_rate < 45:
-        alerts.append("Global win rate is low: possible gameplay imbalance.")
+        alerts.append(
+            "Il win rate globale è basso: possibile sbilanciamento del gameplay."
+            if is_it else "Global win rate is low: possible gameplay imbalance."
+        )
     if avg_crash >= 5:
-        alerts.append("Average crashes are high: prioritize client stability improvements.")
+        alerts.append(
+            "I crash medi sono alti: dare priorità ai miglioramenti di stabilità client."
+            if is_it else "Average crashes are high: prioritize client stability improvements."
+        )
     if subscriber_rate < 25:
-        alerts.append("Subscriber conversion is low: review premium value proposition.")
+        alerts.append(
+            "La conversione abbonati è bassa: rivedere la proposta di valore premium."
+            if is_it else "Subscriber conversion is low: review premium value proposition."
+        )
     if avg_satisfaction < 5:
-        alerts.append("Average satisfaction is below threshold: improve UX and retention.")
+        alerts.append(
+            "La soddisfazione media è sotto soglia: migliorare UX e retention."
+            if is_it else "Average satisfaction is below threshold: improve UX and retention."
+        )
 
     return {
         "kpis": {
@@ -313,7 +332,7 @@ def _build_analytics_payload_from_rows(rows):
                     "nome": r.get("nome", "N/A"),
                     "classe": r.get("classe_personaggio", "N/A"),
                     "spesa_mensile": _to_float(r.get("spesa_mensile")),
-                    "abbonato": "Yes" if _to_int(r.get("abbonamento_attivo")) == 1 else "No",
+                    "abbonato": yes_label if _to_int(r.get("abbonamento_attivo")) == 1 else no_label,
                     "acquisizione": r.get("canale_acquisizione", "N/A")
                 }
                 for r in top_spenders

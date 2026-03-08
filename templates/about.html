@@ -1,7 +1,7 @@
 ﻿{% extends "layout.html" %}
 
 <!-- BLOCCO TITLE -->
-{% block title %}About Us - GDR Web App{% endblock %}
+{% block title %}{{ "Chi Siamo" if current_language == "it" else "About Us" }} - GDR Web App{% endblock %}
 
 <!-- BLOCCO CONTENUTO PRINCIPALE -->
 {% block content %}
@@ -10,17 +10,17 @@
 <section class="py-5 text-center bg-secondary border-bottom rounded-5 mb-4 mt-4 about-hero">
   <div class="container py-3">
     <!-- Titolo principale -->
-    <h1 class="display-5 fw-bold text-white mb-3">About Us</h1>
+    <h1 class="display-5 fw-bold text-white mb-3">{{ "Chi Siamo" if current_language == "it" else "About Us" }}</h1>
     <!-- Sottotitolo descrittivo -->
     <p class="lead text-white mb-4">
-      A project born during the training course<br>
+      {{ "Un progetto nato durante il corso di formazione" if current_language == "it" else "A project born during the training course" }}<br>
       <span class="fw-semibold">"Python Programmer and Developer"</span>
     </p>
     <!-- Badge corso -->
     <div class="mt-4">
       <span class="badge bg-light text-secondary px-3 py-2 fs-6">
         <i class="bi bi-mortarboard me-1"></i>
-        Training Project
+        {{ "Progetto Formativo" if current_language == "it" else "Training Project" }}
       </span>
     </div>
   </div>
@@ -43,7 +43,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-info-circle text-white"></i>
               </div>
-            <h3 class="h5 fw-semibold mb-0">Project Description</h3>
+            <h3 class="h5 fw-semibold mb-0">{{ "Descrizione del Progetto" if current_language == "it" else "Project Description" }}</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -99,7 +99,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-target text-white"></i>
               </div>
-            <h3 class="h5 fw-semibold mb-0">Learning Goals</h3>
+            <h3 class="h5 fw-semibold mb-0">{{ "Obiettivi di Apprendimento" if current_language == "it" else "Learning Goals" }}</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -158,7 +158,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-people text-white"></i>
               </div>
-            <h3 class="h5 fw-semibold mb-0">Collaboration and Development</h3>
+            <h3 class="h5 fw-semibold mb-0">{{ "Collaborazione e Sviluppo" if current_language == "it" else "Collaboration and Development" }}</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -204,7 +204,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-tools text-white"></i>
               </div>
-            <h3 class="h5 fw-semibold mb-0">Technologies and Tools</h3>
+            <h3 class="h5 fw-semibold mb-0">{{ "Tecnologie e Strumenti" if current_language == "it" else "Technologies and Tools" }}</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -240,7 +240,7 @@
                       <i class="bi bi-git text-white"></i>
                     </div>
                     <div>
-                      <div class="fw-semibold">Versioning</div>
+                      <div class="fw-semibold">{{ "Controllo Versioni" if current_language == "it" else "Versioning" }}</div>
                       <small class="text-muted">Git + GitHub</small>
                     </div>
                   </div>
@@ -253,7 +253,7 @@
                     </div>
                     <div>
                       <div class="fw-semibold">{{ "Sviluppo" if current_language == "it" else "Development" }}</div>
-                      <small class="text-muted">VS Code + Extensions</small>
+                      <small class="text-muted">{{ "VS Code + Estensioni" if current_language == "it" else "VS Code + Extensions" }}</small>
                     </div>
                   </div>
                 </div>
@@ -269,7 +269,7 @@
                    style="width: 40px; height: 40px;">
                 <i class="bi bi-heart text-white"></i>
               </div>
-            <h3 class="h5 fw-semibold mb-0">Personal Notes</h3>
+            <h3 class="h5 fw-semibold mb-0">{{ "Note Personali" if current_language == "it" else "Personal Notes" }}</h3>
             </div>
             
             <div class="ps-4 ps-md-5">
@@ -317,7 +317,7 @@
 
           <!-- SEZIONE PULSANTI DI NAVIGAZIONE -->
           <div class="text-center pt-4 border-top">
-            <h6 class="text-muted mb-3">Explore the project</h6>
+            <h6 class="text-muted mb-3">{{ "Esplora il progetto" if current_language == "it" else "Explore the project" }}</h6>
             <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
               <!-- Pulsante primario -->
               <a href="{{ url_for('gioco.index') }}" 
@@ -344,8 +344,7 @@
             <!-- Link social/contatti opzionali -->
             <div class="mt-3">
               <small class="text-muted">
-                <i class="bi bi-envelope me-1"></i>
-                {{ "Per info sul corso:" if current_language == "it" else "For course information:" }}
+                <i class="bi bi-envelope me-1"></i>{{ "Per info sul corso:" if current_language == "it" else "For course information:" }}
                 <a href="mailto:info@fire.it" class="text-decoration-none">info@fire.it</a>
               </small>
             </div>

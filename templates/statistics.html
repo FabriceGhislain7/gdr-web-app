@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Leaderboard{% endblock %}
+{% block title %}{{ "Classifica" if current_language == "it" else "Leaderboard" }}{% endblock %}
 {% block head %}<link href="{{ url_for('static', filename='css/pages/statistics.css') }}" rel="stylesheet">{% endblock %}
 {% block content %}
 
@@ -9,18 +9,18 @@
     <!-- Titolo principale -->
     <h1 class="display-6 fw-bold mb-3 leaderboard-hero-title">
       <i class="bi bi-trophy me-3"></i>
-      Global Leaderboard
+      {{ "Classifica Globale" if current_language == "it" else "Global Leaderboard" }}
     </h1>
     <!-- Sottotitolo descrittivo -->
     <p class="lead mb-4 leaderboard-hero-subtitle">
-      Hall of Fame of the best warriors:<br>
-      discover who rules the kingdom!
+      {{ "Hall of Fame dei migliori guerrieri:" if current_language == "it" else "Hall of Fame of the best warriors:" }}<br>
+      {{ "scopri chi domina il regno!" if current_language == "it" else "discover who rules the kingdom!" }}
     </p>
     <!-- Badge informativo -->
     <div class="mt-4">
       <span class="badge hero-badge px-3 py-2 fs-6">
         <i class="bi bi-star me-1"></i>
-        Official Ranking
+        {{ "Classifica Ufficiale" if current_language == "it" else "Official Ranking" }}
       </span>
     </div>
   </div>
@@ -43,31 +43,31 @@
                 <tr>
                   <th scope="col">
                     <i class="bi bi-hash me-1"></i>
-                    Rank
+                    {{ "Posizione" if current_language == "it" else "Rank" }}
                   </th>
                   <th scope="col">
                     <i class="bi bi-person me-1"></i>
-                    Username
+                    {{ "Username" if current_language == "it" else "Username" }}
                   </th>
                   <th scope="col">
                     <i class="bi bi-controller me-1"></i>
-                    Games Played
+                    {{ "Partite Giocate" if current_language == "it" else "Games Played" }}
                   </th>
                   <th scope="col">
                     <i class="bi bi-check-circle me-1"></i>
-                    Games Won
+                    {{ "Partite Vinte" if current_language == "it" else "Games Won" }}
                   </th>
                   <th scope="col">
                     <i class="bi bi-x-circle me-1"></i>
-                    Games Lost
+                    {{ "Partite Perse" if current_language == "it" else "Games Lost" }}
                   </th>
                   <th scope="col">
                     <i class="bi bi-star me-1"></i>
-                    Score
+                    {{ "Punteggio" if current_language == "it" else "Score" }}
                   </th>
                   <th scope="col">
                     <i class="bi bi-percent me-1"></i>
-                    Win Rate
+                    {{ "Win Rate" if current_language == "it" else "Win Rate" }}
                   </th>
                 </tr>
               </thead>
@@ -128,10 +128,10 @@
                 <i class="bi bi-info-circle text-primary me-3 h5"></i>
                 <div>
                   <p class="mb-0">
-                    <strong>No warriors registered yet!</strong>
+                    <strong>{{ "Nessun guerriero registrato al momento!" if current_language == "it" else "No warriors registered yet!" }}</strong>
                   </p>
                   <small class="text-muted">
-                    Be the first to enter the kingdom legend.
+                    {{ "Sii il primo a entrare nella leggenda del regno." if current_language == "it" else "Be the first to enter the kingdom legend." }}
                   </small>
                 </div>
               </div>
@@ -147,7 +147,7 @@
                   <i class="bi bi-people text-primary me-2 h5 mb-0"></i>
                   <div>
                     <div class="fw-semibold">{{ users_stats_sorted|length }}</div>
-                    <small class="text-muted">Total Warriors</small>
+                    <small class="text-muted">{{ "Guerrieri Totali" if current_language == "it" else "Total Warriors" }}</small>
                   </div>
                 </div>
               </div>
@@ -156,7 +156,7 @@
                   <i class="bi bi-controller text-success me-2 h5 mb-0"></i>
                   <div>
                     <div class="fw-semibold">{{ users_stats_sorted | sum(attribute='1.partite_giocate') }}</div>
-                    <small class="text-muted">Total Games</small>
+                    <small class="text-muted">{{ "Partite Totali" if current_language == "it" else "Total Games" }}</small>
                   </div>
                 </div>
               </div>
@@ -165,7 +165,7 @@
                   <i class="bi bi-star text-warning me-2 h5 mb-0"></i>
                   <div>
                     <div class="fw-semibold">{{ users_stats_sorted[0][1].punteggio if users_stats_sorted else 0 }}</div>
-                    <small class="text-muted">Best Score</small>
+                    <small class="text-muted">{{ "Miglior Punteggio" if current_language == "it" else "Best Score" }}</small>
                   </div>
                 </div>
               </div>
@@ -178,27 +178,27 @@
 
       <!-- SEZIONE PULSANTI DI NAVIGAZIONE -->
       <div class="text-center pt-4">
-        <h6 class="text-muted mb-4">Want to climb the leaderboard?</h6>
+        <h6 class="text-muted mb-4">{{ "Vuoi scalare la classifica?" if current_language == "it" else "Want to climb the leaderboard?" }}</h6>
         <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
           <!-- Pulsante primario -->
           <a href="{{ url_for('gioco.index') }}" 
              class="btn btn-outline-primary d-flex align-items-center justify-content-center">
             <i class="bi bi-house me-2"></i>
-            Back to Home
+            {{ "Torna alla Home" if current_language == "it" else "Back to Home" }}
           </a>
           
           <!-- Pulsante gioca -->
           <a href="{{ url_for('gioco.menu') }}" 
              class="btn btn-success d-flex align-items-center justify-content-center">
             <i class="bi bi-play-circle me-2"></i>
-            Start Playing
+            {{ "Inizia a Giocare" if current_language == "it" else "Start Playing" }}
           </a>
           
           <!-- Pulsante guida -->
           <a href="{{ url_for('gioco.guide_game') }}" 
              class="btn btn-outline-info d-flex align-items-center justify-content-center">
             <i class="bi bi-book me-2"></i>
-            Game Guide
+            {{ "Guida di Gioco" if current_language == "it" else "Game Guide" }}
           </a>
         </div>
       </div>
