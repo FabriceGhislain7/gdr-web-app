@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash  # [1]
 from werkzeug.security import check_password_hash  # [2]
 from flask_login import login_user, logout_user, login_required, current_user  # [3]
-from auth.models import User
+from auth.models import User, UserRole
 from . import auth_bp
 from auth.models import db  # [4]
 from characters.routes import load_char
@@ -35,6 +35,7 @@ def register():
         email = request.form.get('email', '').strip()
         psw = request.form.get('psw')
         re_psw = request.form.get('re_psw')
+        user_role_raw = request.form.get('user_role', 'PLAYER').strip().upper()
 
         # Validazioni input base
         if not username:
@@ -56,6 +57,14 @@ def register():
         if not psw or not re_psw or psw != re_psw:
             flash('Le password non coincidono')
             return redirect(url_for('auth.register'))
+
+        # Validazione ruolo utente (allow-list)
+        role_map = {
+            "PLAYER": UserRole.PLAYER,
+            "TEAM_MEMBER_DEVELOPER": UserRole.TEAM_MEMBER_DEVELOPER,
+            "ADMIN": UserRole.ADMIN,
+        }
+        user_role = role_map.get(user_role_raw, UserRole.PLAYER)
 
         # Controllo duplicati più robusto: email OR nome
         utente_exist = User.query.filter(
@@ -79,6 +88,7 @@ def register():
                 email=email,
                 password_hash=hash_psw,
                 crediti=100.0,
+                ruolo=user_role,
                 character_ids=[]
             )
 

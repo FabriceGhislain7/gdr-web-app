@@ -16,6 +16,19 @@
         
         <!-- FORM REGISTRAZIONE -->
         <form method="POST" action="{{ url_for('auth.register') }}" id="registerForm">
+
+          <!-- CAMPO TIPO UTENTE -->
+          <div class="mb-3">
+            <label for="user_role" class="form-label">{{ "Tipo utente" if current_language == "it" else "User type" }}</label>
+            <select class="form-select" id="user_role" name="user_role" required>
+              <option value="PLAYER">{{ "Giocatore" if current_language == "it" else "Player" }}</option>
+              <option value="TEAM_MEMBER_DEVELOPER">{{ "Developer" if current_language == "it" else "Developer" }}</option>
+              <option value="ADMIN">{{ "Amministratore" if current_language == "it" else "Administrator" }}</option>
+            </select>
+            <small class="form-text text-muted">
+              {{ "Seleziona Developer per accedere alla dashboard analytics." if current_language == "it" else "Select Developer to access the analytics dashboard." }}
+            </small>
+          </div>
           
           <!-- CAMPO USERNAME -->
           <div class="mb-3">
